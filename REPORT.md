@@ -1,4 +1,4 @@
-# Per-label conformal calibration of an ECG classifier across hospitals
+# Threshold generalisation to external sites for ECG-AI diagnostic support
 
 Ruben Abbou
 

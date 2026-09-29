@@ -1,3 +1,3 @@
-"""Per-label conformal calibration of a 12-lead ECG classifier, carried across hospitals."""
+"""Threshold generalisation to external sites for ECG-AI diagnostic support."""
 
 __all__ = ["conformal", "metrics"]

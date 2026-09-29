@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-title: Per-label conformal calibration of an ECG classifier across hospitals
+title: Threshold generalisation to external sites for ECG-AI diagnostic support
 message: If you use this repository, please cite it as below.
 type: software
 authors:

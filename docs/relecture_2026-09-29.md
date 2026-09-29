@@ -2,7 +2,7 @@
 
 Proposed GitHub description, not applied:
 
-> A 12-lead ECG threshold calibrated at one hospital and used unchanged at others, measured diagnosis by diagnosis.
+> Threshold generalisation to external sites for ECG-AI diagnostic support: a decision threshold set at one hospital, tested at others, diagnosis by diagnosis across seven public 12-lead ECG corpora.
 
 The live description reads "Does a conformal coverage guarantee survive a change of hospital? Measured on 12-lead ECG across three public corpora." It carries the phrase rejected on 27/9, asks a question built on a technical term, and counts three corpora where the study reads seven.
 
@@ -13,9 +13,9 @@ Scope: README.md, REPORT.md, QUESTIONS.md, PLAN.md, CITATION.cff, pyproject.toml
 | # | Where | Problem | Fix | Status |
 |---|---|---|---|---|
 | G1 | GitHub description | rejected phrase, question built on a technical term, "three corpora" where the study reads seven | the line at the top of this file | open: a public change, applied by Ruben |
-| P1 | pyproject.toml:4 | the same sentence as the live description | the proposed line | fixed |
-| T1 | REPORT.md:1, CITATION.cff:3 | the title names the method, "Per-label conformal calibration of an ECG classifier across hospitals" (charter rule 3) | proposed: "An ECG threshold carried to another hospital, measured label by label" | open: the title is the citation record and the name the site page and outreach quote, so it changes with them |
-| T2 | REPORT.md:5 | "draft of 9 September 2026", while CITATION.cff records a release on 2026-09-08 and section 3.6 was written after both dates | Ruben states whether the public text is a draft, and its date | open: a fact only Ruben holds |
+| P1 | pyproject.toml:4 | the same sentence as the live description | the line proposed for GitHub | fixed |
+| T1 | REPORT.md:1, CITATION.cff:3 | the title names the method, "Per-label conformal calibration of an ECG classifier across hospitals" (charter rule 3) | "Threshold generalisation to external sites for ECG-AI diagnostic support", on Ruben's direction of 29/9; CITATION.cff and the package docstring carry it too | fixed; the site page still carries the old name |
+| T2 | REPORT.md:5 | "draft of 9 September 2026", while CITATION.cff records a release on 2026-09-08 and section 3.6 was written after both dates | none: the date line was written with section 3.6 (2330a3e, 9 September) and the report's text last changed that day (4b25a87), so the date is right; CITATION.cff's release date is the day before the rotation | closed, no change |
 | R1 | README.md:3-7 | opens on the method and on "the 90% coverage guarantee" (rules 2 and 3) | opens on the finding and its four numbers (outcomes.json, target_scale.json), method second | fixed |
 | R2 | README.md:7, 12, 172 | "break" as shorthand for a change of hospital | "change of hospital", "result" | fixed |
 | R3 | README.md:14 | "the three figures" while the report shows five | "their figures" | fixed |
@@ -31,7 +31,7 @@ Scope: README.md, REPORT.md, QUESTIONS.md, PLAN.md, CITATION.cff, pyproject.toml
 | Q2 | QUESTIONS.md:7 | the clinician answer rests on "guarantee" and "promise"; its question is the one Ruben's 27/9 example comes from | the 90% said as an average over patients, no replacement word needed | fixed |
 | Q3 | QUESTIONS.md:15 | "what calibration promises survive" | "whether calibrated coverage survives" | fixed |
 | Q4 | QUESTIONS.md:19 | "harness" as jargon; "a way to measure the promise, not an assurance" (negative parallelism) | "the measurement code"; what a site can and cannot learn | fixed |
-| Q5 | QUESTIONS.md:23 | sets 73.2% (outcomes.json, whose marginal is 89.9%) beside "90.0%" (shift.json, whose MI figure is 73.5%) in the same sentence, where REPORT.md says two results files never share one | 89.9% would match its own file | open: a number, reported to Ruben and not changed |
+| Q5 | QUESTIONS.md:23 | sets 73.2% (outcomes.json, whose marginal is 89.9%) beside "90.0%" (shift.json, whose MI figure is 73.5%) in the same sentence, where REPORT.md says two results files never share one | the source pair read from shift.json like the rest of the answer: 73.5% and 90.0% | fixed |
 | Q6 | QUESTIONS.md:23 | links a clinician to PLAN.md, a dated execution plan, for criterion C-11 | see PL1 | open: follows PL1 |
 | Q7 | QUESTIONS.md:27 | "Its guarantee is asymptotic"; "paired" said twice in one clause | "Its coverage holds only asymptotically"; one "paired" | fixed |
 | Q8 | QUESTIONS.md:37 | change narrative: "is now drawn", "what an earlier version of the file got wrong" | present tense | fixed |
