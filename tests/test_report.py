@@ -264,13 +264,13 @@ class TestTheFigures:
         """A figure with two of the three hospitals on it, or with a correction
         left off, would read as a result. Both counts are checked against what
         the table holds rather than against a number written here."""
-        import figures
+        import bilingual_figures as figures
 
         table = json.loads((RESULTS_DIR / "shift.json").read_text())
         assert set(figures.corpora_on(table)) == {"ptbxl", "sph", "acs"}
         assert figures.corrections_on(table) == ["none", "mondrian", "weighted"]
         assert set(figures.corrections_on(table)) == {r["correction"] for r in table["rows"]}
-        drawn = figures.figure_1_coverage(table, tmp_path / "fig1.png", RESULTS_DIR / "shift.json")
+        drawn = figures.figure_1_coverage(table, tmp_path / "fig1.png")
         assert drawn.stat().st_size > 10_000
 
     def test_figure_three_carries_every_arm_and_every_target(self, tmp_path: Path) -> None:
@@ -279,7 +279,7 @@ class TestTheFigures:
 
         grid = json.loads((RESULTS_DIR / "arms.json").read_text())
         assert set(figures.ARM_ORDER) == set(grid["arms"])
-        drawn = figures.figure_3_arms(grid, tmp_path / "fig3.png", RESULTS_DIR / "arms.json")
+        drawn = figures.figure_3_arms(grid, tmp_path / "fig3.png")
         assert drawn.stat().st_size > 10_000
 
     def test_figure_three_names_the_contaminated_arms_from_the_fact_not_the_prose(
@@ -312,7 +312,7 @@ class TestTheFigures:
         table = json.loads(path.read_text())
         assert set(figures.ROTATION_LABEL_NAMES) >= set(table["bias"])
         assert set(table["settings"]["corrections"]) == {"none", "mondrian", "weighted"}
-        drawn = figures.figure_7_rotation(table, tmp_path / "fig7.png", path)
+        drawn = figures.figure_7_rotation(table, tmp_path / "fig7.png")
         assert drawn.stat().st_size > 10_000
 
     def test_figure_seven_draws_every_pair_the_table_measured(self, tmp_path: Path) -> None:
@@ -334,7 +334,7 @@ class TestTheFigures:
         ladder = json.loads(path.read_text())
         assert ladder["settings"]["rungs"] == [0, 100, 500, 2000]
         assert set(ladder["settings"]["families"]) == {"recalibrated", "pooled"}
-        drawn = figures.figure_8_target_scale(ladder, tmp_path / "fig8.png", path)
+        drawn = figures.figure_8_target_scale(ladder, tmp_path / "fig8.png")
         assert drawn.stat().st_size > 10_000
 
     def test_figure_eight_says_what_it_is_waiting_for_rather_than_drawing_empty(

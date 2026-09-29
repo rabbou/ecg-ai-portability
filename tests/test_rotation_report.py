@@ -647,9 +647,16 @@ def drawn_names() -> set[str]:
     Parsed rather than searched for as a substring: ``"fig7_rotation.png" in
     script`` also passes on a file the script only mentions in a comment, and it
     would pass a name that is a prefix of a real one.
+    A name written ``f"fig1_thresholds{suffix}.png"`` is one file per language,
+    so it expands to every suffix ``figure_text.SUFFIX`` names.
     """
+    from figure_text import SUFFIX
+
     script = (ROOT / "scripts/figures.py").read_text()
-    return set(re.findall(r'out / "([A-Za-z0-9_.-]+\.png)"', script))
+    names = set()
+    for stem, suffixed in re.findall(r'out / f?"([A-Za-z0-9_.-]+?)(\{suffix\})?\.png"', script):
+        names |= {f"{stem}{s}.png" for s in SUFFIX.values()} if suffixed else {f"{stem}.png"}
+    return names
 
 
 def test_no_rotation_figure_is_named_without_a_file_behind_it(report: str) -> None:
