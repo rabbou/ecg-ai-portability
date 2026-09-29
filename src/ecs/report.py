@@ -198,8 +198,8 @@ def repeated_split_report(
 # ---------------------------------------------------------------------------
 # The frozen calibration
 #
-# A coverage guarantee is a promise about the population the calibration sample
-# came from.  Measuring what it is worth somewhere else means fitting the
+# Conformal coverage holds for the population the calibration sample came
+# from.  Measuring what it is worth somewhere else means fitting the
 # threshold on the source and spending it, unchanged, on the target: a
 # threshold re-fitted on the target would measure only the target's own
 # difficulty (C-20).

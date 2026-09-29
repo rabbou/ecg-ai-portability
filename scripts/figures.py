@@ -161,11 +161,11 @@ def _saw(arms: dict[str, Any], arm: str, corpus: str) -> bool:
 
 
 def figure_3_arms(arms: dict[str, Any], out: Path) -> Path:
-    """The four encoder arms on the same break.
+    """The five encoder arms on the same change of hospital.
 
     One panel per target: how far each arm's coverage falls between PTB-XL and
-    that hospital, as a signed gap, so a bar above zero is a guarantee that
-    stopped holding and a bar below zero is one that over-covered.  The last
+    that hospital, as a signed gap, so a bar above zero is coverage lost at that
+    hospital and a bar below zero is coverage gained there.  The last
     panel is what each arm is worth at home, because a small gap earned by an
     arm that discriminates nothing is not the same achievement as a small gap
     earned by one that does; the panels have to be read together.
