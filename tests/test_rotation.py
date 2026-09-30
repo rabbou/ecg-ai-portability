@@ -29,7 +29,7 @@ from typing import Any
 import numpy as np
 import pytest
 
-from ecs.config import RESULTS_DIR
+from ecs.config import CHALLENGE2021_DIR, PTBXL_DIR, RESULTS_DIR
 from ecs.ingest import CANONICAL_LEADS
 from ecs.report import CORRECTIONS, Source, Target, frozen_calibration_table
 from ecs.rotation import (
@@ -50,8 +50,19 @@ ROTATION = Path(RESULTS_DIR) / "rotation.json"
 GRID = Path(RESULTS_DIR) / "rotation.csv"
 
 
+# The split and the ingestion read the Challenge-2021 bundle and PTB-XL's database
+# file; a clone without them skips those tests instead of failing on a missing path.
+CORPORA_ON_DISK = (CHALLENGE2021_DIR / "training").is_dir() and (
+    PTBXL_DIR / "ptbxl_database.csv"
+).is_file()
+NOT_ON_DISK = "the Challenge-2021 bundle or PTB-XL's database file is not on disk"
+needs_corpora = pytest.mark.skipif(not CORPORA_ON_DISK, reason=NOT_ON_DISK)
+
+
 @pytest.fixture(scope="module")
 def indices() -> dict[str, Any]:
+    if not CORPORA_ON_DISK:
+        pytest.skip(NOT_ON_DISK)
     return {corpus: corpus_index(corpus) for corpus in SOURCES}
 
 
@@ -75,6 +86,7 @@ class TestTheSplit:
             assert present <= {*PARTS, "unused"}, corpus
             assert set(PARTS) <= present, corpus
 
+    @needs_corpora
     def test_the_split_is_the_same_on_a_second_reading(self) -> None:
         first = corpus_index("georgia").frame["part"]
         second = corpus_index("georgia").frame["part"]
@@ -103,6 +115,7 @@ class TestTheSplit:
 
 @pytest.mark.data
 class TestTheIngestionContract:
+    @needs_corpora
     @pytest.mark.parametrize("corpus", SOURCES)
     def test_a_sample_comes_out_canonical(self, corpus: str) -> None:
         index = corpus_index(corpus)
@@ -527,6 +540,7 @@ class TestTheCommittedRotation:
             assert block["deviations"]
 
 
+@needs_corpora
 @pytest.mark.data
 class TestNoTargetLabelReachesAThresholdOnTheRealPairs:
     """C-26 again, on the scores the rotation actually spent, pair by pair."""

@@ -60,6 +60,10 @@ class TestWhatTheArmDeclares:
 
 @pytest.mark.data
 class TestTheCheckpointLoadsWhole:
+    @pytest.fixture(autouse=True)
+    def _needs_timm(self) -> None:
+        pytest.importorskip("timm", reason="the optional timm extra is not installed")
+
     def test_no_weight_is_missing_and_none_is_left_over(self) -> None:
         _embed, meta = ARMS["ecg_jepa"]()
         assert "missing=0 unexpected=0" in str(meta["notes"])
