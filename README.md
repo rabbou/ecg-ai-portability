@@ -219,7 +219,12 @@ uv run pytest                            # adds the corpus-backed tests
 `fetch_open_corpora.sh` does not fetch PTB-XL or SPH. PTB-XL is read in place
 from `ECS_PTBXL_DIR` (default `~/Developer/ptbxl5d/data`) and is downloaded
 from PhysioNet; SPH is downloaded from its figshare record and unpacked under
-`data/sph`. Without them the corpus-backed tests skip rather than fail.
+`data/sph`. On a clone that holds only the committed files, none of the corpora
+and no optional `timm` extra, `uv run pytest -o addopts=""` ends with
+`540 passed, 59 skipped, 5 warnings in 60.90s` and exit code 0: the 59 skipped
+tests are the ones that read a corpus, the Challenge-2021 bundle or `timm`. The
+project's `addopts` already carries `-q`, so a bare `uv run pytest -q` prints
+the dots and the warnings without that summary line.
 
 The rotation, in order; each step writes the file the next one reads.
 
