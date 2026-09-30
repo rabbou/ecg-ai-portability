@@ -204,7 +204,8 @@ uv run python scripts/subgroups.py       # rebuilds results/subgroups.json, 23 s
 
 Timings are wall clock on a six-core i7-8700, CPU only. The full suite on a
 cold clone, where every test module is imported for the first time, took 28
-minutes.
+minutes at the first release. A clone without the corpora skips the
+corpus-backed tests and finishes much sooner, as measured below.
 
 The corpora themselves are only needed to re-score from the raw tracings,
 which the committed `.npz` files make unnecessary for reproducing the report. The three
@@ -221,7 +222,7 @@ from `ECS_PTBXL_DIR` (default `~/Developer/ptbxl5d/data`) and is downloaded
 from PhysioNet; SPH is downloaded from its figshare record and unpacked under
 `data/sph`. On a clone that holds only the committed files, none of the corpora
 and no optional `timm` extra, `uv run pytest -o addopts=""` ends with
-`540 passed, 59 skipped, 5 warnings in 60.90s` and exit code 0: the 59 skipped
+`540 passed, 59 skipped, 5 warnings` and exit code 0: the 59 skipped
 tests are the ones that read a corpus, the Challenge-2021 bundle or `timm`. The
 project's `addopts` already carries `-q`, so a bare `uv run pytest -q` prints
 the dots and the warnings without that summary line.
