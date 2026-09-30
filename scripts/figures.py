@@ -1,4 +1,4 @@
-"""Draw the figures the plan and the report name, each from a committed file.
+"""Draw the figures the report names, each from a committed file.
 
 Each one is drawn from a file under ``results/`` and redraws from it pixel for
 pixel, so a figure always comes from the numbers rather than from memory, and a

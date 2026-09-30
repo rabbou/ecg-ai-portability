@@ -28,7 +28,7 @@ class TestWhatTheArmDeclares:
             assert len(corpora.split()) >= 3, arm
 
     def test_the_two_contaminated_arms_are_the_ones_that_name_ptb_xl(self) -> None:
-        """C-12's point: which arm saw the calibration corpus is on the record."""
+        """Which arm saw the calibration corpus is on the record."""
         assert {arm for arm, corpora in SAW.items() if "ptbxl" in corpora} == {
             "ecgfm",
             "hubert_ecg",

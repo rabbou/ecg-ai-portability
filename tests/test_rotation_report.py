@@ -660,7 +660,7 @@ def drawn_names() -> set[str]:
 
 
 def test_no_rotation_figure_is_named_without_a_file_behind_it(report: str) -> None:
-    """C-20 over the section this branch adds: both its figures are redrawn by a script."""
+    """Both rotation figures are redrawn by a script."""
     shown = re.findall(r"!\[[^\]]*\]\(([^)]+)\)", report)
     rotation = [s for s in shown if s.endswith(("fig7_rotation.png", "fig8_target_scale.png"))]
     assert rotation == [
