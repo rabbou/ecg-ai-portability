@@ -196,7 +196,7 @@ holding it. The figures redraw without it.
 uv sync                                  # 1 min
 uv run pytest -m "not data"              # unit tests, no corpora needed, 2 min
 uv run python scripts/figures.py         # redraws every figure, 5 s
-uv run python scripts/figures.py --lang fr  # figures 1 to 3 of the report in French, *_fr.png
+uv run python scripts/figures.py --lang fr  # the report's five figures in French, *_fr.png
 export ECS_PTBXL_DIR=/path/to/ptbxl      # the directory with ptbxl_database.csv
 uv run python scripts/outcomes.py        # rebuilds results/outcomes.json, 3 s
 uv run python scripts/subgroups.py       # rebuilds results/subgroups.json, 23 s
