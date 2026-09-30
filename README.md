@@ -4,8 +4,11 @@ An ECG classifier calibrated on one hospital's tracings can be set so that,
 for 90% of tracings, the diagnoses it cannot rule out include the right one. On
 PTB-XL, a German research corpus, that holds for 89.9% of all tracings and for
 73.2% of infarctions. Carried unchanged to a hospital in Chongqing, the same
-threshold covers 73.7% of infarctions, and 100 tracings labelled on site bring
-it to 88.9%.
+threshold covers 72.5% of infarctions across the cohort's 17,955 tracings. On
+the 8,984 tracings held out there for evaluation it covers 73.7%, and 100
+tracings labelled on site bring that half to 88.9%. The two Chongqing figures
+differ because they are measured on different tracings: the first on the whole
+cohort, the second on the half that never calibrates.
 
 The calibration is split conformal prediction on the 12-lead ECG. Two standard
 corrections are compared on the same change of hospital: Mondrian calibration,
@@ -15,11 +18,12 @@ The study has two parts. The first is infarction, calibrated on PTB-XL and
 applied to Shandong and Chongqing. The second rotates the calibration source
 over five corpora and five diagnoses a cardiologist reads at a glance, so that
 the result has a spread across sources instead of resting on a single pair.
+The study uses seven corpora, counting Chapman-Shaoxing and Ningbo apart:
+PTB-XL, Shandong, Chongqing, Chapman-Shaoxing, Ningbo, Georgia and CPSC.
 
 The findings, their figures and the limitations are in [REPORT.md](REPORT.md),
 and [QUESTIONS.md](QUESTIONS.md) answers the questions a clinician or a
-technical reader is likely to ask. What follows covers the corpora, the code
-layout and the commands that rebuild every number.
+technical reader is likely to ask.
 
 ## Cohorts
 
@@ -33,8 +37,10 @@ All three are public and permissively licensed (CC BY 4.0, CC0, CC0). The
 counts are computed from each corpus's description file, not quoted from a
 paper, and are pinned by tests in `tests/test_labels.py`.
 
-The source rotation adds three corpora from the PhysioNet/CinC Challenge-2021
-bundle, and reuses PTB-XL and Shandong as sources in their turn.
+The source rotation adds four corpora from the PhysioNet/CinC Challenge-2021
+bundle (Chapman-Shaoxing and Ningbo, which rotate as one source, then Georgia
+and CPSC) and reuses PTB-XL and Shandong as sources in their turn. Chongqing
+is the seventh corpus.
 
 | Corpus | Country | Records | Role in the rotation |
 |---|---|---|---|
@@ -58,7 +64,7 @@ right bundle-branch block, first-degree atrioventricular block. The mapping
 that puts three annotation schemes (SNOMED CT, AHA, SCP-ECG) on those five
 classes is in `results/label_map.json`; it reproduces the Challenge's own
 published per-partition counts, and it names the five joins that could not be
-made cleanly instead of choosing quietly. Sinus rhythm is refused on Shandong,
+made cleanly. Sinus rhythm is refused on Shandong,
 whose "Normal ECG" code is a narrower statement than the Challenge's "sinus
 rhythm".
 
@@ -171,8 +177,8 @@ of the corpora it saw. The list is what a script should read: ECG-JEPA's
 sentence reads "not PTB-XL, not Shandong, not Chongqing", and matching on the
 name of a corpus would count it as having seen all three.
 
-On this change of hospital the two contaminated arms do not come out ahead. ECGFounder, which
-saw no public corpus, reaches 0.919 [0.907, 0.932] on PTB-XL fold 10 against
+On PTB-XL, a corpus both contaminated arms saw at pre-training, neither comes
+out ahead. ECGFounder, which saw no public corpus, reaches 0.919 [0.907, 0.932] on PTB-XL fold 10 against
 0.891 for ECG-FM and 0.838 for HuBERT-ECG; ECG-JEPA reaches 0.858 [0.841,
 0.876]. Extracting ECG-JEPA over the three corpora took 6 h 53 on this machine's
 four threads.
