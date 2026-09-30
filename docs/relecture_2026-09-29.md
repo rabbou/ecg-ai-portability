@@ -15,7 +15,7 @@ Scope: README.md, REPORT.md, QUESTIONS.md, PLAN.md, CITATION.cff, pyproject.toml
 | G1 | GitHub description | rejected phrase, question built on a technical term, "three corpora" where the study reads seven | the line at the top of this file | open: a public change, applied by Ruben |
 | P1 | pyproject.toml:4 | the same sentence as the live description | the line proposed for GitHub | fixed |
 | T1 | REPORT.md:1, CITATION.cff:3 | the title names the method, "Per-label conformal calibration of an ECG classifier across hospitals" (charter rule 3) | "Threshold generalisation to external sites for ECG-AI diagnostic support", on Ruben's direction of 29/9; CITATION.cff and the package docstring carry it too | fixed; the site page still carries the old name |
-| T2 | REPORT.md:5 | "draft of 9 September 2026", while CITATION.cff records a release on 2026-09-08 and section 3.6 was written after both dates | none: the date line was written with section 3.6 (2330a3e, 9 September) and the report's text last changed that day (4b25a87), so the date is right; CITATION.cff's release date is the day before the rotation | closed, no change |
+| T2 | REPORT.md:5 | "draft of 9 September 2026", while section 3.6 and the title changed on 29 September | see finding 5 below | fixed at 4bfbb0b |
 | R1 | README.md:3-7 | opens on the method and on "the 90% coverage guarantee" (rules 2 and 3) | opens on the finding and its four numbers (outcomes.json, target_scale.json), method second | fixed |
 | R2 | README.md:7, 12, 172 | "break" as shorthand for a change of hospital | "change of hospital", "result" | fixed |
 | R3 | README.md:14 | "the three figures" while the report shows five | "their figures" | fixed |
@@ -32,7 +32,7 @@ Scope: README.md, REPORT.md, QUESTIONS.md, PLAN.md, CITATION.cff, pyproject.toml
 | Q3 | QUESTIONS.md:15 | "what calibration promises survive" | "whether calibrated coverage survives" | fixed |
 | Q4 | QUESTIONS.md:19 | "harness" as jargon; "a way to measure the promise, not an assurance" (negative parallelism) | "the measurement code"; what a site can and cannot learn | fixed |
 | Q5 | QUESTIONS.md:23 | sets 73.2% (outcomes.json, whose marginal is 89.9%) beside "90.0%" (shift.json, whose MI figure is 73.5%) in the same sentence, where REPORT.md says two results files never share one | the source pair read from shift.json like the rest of the answer: 73.5% and 90.0% | fixed |
-| Q6 | QUESTIONS.md:23 | links a clinician to PLAN.md, a dated execution plan, for criterion C-11 | see PL1 | open: follows PL1 |
+| Q6 | QUESTIONS.md:23 | links a clinician to PLAN.md, a dated execution plan, for criterion C-11 | see PL1 | fixed at 40ade70, with PL1 |
 | Q7 | QUESTIONS.md:27 | "Its guarantee is asymptotic"; "paired" said twice in one clause | "Its coverage holds only asymptotically"; one "paired" | fixed |
 | Q8 | QUESTIONS.md:37 | change narrative: "is now drawn", "what an earlier version of the file got wrong" | present tense | fixed |
 | Q9 | QUESTIONS.md:41 | chain of four negated items (lint) | one clause per fact | fixed |
@@ -65,14 +65,42 @@ Scope: README.md, REPORT.md, QUESTIONS.md, PLAN.md, CITATION.cff, pyproject.toml
 | F1 | scripts/figures.py:525 | "--" standing for a dash in the three threshold panel titles (audit row 23) | an en dash | fixed |
 | F2 | scripts/figures.py:86-93 | "drawn by scripts/figures.py from results/..." footer on all eight figures (audit row 23) | removed | fixed |
 | F3 | scripts/figures.py:614-616 | the outcomes note typed "~10%" and "27%" | computed from outcomes.json; the same two values print | fixed |
-| F4 | audit row 6 | the three figures on the French page are English-only | `--lang fr` draws fig1_thresholds_fr, fig2_outcomes_fr, fig3_coverage_fr from the same functions | fixed here; the site copies them in its own repository |
+| F4 | audit row 6 | the figures on the French page are English-only | `--lang fr` draws the report's five figures, fig1_thresholds_fr, fig2_outcomes_fr, fig3_coverage_fr, fig7_rotation_fr and fig8_target_scale_fr, from the same functions | fixed at f06cfe5; the site copies them in its own repository |
 | F5 | scripts/figures.py:1-31 | docstring says "six figures", lists four, uses "--" for dashes | a table of the eight figures | fixed |
 | F6 | scripts/figures.py:307-311 | docstring says "four encoder arms" (there are five) and "a guarantee that stopped holding" | "five", "coverage lost at that hospital" | fixed |
 | C1 | src/ecs/__init__.py:1, src/ecs/report.py:201, tests/test_conformal.py:1 | the rejected phrase in a docstring or comment | reworded | fixed |
 | C2 | scripts/shift_table.py:1, 347; scripts/arms_table.py:3, 388; src/ecs/splits.py:3 | the rejected phrase; lines 347 and 388 write it into the `question` field of results/shift.json and results/arms.json | none here | open: these sources are digested by the results files they build, so one changed byte fails tests/test_provenance.py, and rewording the JSON means rebuilding results, outside a wording pass |
 | N1 | mappings/NOTICE.md:18 | a pair of em dashes in a repository document | commas | fixed |
-| PL1 | PLAN.md | a dated execution plan ("Six working days: Mon 24 → Fri 28 Aug") in the public root, linked from QUESTIONS.md; the linter passes it | none here | open: whether a public repository keeps its plan is Ruben's call |
+| PL1 | PLAN.md | a dated execution plan ("Six working days: Mon 24 → Fri 28 Aug") in the public root, linked from QUESTIONS.md; the linter passes it | PLAN.md removed from the root; git keeps it | fixed at 40ade70 |
 
 Read and found clean: third_party/ecgfounder/PROVENANCE.md, LICENSE, the CITATION.cff abstract.
 
-This review was done in the build session, which the brief forbade from starting a sub-agent. The fresh-context pass the charter's publication sequence asks for has not run on this text.
+The reading pass above ran in the build session. A second read with fresh context followed on 29 September and found eleven items, answered below. Line numbers there are those of fd0e185. A further fresh read of the fixed branch has not run.
+
+## Fresh read of 29 September
+
+| # | Where | Answer |
+|---|---|---|
+| 1 | README.md:6-7, Chongqing figure | fixed at 4bfbb0b: the README gives 72.5% over the cohort's 17,955 tracings (shift.json) and 73.7% rising to 88.9% on the 8,984 tracings held out for evaluation (target_scale.json), and says the two differ because they are measured on different tracings; REPORT.md states the same at the abstract, section 3.3 and section 3.6 |
+| 2 | README.md:174, "On this change of hospital" | fixed at 4bfbb0b: "On PTB-XL, a corpus both contaminated arms saw at pre-training, neither comes out ahead" |
+| 3 | README.md:216, corpus-backed tests "skip rather than fail" | fixed at fe587f9, which skips the rotation tests when the Challenge-2021 bundle or PTB-XL's database file is missing and skips the encoder-arm checkpoint tests when `timm` is missing; fixed at 480bdd2, where the README gives the measured run |
+| 4 | denials of suspicions nobody raised: README.md:61, REPORT.md:61, 110 and 279 (two clauses), QUESTIONS.md:31 | fixed at 4bfbb0b: each clause deleted |
+| 5 | REPORT.md:5, "draft of 9 September 2026" | fixed at 4bfbb0b: dated 30 September 2026, the day of this pass, with CITATION.cff `date-released` at 2026-09-30; Ruben's yes may move both to the day of publication |
+| 6 | corpus count | fixed at 4bfbb0b: seven everywhere (README, REPORT.md header, CITATION.cff abstract, pyproject.toml, the description proposed above), counting Chapman-Shaoxing and Ningbo apart; the README names the seven; the three-corpus figures are labelled as the infarction axis |
+| 7 | QUESTIONS.md:23 and 27, ids C-11 and C-9 | fixed at 40ade70: both ids and the PLAN.md link dropped |
+| 8 | REPORT.md:29 and README.md:21-22 describe the documents | fixed at 4bfbb0b: both sentences cut |
+| 9 | figure defects | fixed at f06cfe5: the two "10 %" labels of fig2_outcomes_fr shrink to fit their bars, the fig3_coverage legend moves under the panels, the fig8_target_scale legend leaves the lines, the fig1_thresholds legend leaves the "classé infarctus" label, and fig1 and fig2 say "infarctus" like fig3; fig7_rotation_fr and fig8_target_scale_fr are drawn |
+| 10 | REPORT.md:15, pointer to a removed heading | fixed at 4bfbb0b: the paragraph states that the study is not a device |
+| 11 | aphoristic closes: REPORT.md:27, 176, 197 | fixed at 4bfbb0b: each sentence cut, the paragraph ends on its figure |
+
+Also from that read: the proposed GitHub description stays open until Ruben's yes (G1), and the bare "guarantee" stays where it names the theorem (K1).
+
+Measured on this branch, on a clone without the corpora:
+
+```
+$ python3 ~/.claude/scripts/prose_lint.py --racine . --strict README.md REPORT.md QUESTIONS.md
+$ echo $?
+0
+$ uv run pytest -o addopts="" -q
+540 passed, 59 skipped, 5 warnings in 60.90s (0:01:00)
+```
