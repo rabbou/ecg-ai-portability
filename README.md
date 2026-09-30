@@ -56,8 +56,9 @@ patient alone would put copies of one tracing on both sides: 421 groups of
 identical tracings in CPSC, 56 in Georgia, 8 in Chapman-Shaoxing with Ningbo.
 Each group of identical tracings is therefore one splitting unit, and
 `results/split_leak.json` carries the count of groups split across two parts
-with and without that rule; with it, the count is zero. Shandong repeats tracings too but files them under one patient, so its
-split already held them; PTB-XL's distribution repeats none.
+with and without that rule; with it, the count is zero. Shandong repeats
+tracings too but files them under one patient, so its split already held them;
+PTB-XL's distribution repeats none.
 
 Five diagnoses: sinus rhythm, atrial fibrillation, left bundle-branch block,
 right bundle-branch block, first-degree atrioventricular block. The mapping
@@ -178,10 +179,10 @@ sentence reads "not PTB-XL, not Shandong, not Chongqing", and matching on the
 name of a corpus would count it as having seen all three.
 
 On PTB-XL, a corpus both contaminated arms saw at pre-training, neither comes
-out ahead. ECGFounder, which saw no public corpus, reaches 0.919 [0.907, 0.932] on PTB-XL fold 10 against
-0.891 for ECG-FM and 0.838 for HuBERT-ECG; ECG-JEPA reaches 0.858 [0.841,
-0.876]. Extracting ECG-JEPA over the three corpora took 6 h 53 on this machine's
-four threads.
+out ahead. ECGFounder, which saw no public corpus, reaches 0.919 [0.907, 0.932]
+on PTB-XL fold 10 against 0.891 for ECG-FM and 0.838 for HuBERT-ECG; ECG-JEPA
+reaches 0.858 [0.841, 0.876]. Extracting ECG-JEPA over the three corpora took 6
+h 53 on this machine's four threads.
 
 ## Reproduce
 
