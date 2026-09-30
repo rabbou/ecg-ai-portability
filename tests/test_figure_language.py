@@ -1,6 +1,6 @@
 """The French figures carry the English figures' numbers, in French words.
 
-Figures 1, 5 and 6 draw in both languages from one function each.  The checks
+Figures 1, 5, 6, 7 and 8 draw in both languages from one function each.  The checks
 below hold what that promises: the marks (bars, histograms, lines, limits and
 where every label sits) are identical in the two languages, every number printed
 in a text is the same number once the decimal mark and thousands separator are
@@ -21,7 +21,13 @@ import pytest
 
 from ecs.config import RESULTS_DIR
 
-FRENCH = ("fig3_coverage_fr.png", "fig1_thresholds_fr.png", "fig2_outcomes_fr.png")
+FRENCH = (
+    "fig3_coverage_fr.png",
+    "fig1_thresholds_fr.png",
+    "fig2_outcomes_fr.png",
+    "fig7_rotation_fr.png",
+    "fig8_target_scale_fr.png",
+)
 
 
 def _builders() -> dict[str, Callable[[str], Any]]:
@@ -160,7 +166,7 @@ class TestTheCleanTitles:
         monkeypatch.setattr(bilingual_figures, "_save", keep)
         assert figures.main(["--out", str(tmp_path)]) == 0
         assert figures.main(["--lang", "fr", "--out", str(tmp_path)]) == 0
-        assert len(kept) == 8 + 3
+        assert len(kept) == 8 + 5
         for figure in kept:
             for text in _texts(figure):
                 assert "--" not in text, text
@@ -186,5 +192,5 @@ class TestTheFrenchSet:
         import figures
 
         with pytest.raises(SystemExit):
-            figures.main(["--lang", "fr", "--figure", "7", "--out", str(tmp_path)])
+            figures.main(["--lang", "fr", "--figure", "2", "--out", str(tmp_path)])
         assert not list(tmp_path.glob("*.png"))

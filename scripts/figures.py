@@ -15,8 +15,8 @@ surprising result cannot be quietly re-cut.
 | 7 | fig7_rotation.png | coverage of five diagnoses across the source rotation |
 | 8 | fig8_target_scale.png | coverage at Chongqing against labelled target records |
 
-Figures 1, 5 and 6 are the three the report and the site show first, and they
-also draw in French: ``--lang fr`` runs the same functions on the same files
+Figures 1, 5, 6, 7 and 8 are the five the report shows, and they also draw in
+French: ``--lang fr`` runs the same functions on the same files
 with the words of ``figure_text.py`` and writes ``*_fr.png`` beside the English
 set.
 
@@ -42,8 +42,8 @@ import numpy as np  # noqa: E402
 from bilingual_figures import (  # noqa: E402
     CORPUS_NAMES,
     CORPUS_ORDER,
-    CORRECTION_NAMES,
     CORRECTION_ORDER,
+    _localise_ticks,
     _panel_title,
     _rows,
     _save,
@@ -52,7 +52,7 @@ from bilingual_figures import (  # noqa: E402
     figure_5_thresholds,
     figure_6_outcomes,
 )
-from figure_text import LANGUAGES, SUFFIX  # noqa: E402
+from figure_text import LANGUAGES, SUFFIX, count, percent, words  # noqa: E402
 
 from ecs.config import RESULTS_DIR  # noqa: E402
 
@@ -302,30 +302,15 @@ def figure_4_discrimination(metrics: dict[str, Any], reference: dict[str, Any], 
 # The rotation's five diagnoses, named as a cardiologist reads them, and the five
 # corpora that take turns as the source.
 ROTATION_LABEL_NAMES = {
-    "NSR": "sinus\nrhythm",
-    "AF": "atrial\nfibrillation",
-    "LBBB": "left bundle-\nbranch block",
-    "RBBB": "right bundle-\nbranch block",
-    "IAVB": "first-degree\nAV block",
+    key: words("en")[f"rotation.label.{key}"] for key in ("NSR", "AF", "LBBB", "RBBB", "IAVB")
 }
 SOURCE_ORDER = ("ptbxl", "sph", "chapman_ningbo", "georgia", "cpsc")
-SOURCE_NAMES = {
-    "ptbxl": "PTB-XL",
-    "sph": "Shandong",
-    "chapman_ningbo": "Chapman and Ningbo",
-    "georgia": "Georgia",
-    "cpsc": "CPSC",
-}
 SOURCE_COLOUR = {
     "ptbxl": "#023047",
     "sph": "#219ebc",
     "chapman_ningbo": "#8ecae6",
     "georgia": "#fb8500",
     "cpsc": "#bf4342",
-}
-FAMILY_NAMES = {
-    "recalibrated": "recalibrated on the target records alone",
-    "pooled": "target records added to the source calibration half",
 }
 FAMILY_COLOUR = {"recalibrated": "#5f8d4e", "pooled": "#bf4342"}
 
@@ -335,7 +320,7 @@ def _headline(table: dict[str, Any]) -> tuple[float, str]:
     return float(headline["alpha"]), str(headline["score"])
 
 
-def figure_7_rotation(table: dict[str, Any], out: Path) -> Path:
+def figure_7_rotation(table: dict[str, Any], out: Path, lang: str = "en") -> Path:
     """Coverage of each diagnosis under each correction, every source-target pair drawn.
 
     One panel per correction, one column per diagnosis.  Each away pair is a dot
@@ -345,6 +330,7 @@ def figure_7_rotation(table: dict[str, Any], out: Path) -> Path:
     is the mean over the away pairs with the spread across sources, which is what
     turns two hospitals into an estimate.
     """
+    text = words(lang)
     alpha, score = _headline(table)
     target = 1.0 - alpha
     corrections = [c for c in CORRECTION_ORDER if c in table["settings"]["corrections"]]
@@ -425,14 +411,16 @@ def figure_7_rotation(table: dict[str, Any], out: Path) -> Path:
             )
         axis.axhline(target, color="#111111", linestyle="--", linewidth=1.0, zorder=1)
         axis.set_xticks(range(len(labels)))
-        axis.set_xticklabels([ROTATION_LABEL_NAMES[key] for key in labels], fontsize=8)
-        axis.set_title(CORRECTION_NAMES[correction], fontsize=9)
+        axis.set_xticklabels([text[f"rotation.label.{key}"] for key in labels], fontsize=8)
+        axis.set_title(text[f"correction.{correction}"], fontsize=9)
         axis.set_ylim(0.0, 1.02)
         axis.grid(axis="y", color="#eeeeee", zorder=0)
-    axes[0].set_ylabel(f"coverage of the diagnosis at the {target:.0%} level")
+    axes[0].set_ylabel(text["rotation.ylabel"].format(level=percent(target, 0, lang)))
 
     handles = [
-        plt.Line2D([], [], marker="o", linestyle="", color=SOURCE_COLOUR[s], label=SOURCE_NAMES[s])
+        plt.Line2D(
+            [], [], marker="o", linestyle="", color=SOURCE_COLOUR[s], label=text[f"source.{s}"]
+        )
         for s in SOURCE_ORDER
         if s in {e["source"] for lab in labels for e in table["bias"][lab][corrections[0]]["away"]}
     ]
@@ -444,7 +432,7 @@ def figure_7_rotation(table: dict[str, Any], out: Path) -> Path:
             linestyle="",
             markerfacecolor="none",
             markeredgecolor="#111111",
-            label="the source on its own held-out records",
+            label=text["rotation.legend.home"],
         )
     )
     handles.append(
@@ -457,7 +445,7 @@ def figure_7_rotation(table: dict[str, Any], out: Path) -> Path:
             markeredgecolor="#111111",
             markeredgewidth=1.1,
             markersize=6,
-            label="threshold infinite in some draws: covers by admitting both labels",
+            label=text["rotation.legend.infinite"],
         )
     )
     handles.append(
@@ -468,7 +456,7 @@ def figure_7_rotation(table: dict[str, Any], out: Path) -> Path:
             linestyle="",
             color="#111111",
             markersize=14,
-            label="mean over the away pairs, spread across sources",
+            label=text["rotation.legend.mean"],
         )
     )
     figure.legend(handles=handles, loc="lower center", ncol=3, frameon=False, fontsize=8)
@@ -477,20 +465,22 @@ def figure_7_rotation(table: dict[str, Any], out: Path) -> Path:
     # four columns of the figure.
     counted = {table["bias"][label][corrections[0]]["away_bias"]["n_pairs"] for label in labels}
     pairs = (
-        f"{min(counted)} to {max(counted)} ordered pairs"
+        text["rotation.pairs.range"].format(low=min(counted), high=max(counted))
         if len(counted) > 1
-        else f"{min(counted)} ordered pairs"
+        else text["rotation.pairs.one"].format(n=min(counted))
     )
     figure.suptitle(
-        f"Five sources, {pairs} per diagnosis, "
-        f"{table['settings']['n_draws']} calibration draws, {score.upper()} score",
+        text["rotation.title"].format(
+            pairs=pairs, draws=table["settings"]["n_draws"], score=score.upper()
+        ),
         fontsize=10,
     )
+    _localise_ticks(figure, lang)
     figure.tight_layout(rect=(0, 0.10, 1, 0.96))
     return _save(figure, out)
 
 
-def figure_8_target_scale(ladder: dict[str, Any], out: Path) -> Path:
+def figure_8_target_scale(ladder: dict[str, Any], out: Path, lang: str = "en") -> Path:
     """What a hospital's own labelled tracings buy, against pooling them with the source.
 
     One panel per correction the ladder can carry above rung zero.  The x axis is
@@ -498,6 +488,7 @@ def figure_8_target_scale(ladder: dict[str, Any], out: Path) -> Path:
     ways of spending them.  Rung zero is the frozen source threshold and is the
     same point on both lines, which is where the break table left off.
     """
+    text = words(lang)
     alpha, score = _headline(ladder)
     target = 1.0 - alpha
     rungs = list(ladder["settings"]["rungs"])
@@ -536,7 +527,7 @@ def figure_8_target_scale(ladder: dict[str, Any], out: Path) -> Path:
                 "-o",
                 color=FAMILY_COLOUR[family],
                 markersize=5,
-                label=FAMILY_NAMES[family],
+                label=text[f"family.{family}"],
                 zorder=3,
             )
             axis.fill_between(
@@ -549,26 +540,35 @@ def figure_8_target_scale(ladder: dict[str, Any], out: Path) -> Path:
             )
         axis.axhline(target, color="#111111", linestyle="--", linewidth=1.0, zorder=1)
         axis.set_xticks(positions)
-        axis.set_xticklabels([f"{r:,}" for r in rungs])
-        axis.set_xlabel("labelled target tracings the threshold saw")
-        axis.set_title(CORRECTION_NAMES[correction], fontsize=9)
+        axis.set_xticklabels([count(r, lang) for r in rungs])
+        axis.set_xlabel(text["target.xlabel"])
+        axis.set_title(text[f"correction.{correction}"], fontsize=9)
         axis.grid(axis="y", color="#eeeeee", zorder=0)
-    axes[0].set_ylabel(f"coverage of the diagnosis at the {target:.0%} level")
-    axes[0].legend(loc="lower right", frameon=False, fontsize=8)
+    axes[0].set_ylabel(text["rotation.ylabel"].format(level=percent(target, 0, lang)))
+    handles, names = axes[0].get_legend_handles_labels()
+    figure.legend(handles, names, loc="lower center", ncol=2, frameon=False, fontsize=8)
     pair = ladder["pair"]
-    plain = {"ptbxl": "PTB-XL", "sph": "Shandong", "acs": "Chongqing"}
+
+    def plain(corpus: str) -> str:
+        return text[f"corpus.{corpus}"].split(" (")[0] if f"corpus.{corpus}" in text else corpus
+
     figure.suptitle(
-        f"{plain.get(pair['source'], pair['source'])} to "
-        f"{plain.get(pair['target'], pair['target'])}, {pair['label']}, "
-        f"{ladder['settings']['n_draws']} draws, {score.upper()} score",
+        text["target.title"].format(
+            source=plain(pair["source"]),
+            target=plain(pair["target"]),
+            label=text.get(f"target.label.{pair['label']}", pair["label"]),
+            draws=ladder["settings"]["n_draws"],
+            score=score.upper(),
+        ),
         fontsize=10,
     )
-    figure.tight_layout(rect=(0, 0, 1, 0.94))
+    _localise_ticks(figure, lang)
+    figure.tight_layout(rect=(0, 0.08, 1, 0.94))
     return _save(figure, out)
 
 
 # The figures that carry words in every language of figure_text; the rest are English.
-TRANSLATED = (1, 5, 6)
+TRANSLATED = (1, 5, 6, 7, 8)
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -637,7 +637,8 @@ def main(argv: list[str] | None = None) -> int:
             drawn.append(
                 figure_7_rotation(
                     json.loads(rotation_path.read_text()),
-                    out / "fig7_rotation.png",
+                    out / f"fig7_rotation{suffix}.png",
+                    lang,
                 )
             )
         else:
@@ -652,7 +653,8 @@ def main(argv: list[str] | None = None) -> int:
             drawn.append(
                 figure_8_target_scale(
                     json.loads(ladder_path.read_text()),
-                    out / "fig8_target_scale.png",
+                    out / f"fig8_target_scale{suffix}.png",
+                    lang,
                 )
             )
         else:

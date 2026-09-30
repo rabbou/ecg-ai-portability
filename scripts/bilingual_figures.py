@@ -151,10 +151,11 @@ def coverage_figure(table: dict[str, Any], lang: str = "en") -> plt.Figure:
         axes[row_index][0].set_ylabel(
             f"{_panel_title(table, corpus, lang)}\n{text['coverage.ylabel']}", fontsize=8
         )
-    axes[0][-1].legend(loc="lower right", fontsize=8, framealpha=0.95)
+    handles, names = axes[0][-1].get_legend_handles_labels()
+    figure.legend(handles, names, loc="lower center", ncol=len(names), fontsize=9, frameon=False)
     figure.suptitle(_coverage_title(table, corrections, lang), fontsize=9, y=0.995, va="top")
     _localise_ticks(figure, lang)
-    figure.tight_layout(rect=(0, 0, 1, 0.99))
+    figure.tight_layout(rect=(0, 0.03, 1, 0.99))
     return figure
 
 
@@ -304,7 +305,7 @@ def thresholds_figure(
                 ),
             )
         _threshold_panel(axis, scheme, bands[scheme], source_block, lang)
-    axes[0].legend(fontsize=9, frameon=False, loc="upper left", bbox_to_anchor=(0.30, 1.02))
+    axes[0].legend(fontsize=9, frameon=False, loc="upper left", bbox_to_anchor=(0.26, 0.86))
     axes[-1].set_xlabel(text["thresholds.xlabel"], fontsize=10)
     axes[-1].set_xlim(0, 1)
     for height, key in (
@@ -354,7 +355,7 @@ def outcomes_figure(outcomes: dict[str, Any], lang: str = "en") -> plt.Figure:
                         ha="center",
                         va="center",
                         color="#3a2c10" if name == "deferred" else "white",
-                        fontsize=10.5,
+                        fontsize=10.5 if width > 14 else 8,
                     )
                 left += width
         axis.set_yticks(positions)

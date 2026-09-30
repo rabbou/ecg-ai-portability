@@ -93,6 +93,34 @@ WORDS: dict[str, dict[str, str]] = {
             "and class-conditional calibration meet at an MI miss rate of about {matched} by "
             "construction; pooled calibration is matched to neither and lands at {pooled}."
         ),
+        # Rotation figure: five diagnoses, five sources, the away pairs.
+        "rotation.label.NSR": "sinus\nrhythm",
+        "rotation.label.AF": "atrial\nfibrillation",
+        "rotation.label.LBBB": "left bundle-\nbranch block",
+        "rotation.label.RBBB": "right bundle-\nbranch block",
+        "rotation.label.IAVB": "first-degree\nAV block",
+        "source.ptbxl": "PTB-XL",
+        "source.sph": "Shandong",
+        "source.chapman_ningbo": "Chapman and Ningbo",
+        "source.georgia": "Georgia",
+        "source.cpsc": "CPSC",
+        "rotation.ylabel": "coverage of the diagnosis at the {level} level",
+        "rotation.legend.home": "the source on its own held-out records",
+        "rotation.legend.infinite": (
+            "threshold infinite in some draws: covers by admitting both labels"
+        ),
+        "rotation.legend.mean": "mean over the away pairs, spread across sources",
+        "rotation.pairs.range": "{low} to {high} ordered pairs",
+        "rotation.pairs.one": "{n} ordered pairs",
+        "rotation.title": (
+            "Five sources, {pairs} per diagnosis, {draws} calibration draws, {score} score"
+        ),
+        # Target-scale figure: what labelled records at the receiving site buy.
+        "family.recalibrated": "recalibrated on the target records alone",
+        "family.pooled": "target records added to the source calibration half",
+        "target.xlabel": "labelled target tracings the threshold saw",
+        "target.label.infarction": "infarction",
+        "target.title": "{source} to {target}, {label}, {draws} draws, {score} score",
     },
     "fr": {
         "correction.none": "commune, sans correction\nun seuil pour les deux classes",
@@ -124,18 +152,20 @@ WORDS: dict[str, dict[str, str]] = {
         "scheme.plain": "Seuil unique ajusté\nsensibilité de 90 %, aucun renvoi",
         "scheme.pooled": "Calibration conforme commune\ncouverture de 90 %, tous cas confondus",
         "scheme.perlabel": "Calibration conforme par classe\ncouverture de 90 % dans chaque classe",
-        "class.0": "sans IDM",
-        "class.1": "IDM",
+        "class.0": "sans infarctus",
+        "class.1": "infarctus",
         "thresholds.legend": "{name} (n = {n})",
         "thresholds.deferred": "renvoi",
-        "thresholds.labelled.0": "classé sans IDM",
-        "thresholds.labelled.1": "classé IDM",
-        "thresholds.box": "IDM manqués  {missed}\nfausses alertes  {alarms}\nrenvois  {deferred}",
+        "thresholds.labelled.0": "classé sans infarctus",
+        "thresholds.labelled.1": "classé infarctus",
+        "thresholds.box": (
+            "infarctus manqués  {missed}\nfausses alertes  {alarms}\nrenvois  {deferred}"
+        ),
         "thresholds.ylabel": "% de la classe",
-        "thresholds.xlabel": "score du modèle pour l'IDM",
+        "thresholds.xlabel": "score du modèle pour l'infarctus",
         "thresholds.note.rates": (
-            "IDM manqués : part des IDM classés sans IDM, seul diagnostic rendu.   "
-            "Fausses alertes : part des cas sans IDM classés IDM."
+            "Manqués : part des infarctus classés sans infarctus, seul diagnostic rendu.   "
+            "Fausses alertes : part des cas sans infarctus classés infarctus."
         ),
         "thresholds.note.deferred": (
             "Renvois : part de tous les tracés qui reçoivent les deux diagnostics ou "
@@ -145,17 +175,44 @@ WORDS: dict[str, dict[str, str]] = {
             "Les histogrammes montrent tout le pli 10 ; les taux sont des moyennes sur "
             "les moitiés de test."
         ),
-        "outcomes.panel.1": "Cas d'IDM ({n} en moyenne par tirage)",
-        "outcomes.panel.0": "Cas sans IDM ({n} en moyenne par tirage)",
+        "outcomes.panel.1": "Cas d'infarctus ({n} en moyenne par tirage)",
+        "outcomes.panel.0": "Cas sans infarctus ({n} en moyenne par tirage)",
         "outcomes.xlabel": "part des cas portant ce diagnostic (%)",
         "outcome.correct": "bon diagnostic rendu",
         "outcome.deferred": "renvoyé à un spécialiste",
         "outcome.wrong": "mauvais diagnostic rendu",
         "outcomes.note": (
             "PTB-XL, pli 10, {draws} tirages de calibration par patient.\nLe seuil unique et "
-            "la calibration par classe manquent environ {matched} des IDM, par construction ; "
+            "la calibration par classe manquent environ {matched} des infarctus, par "
+            "construction ; "
             "la calibration commune n'est alignée sur aucun des deux et en manque {pooled}."
         ),
+        "rotation.label.NSR": "rythme\nsinusal",
+        "rotation.label.AF": "fibrillation\natriale",
+        "rotation.label.LBBB": "bloc de\nbranche\ngauche",
+        "rotation.label.RBBB": "bloc de\nbranche\ndroite",
+        "rotation.label.IAVB": "bloc AV\ndu 1er degré",
+        "source.ptbxl": "PTB-XL",
+        "source.sph": "Shandong",
+        "source.chapman_ningbo": "Chapman et Ningbo",
+        "source.georgia": "Géorgie",
+        "source.cpsc": "CPSC",
+        "rotation.ylabel": "couverture du diagnostic au niveau de {level}",
+        "rotation.legend.home": "la source sur ses propres tracés mis de côté",
+        "rotation.legend.infinite": (
+            "seuil infini sur certains tirages : couvre en admettant les deux diagnostics"
+        ),
+        "rotation.legend.mean": "moyenne des paires source-cible, écart entre sources",
+        "rotation.pairs.range": "{low} à {high} paires ordonnées",
+        "rotation.pairs.one": "{n} paires ordonnées",
+        "rotation.title": (
+            "Cinq sources, {pairs} par diagnostic, {draws} tirages de calibration, score {score}"
+        ),
+        "family.recalibrated": "recalibrée sur les seuls tracés de la cible",
+        "family.pooled": "tracés de la cible ajoutés à la moitié de calibration de la source",
+        "target.xlabel": "tracés étiquetés de la cible vus par le seuil",
+        "target.label.infarction": "infarctus",
+        "target.title": "{source} vers {target}, {label}, {draws} tirages, score {score}",
     },
 }
 
