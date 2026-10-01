@@ -289,8 +289,8 @@ for PTB-XL+.
 No raw tracing is redistributed here, but the repository is not free of corpus
 data either. `results/baseline/scores.npz` and `results/external/*.npz` carry
 one row per record, holding the record identifier, its label and its model
-score, for 45,923 records across the three corpora. That is derived data under each
-corpus's licence and joinable against the public patient tables. PTB-XL is
+score, for 45,923 records across the three corpora. That is derived data under
+each corpus's licence and joinable against the public patient tables. PTB-XL is
 CC BY 4.0, which requires attribution: cite Wagner et al. 2020
 (doi:10.1038/s41597-020-0495-6), the PhysioNet resource
 (doi:10.13026/kfzx-aw45) and PhysioNet itself (Goldberger et al., Circulation
