@@ -205,7 +205,7 @@ uv run python scripts/subgroups.py       # rebuilds results/subgroups.json, 23 s
 
 Timings are wall clock on a six-core i7-8700, CPU only. The full suite on a
 cold clone, where every test module is imported for the first time, took 28
-minutes at the first release. A clone without the corpora skips the
+minutes. A clone without the corpora skips the
 corpus-backed tests and finishes much sooner, as measured below.
 
 The corpora themselves are only needed to re-score from the raw tracings,
