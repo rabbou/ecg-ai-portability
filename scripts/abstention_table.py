@@ -1,10 +1,10 @@
 """How often the model declines to answer, and at what confidence.
 
-Reads the fold-10 scores the baseline left behind and turns them into the table
-the abstention table: for each confidence level, how often the
-prediction set holds one label, both, or neither, and how often it holds the
-true one -- each as a mean over at least a hundred calibration/test re-draws
-with its spread, and separately for infarction and not.
+Reads the fold-10 scores the baseline left behind and turns them into the
+abstention table: for each confidence level, how often the prediction set holds
+one label, both, or neither, and how often it holds the true one -- each as a
+mean over at least a hundred calibration/test re-draws with its spread, and
+separately for infarction and not.
 
 The re-draw is over patients, not records, so the patient identifiers come
 from PTB-XL's own database table rather than from the score file.
