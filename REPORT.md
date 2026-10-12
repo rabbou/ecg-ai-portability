@@ -1,6 +1,6 @@
 # Predicting an ECG model's positive predictive value from a clinic's prevalence: a retrospective measurement across hospitals and care settings
 
-Ruben Abbou · October 2026
+Ruben Abbou · September 2026
 
 ## Abstract
 

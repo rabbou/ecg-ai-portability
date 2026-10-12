@@ -1,6 +1,6 @@
 # Prédire la valeur prédictive positive d'un modèle ECG à partir de la prévalence d'un centre : une mesure rétrospective entre hôpitaux et lieux de soins
 
-Ruben Abbou · octobre 2026
+Ruben Abbou · septembre 2026
 
 Traduction française de [REPORT.md](REPORT.md). Le supplément, [SUPPLEMENT.md](SUPPLEMENT.md), est en anglais.
 
