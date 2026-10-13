@@ -1,6 +1,5 @@
 data/
 results/*
-!results/README.md
 !results/timing.json
 !results/baseline.json
 !results/timing_esprimo.json

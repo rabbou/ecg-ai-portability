@@ -1,6 +1,6 @@
 # Results
 
-Every number and figure the article prints is redrawn from the files in this folder. Each file below is written by one script in `scripts/`; the first line of that script's docstring says what it measures. `tests/test_provenance.py` pins each file to the commit that holds its code.
+Every number and figure the article prints is redrawn from the files in `results/`. Each file below is written by one script in `scripts/`; the first line of that script's docstring says what it measures. `tests/test_provenance.py` pins each file to the commit that holds its code.
 
 ## Files by script
 
