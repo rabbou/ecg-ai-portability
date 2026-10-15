@@ -4640,63 +4640,63 @@
             "mean_predicted": 0.26389716630538396,
             "brier": 0.1176277235674655,
             "slope": 0.7849265510035488,
-            "intercept": -0.20108010608665913
+            "intercept": -0.2010801060866592
           },
           "lvwt_gte_13_flag": {
             "prevalence": 0.21924648206990469,
             "mean_predicted": 0.2140272632189462,
             "brier": 0.15754067675657404,
-            "slope": 0.6164882897503483,
-            "intercept": 0.039751514366103524
+            "slope": 0.6164882897503484,
+            "intercept": 0.03975151436610348
           },
           "aortic_stenosis_moderate_or_greater_flag": {
             "prevalence": 0.06400363141171131,
             "mean_predicted": 0.04085252839869048,
             "brier": 0.05299358833184815,
-            "slope": 1.0731090670230947,
-            "intercept": 0.528573418580336
+            "slope": 1.0731090670230943,
+            "intercept": 0.5285734185803361
           },
           "aortic_regurgitation_moderate_or_greater_flag": {
             "prevalence": 0.014979573309123922,
             "mean_predicted": 0.010040318035485657,
             "brier": 0.014671873661564815,
-            "slope": 0.6251350266457046,
-            "intercept": 0.41199443697635146
+            "slope": 0.6251350266457035,
+            "intercept": 0.4119944369763517
           },
           "mitral_regurgitation_moderate_or_greater_flag": {
             "prevalence": 0.07852927825692238,
             "mean_predicted": 0.12036878906238589,
             "brier": 0.06849550017016226,
-            "slope": 0.8675397391370507,
-            "intercept": -0.5618552111664535
+            "slope": 0.8675397391370506,
+            "intercept": -0.5618552111664534
           },
           "tricuspid_regurgitation_moderate_or_greater_flag": {
             "prevalence": 0.08306854289605084,
             "mean_predicted": 0.1292003626334665,
             "brier": 0.07171829421796073,
-            "slope": 0.8432086236598167,
+            "slope": 0.8432086236598165,
             "intercept": -0.6111383881177921
           },
           "pulmonary_regurgitation_moderate_or_greater_flag": {
             "prevalence": 0.006354970494779845,
             "mean_predicted": 0.005804731172051869,
             "brier": 0.006253134336659192,
-            "slope": 0.7470226776120875,
-            "intercept": 0.09349294613720488
+            "slope": 0.7470226776120883,
+            "intercept": 0.09349294613720456
           },
           "rv_systolic_dysfunction_moderate_or_greater_flag": {
             "prevalence": 0.11166591012256015,
             "mean_predicted": 0.13778857118973262,
             "brier": 0.07955826924700683,
-            "slope": 0.761366188382,
+            "slope": 0.7613661883819999,
             "intercept": -0.3633988318043667
           },
           "pericardial_effusion_moderate_large_flag": {
             "prevalence": 0.020426690876078075,
             "mean_predicted": 0.023417302542644576,
             "brier": 0.02073568556839242,
-            "slope": 0.6009635982984286,
-            "intercept": -0.15031565660973933
+            "slope": 0.600963598298428,
+            "intercept": -0.15031565660973847
           },
           "pasp_gte_45_flag": {
             "prevalence": 0.15705855651384476,
@@ -4709,15 +4709,15 @@
             "prevalence": 0.08216068996822515,
             "mean_predicted": 0.13526848190452137,
             "brier": 0.08088556166181768,
-            "slope": 0.5518399398296059,
+            "slope": 0.5518399398296057,
             "intercept": -0.6680584269598008
           },
           "shd_moderate_or_greater_flag": {
             "prevalence": 0.5247389922832502,
             "mean_predicted": 0.5617282914663181,
             "brier": 0.17994259817915675,
-            "slope": 0.7420024403079829,
-            "intercept": -0.25124495917436185
+            "slope": 0.742002440307983,
+            "intercept": -0.2512449591743619
           }
         },
         "emergency": {
@@ -4725,64 +4725,64 @@
             "prevalence": 0.15728056823947234,
             "mean_predicted": 0.17460729574200137,
             "brier": 0.08057940169463747,
-            "slope": 0.9294394021348049,
-            "intercept": -0.222444052305373
+            "slope": 0.9294394021348048,
+            "intercept": -0.2224440523053729
           },
           "lvwt_gte_13_flag": {
             "prevalence": 0.19888381532217148,
             "mean_predicted": 0.167738229508017,
             "brier": 0.13201807804583757,
-            "slope": 0.7789047857025033,
-            "intercept": 0.2831318179115582
+            "slope": 0.7789047857025032,
+            "intercept": 0.2831318179115583
           },
           "aortic_stenosis_moderate_or_greater_flag": {
             "prevalence": 0.0334855403348554,
             "mean_predicted": 0.0373208597700012,
             "brier": 0.03276517438749618,
-            "slope": 0.5777237176765753,
-            "intercept": -0.12437255875682071
+            "slope": 0.5777237176765748,
+            "intercept": -0.12437255875682052
           },
           "aortic_regurgitation_moderate_or_greater_flag": {
             "prevalence": 0.012683916793505834,
             "mean_predicted": 0.008038018761225993,
             "brier": 0.012261966080638604,
-            "slope": 0.9146213287889954,
-            "intercept": 0.47036437973400663
+            "slope": 0.9146213287889952,
+            "intercept": 0.4703643797340069
           },
           "mitral_regurgitation_moderate_or_greater_flag": {
             "prevalence": 0.06037544393708777,
             "mean_predicted": 0.09185217183509384,
             "brier": 0.05009766347442247,
-            "slope": 0.9861438768246475,
+            "slope": 0.9861438768246472,
             "intercept": -0.544963101080321
           },
           "tricuspid_regurgitation_moderate_or_greater_flag": {
             "prevalence": 0.06646372399797057,
             "mean_predicted": 0.09425494886114003,
             "brier": 0.0527321418798487,
-            "slope": 0.9829619818119838,
-            "intercept": -0.48654431615793187
+            "slope": 0.9829619818119835,
+            "intercept": -0.48654431615793164
           },
           "pulmonary_regurgitation_moderate_or_greater_flag": {
             "prevalence": 0.0030441400304414,
             "mean_predicted": 0.0037613292898137363,
             "brier": 0.0028908342757152923,
-            "slope": 1.0676637197296857,
-            "intercept": -0.2167828408725985
+            "slope": 1.067663719729692,
+            "intercept": -0.21678284087260102
           },
           "rv_systolic_dysfunction_moderate_or_greater_flag": {
             "prevalence": 0.07356671740233384,
             "mean_predicted": 0.08329194219129286,
             "brier": 0.04854853450779043,
-            "slope": 0.9434041751287027,
-            "intercept": -0.2069561798058298
+            "slope": 0.9434041751287026,
+            "intercept": -0.20695617980582975
           },
           "pericardial_effusion_moderate_large_flag": {
             "prevalence": 0.009639776763064434,
             "mean_predicted": 0.01349546521682543,
             "brier": 0.009821800325997535,
             "slope": 0.7098687292941632,
-            "intercept": -0.35713931202448645
+            "intercept": -0.357139312024486
           },
           "pasp_gte_45_flag": {
             "prevalence": 0.13952308472856417,
@@ -4795,15 +4795,15 @@
             "prevalence": 0.0745814307458143,
             "mean_predicted": 0.10031760556431883,
             "brier": 0.06715394656143024,
-            "slope": 0.6253264981697433,
-            "intercept": -0.41077437405315403
+            "slope": 0.6253264981697431,
+            "intercept": -0.41077437405315415
           },
           "shd_moderate_or_greater_flag": {
             "prevalence": 0.3997970573313039,
             "mean_predicted": 0.43328612998037214,
             "brier": 0.1614669775847003,
             "slope": 0.795261835956674,
-            "intercept": -0.2404704748086126
+            "intercept": -0.24047047480861267
           }
         },
         "outpatient": {
@@ -4811,43 +4811,43 @@
             "prevalence": 0.06610009442870633,
             "mean_predicted": 0.09595358849839924,
             "brier": 0.042458983011481675,
-            "slope": 1.045066756804336,
+            "slope": 1.0450667568043357,
             "intercept": -0.6385952192230553
           },
           "lvwt_gte_13_flag": {
             "prevalence": 0.13786591123701605,
             "mean_predicted": 0.12050469643374812,
             "brier": 0.09916400976818977,
-            "slope": 0.7489459602732347,
-            "intercept": 0.20577159102605835
+            "slope": 0.7489459602732346,
+            "intercept": 0.2057715910260583
           },
           "aortic_stenosis_moderate_or_greater_flag": {
             "prevalence": 0.04815864022662889,
             "mean_predicted": 0.029080912725853964,
             "brier": 0.03971621552333835,
             "slope": 1.2395710855619715,
-            "intercept": 0.5960175528966052
+            "intercept": 0.5960175528966054
           },
           "aortic_regurgitation_moderate_or_greater_flag": {
             "prevalence": 0.003777148253068933,
             "mean_predicted": 0.004998523002406497,
             "brier": 0.0037316048814380657,
-            "slope": 1.3410395545250902,
-            "intercept": -0.28442728063730743
+            "slope": 1.341039554525097,
+            "intercept": -0.2844272806373089
           },
           "mitral_regurgitation_moderate_or_greater_flag": {
             "prevalence": 0.028328611898016998,
             "mean_predicted": 0.050935799216887206,
             "brier": 0.028771010456334047,
-            "slope": 0.7061359411335552,
-            "intercept": -0.6873309539992289
+            "slope": 0.7061359411335547,
+            "intercept": -0.6873309539992287
           },
           "tricuspid_regurgitation_moderate_or_greater_flag": {
             "prevalence": 0.024551463644948063,
             "mean_predicted": 0.04910376862980288,
             "brier": 0.023704584044393802,
-            "slope": 0.9145360627619713,
-            "intercept": -0.858145399236872
+            "slope": 0.9145360627619714,
+            "intercept": -0.8581453992368718
           },
           "pulmonary_regurgitation_moderate_or_greater_flag": {
             "prevalence": 0.0,
@@ -4860,35 +4860,35 @@
             "prevalence": 0.018885741265344664,
             "mean_predicted": 0.037076542056914255,
             "brier": 0.01754983562768259,
-            "slope": 0.893801326182054,
-            "intercept": -0.9063068380727253
+            "slope": 0.8938013261820539,
+            "intercept": -0.9063068380727252
           },
           "pericardial_effusion_moderate_large_flag": {
             "prevalence": 0.0018885741265344666,
             "mean_predicted": 0.006802526007584939,
             "brier": 0.0015651336176715457,
-            "slope": 2.190623155476985,
-            "intercept": -1.3100120131375845
+            "slope": 2.190623155476994,
+            "intercept": -1.3100120131375892
           },
           "pasp_gte_45_flag": {
             "prevalence": 0.059490084985835696,
             "mean_predicted": 0.09819775893706019,
             "brier": 0.05366250684959825,
-            "slope": 0.7810864090841592,
+            "slope": 0.781086409084159,
             "intercept": -0.6671579571103592
           },
           "tr_max_gte_32_flag": {
             "prevalence": 0.033050047214353166,
             "mean_predicted": 0.05026336086430556,
             "brier": 0.030506538771686662,
-            "slope": 0.75405117389172,
+            "slope": 0.7540511738917196,
             "intercept": -0.5317061954780694
           },
           "shd_moderate_or_greater_flag": {
             "prevalence": 0.2559017941454202,
             "mean_predicted": 0.30777501516796935,
             "brier": 0.13822500152133713,
-            "slope": 0.8156629685295852,
+            "slope": 0.8156629685295853,
             "intercept": -0.4070094208267744
           }
         }
@@ -6104,7 +6104,7 @@
               "coverage_pos_p90": 0.8925925925925926,
               "coverage_neg_mean": 0.9050480769230769,
               "share_all_flagged": 0.0,
-              "abs_intercept_mean": 0.22395621285672007,
+              "abs_intercept_mean": 0.22395621285672004,
               "n_eval": 1102,
               "n_eval_pos": 270
             },
@@ -6128,7 +6128,7 @@
               "coverage_pos_p90": 1.0,
               "coverage_neg_mean": 0.9254747596153847,
               "share_all_flagged": 0.13,
-              "abs_intercept_mean": 0.4516202407843119,
+              "abs_intercept_mean": 0.45162024078431173,
               "n_eval": 1102,
               "n_eval_pos": 270
             },
@@ -6202,7 +6202,7 @@
               "coverage_pos_p90": 0.9864406779661017,
               "coverage_neg_mean": 0.925068359375,
               "share_all_flagged": 0.0,
-              "abs_intercept_mean": 0.30878321895790983,
+              "abs_intercept_mean": 0.3087832189579099,
               "n_eval": 1102,
               "n_eval_pos": 590
             },
@@ -6302,7 +6302,7 @@
               "coverage_pos_p90": 0.954248366013072,
               "coverage_neg_mean": 0.8906182472989195,
               "share_all_flagged": 0.0,
-              "abs_intercept_mean": 0.18711980345944565,
+              "abs_intercept_mean": 0.1871198034594456,
               "n_eval": 986,
               "n_eval_pos": 153
             },
@@ -6328,7 +6328,7 @@
               "coverage_pos_p90": 0.85995085995086,
               "coverage_neg_mean": 0.9430051813471503,
               "share_all_flagged": 0.0,
-              "abs_intercept_mean": 0.18441456061160014,
+              "abs_intercept_mean": 0.1844145606116001,
               "n_eval": 986,
               "n_eval_pos": 407
             },
@@ -6352,7 +6352,7 @@
               "coverage_pos_p90": 0.9975429975429976,
               "coverage_neg_mean": 0.9194905008635579,
               "share_all_flagged": 0.0,
-              "abs_intercept_mean": 0.30867032069620487,
+              "abs_intercept_mean": 0.3086703206962049,
               "n_eval": 986,
               "n_eval_pos": 407
             },
@@ -6376,7 +6376,7 @@
               "coverage_pos_p90": 0.9434889434889435,
               "coverage_neg_mean": 0.9145336787564767,
               "share_all_flagged": 0.0,
-              "abs_intercept_mean": 0.1753630784365122,
+              "abs_intercept_mean": 0.17536307843651217,
               "n_eval": 986,
               "n_eval_pos": 407
             },
@@ -6404,7 +6404,7 @@
               "coverage_pos_p90": 0.8125,
               "coverage_neg_mean": 0.9759036144578314,
               "share_all_flagged": 0.0,
-              "abs_intercept_mean": 0.6138021459366839,
+              "abs_intercept_mean": 0.6138021459366837,
               "n_eval": 530,
               "n_eval_pos": 32
             },
@@ -6428,7 +6428,7 @@
               "coverage_pos_p90": 1.0,
               "coverage_neg_mean": 0.9214056224899599,
               "share_all_flagged": 1.0,
-              "abs_intercept_mean": 0.5913289557132707,
+              "abs_intercept_mean": 0.5913289557132708,
               "n_eval": 530,
               "n_eval_pos": 32
             },
@@ -6452,7 +6452,7 @@
               "coverage_pos_p90": 1.0,
               "coverage_neg_mean": 0.9087550200803213,
               "share_all_flagged": 0.03,
-              "abs_intercept_mean": 0.23550842861313298,
+              "abs_intercept_mean": 0.23550842861313293,
               "n_eval": 530,
               "n_eval_pos": 32
             },
@@ -6478,7 +6478,7 @@
               "coverage_pos_p90": 0.6934306569343066,
               "coverage_neg_mean": 0.9745547073791349,
               "share_all_flagged": 0.0,
-              "abs_intercept_mean": 0.37342278408163326,
+              "abs_intercept_mean": 0.3734227840816333,
               "n_eval": 530,
               "n_eval_pos": 137
             },
@@ -6514,7 +6514,7 @@
               "coverage_pos_p90": 0.9927007299270073,
               "coverage_neg_mean": 0.9050127226463104,
               "share_all_flagged": 0.0,
-              "abs_intercept_mean": 0.2373546672965738,
+              "abs_intercept_mean": 0.2373546672965739,
               "n_eval": 530,
               "n_eval_pos": 137
             },
@@ -6526,7 +6526,7 @@
               "coverage_pos_p90": 0.9562043795620438,
               "coverage_neg_mean": 0.9011959287531804,
               "share_all_flagged": 0.0,
-              "abs_intercept_mean": 0.16034527502613227,
+              "abs_intercept_mean": 0.16034527502613222,
               "n_eval": 530,
               "n_eval_pos": 137
             },
@@ -6538,7 +6538,7 @@
               "coverage_pos_p90": 0.9197080291970803,
               "coverage_neg_mean": 0.900470737913486,
               "share_all_flagged": 0.0,
-              "abs_intercept_mean": 0.0839894990688642,
+              "abs_intercept_mean": 0.08398949906886419,
               "n_eval": 530,
               "n_eval_pos": 137
             }
@@ -10980,84 +10980,84 @@
             "mean_predicted": 0.2572642934700551,
             "brier": 0.13651354543324465,
             "slope": 0.9551507078602545,
-            "intercept": -0.09931973818725331
+            "intercept": -0.09931973818725334
           },
           "lvwt_gte_13_flag": {
             "prevalence": 0.21924648206990469,
             "mean_predicted": 0.2529275257823565,
             "brier": 0.1555720598847173,
             "slope": 0.9058630858932126,
-            "intercept": -0.2121966739664068
+            "intercept": -0.21219667396640682
           },
           "aortic_stenosis_moderate_or_greater_flag": {
             "prevalence": 0.06400363141171131,
             "mean_predicted": 0.0433354144611557,
             "brier": 0.05559940221672283,
-            "slope": 1.1136514112530673,
-            "intercept": 0.4469528546705935
+            "slope": 1.1136514112530675,
+            "intercept": 0.4469528546705936
           },
           "aortic_regurgitation_moderate_or_greater_flag": {
             "prevalence": 0.014979573309123922,
             "mean_predicted": 0.013395671381681051,
             "brier": 0.015203606196223731,
-            "slope": 0.16255616954042412,
-            "intercept": 0.11876153844752887
+            "slope": 0.1625561695404227,
+            "intercept": 0.11876153844752989
           },
           "mitral_regurgitation_moderate_or_greater_flag": {
             "prevalence": 0.07852927825692238,
             "mean_predicted": 0.09139280059988705,
             "brier": 0.07042858737662999,
-            "slope": 0.7479805609476275,
-            "intercept": -0.18817315798848436
+            "slope": 0.7479805609476278,
+            "intercept": -0.18817315798848439
           },
           "tricuspid_regurgitation_moderate_or_greater_flag": {
             "prevalence": 0.08306854289605084,
             "mean_predicted": 0.11265065614662513,
             "brier": 0.07506357756165388,
-            "slope": 0.7939472090768135,
-            "intercept": -0.38119117277907044
+            "slope": 0.7939472090768132,
+            "intercept": -0.3811911727790704
           },
           "pulmonary_regurgitation_moderate_or_greater_flag": {
             "prevalence": 0.006354970494779845,
             "mean_predicted": 0.008339255160581925,
             "brier": 0.006536469982146323,
-            "slope": 0.742819903134508,
-            "intercept": -0.2900369867618017
+            "slope": 0.742819903134509,
+            "intercept": -0.29003698676180173
           },
           "rv_systolic_dysfunction_moderate_or_greater_flag": {
             "prevalence": 0.11166591012256015,
             "mean_predicted": 0.1370634733565514,
             "brier": 0.08439113547072474,
-            "slope": 0.9423622361745172,
-            "intercept": -0.286640012815197
+            "slope": 0.942362236174517,
+            "intercept": -0.28664001281519697
           },
           "pericardial_effusion_moderate_large_flag": {
             "prevalence": 0.020426690876078075,
             "mean_predicted": 0.029884382491338,
             "brier": 0.020649329547669917,
-            "slope": 0.6339623157484011,
-            "intercept": -0.40519826096887307
+            "slope": 0.6339623157484001,
+            "intercept": -0.40519826096887257
           },
           "pasp_gte_45_flag": {
             "prevalence": 0.15705855651384476,
             "mean_predicted": 0.19561444403949485,
             "brier": 0.12741779912716208,
-            "slope": 0.8080835355483207,
-            "intercept": -0.2945052138758059
+            "slope": 0.8080835355483206,
+            "intercept": -0.294505213875806
           },
           "tr_max_gte_32_flag": {
             "prevalence": 0.08216068996822515,
             "mean_predicted": 0.10686679589306353,
             "brier": 0.07411590442194285,
             "slope": 0.8461490245949013,
-            "intercept": -0.3132181268336492
+            "intercept": -0.31321812683364925
           },
           "shd_moderate_or_greater_flag": {
             "prevalence": 0.5247389922832502,
             "mean_predicted": 0.5455048381572034,
             "brier": 0.1920132790698964,
             "slope": 0.9829439315432049,
-            "intercept": -0.10756613764352707
+            "intercept": -0.1075661376435271
           }
         },
         "emergency": {
@@ -11066,77 +11066,77 @@
             "mean_predicted": 0.19882970990023408,
             "brier": 0.09988258608011677,
             "slope": 0.9585973288384092,
-            "intercept": -0.3921600134934257
+            "intercept": -0.3921600134934258
           },
           "lvwt_gte_13_flag": {
             "prevalence": 0.19888381532217148,
             "mean_predicted": 0.21507266873540096,
             "brier": 0.1394613072528266,
             "slope": 1.043296643283196,
-            "intercept": -0.1127920019605701
+            "intercept": -0.1127920019605702
           },
           "aortic_stenosis_moderate_or_greater_flag": {
             "prevalence": 0.0334855403348554,
             "mean_predicted": 0.037580664033609726,
             "brier": 0.03308982805812162,
-            "slope": 0.5932228241662717,
-            "intercept": -0.13126700449717377
+            "slope": 0.5932228241662713,
+            "intercept": -0.13126700449717335
           },
           "aortic_regurgitation_moderate_or_greater_flag": {
             "prevalence": 0.012683916793505834,
             "mean_predicted": 0.012000082972830669,
             "brier": 0.012961494472560025,
-            "slope": 0.6166754970916403,
-            "intercept": 0.05922372017707382
+            "slope": 0.6166754970916394,
+            "intercept": 0.05922372017707458
           },
           "mitral_regurgitation_moderate_or_greater_flag": {
             "prevalence": 0.06037544393708777,
             "mean_predicted": 0.07826026903805836,
             "brier": 0.05052637566216599,
             "slope": 1.0870471070475471,
-            "intercept": -0.31452782816390884
+            "intercept": -0.3145278281639088
           },
           "tricuspid_regurgitation_moderate_or_greater_flag": {
             "prevalence": 0.06646372399797057,
             "mean_predicted": 0.08743285857727406,
             "brier": 0.05624117982425248,
-            "slope": 1.1383206696598467,
-            "intercept": -0.33055948335194235
+            "slope": 1.1383206696598465,
+            "intercept": -0.33055948335194224
           },
           "pulmonary_regurgitation_moderate_or_greater_flag": {
             "prevalence": 0.0030441400304414,
             "mean_predicted": 0.006143301734944824,
             "brier": 0.0032763310903292193,
-            "slope": 0.9067145012040929,
-            "intercept": -0.7530564501951394
+            "slope": 0.9067145012040947,
+            "intercept": -0.7530564501951412
           },
           "rv_systolic_dysfunction_moderate_or_greater_flag": {
             "prevalence": 0.07356671740233384,
             "mean_predicted": 0.10043710923475133,
             "brier": 0.056432108415078,
             "slope": 1.0825236786392847,
-            "intercept": -0.4117227568070541
+            "intercept": -0.41172275680705406
           },
           "pericardial_effusion_moderate_large_flag": {
             "prevalence": 0.009639776763064434,
             "mean_predicted": 0.020774938285107663,
             "brier": 0.009879932969169416,
-            "slope": 0.7797341273347558,
-            "intercept": -0.7945509219708443
+            "slope": 0.779734127334755,
+            "intercept": -0.7945509219708433
           },
           "pasp_gte_45_flag": {
             "prevalence": 0.13952308472856417,
             "mean_predicted": 0.1650009765651196,
             "brier": 0.10924105835753964,
             "slope": 1.0658873717254138,
-            "intercept": -0.21814637239271145
+            "intercept": -0.2181463723927115
           },
           "tr_max_gte_32_flag": {
             "prevalence": 0.0745814307458143,
             "mean_predicted": 0.08926494555882845,
             "brier": 0.06638596622298325,
-            "slope": 0.8947729981611536,
-            "intercept": -0.2103942349740563
+            "slope": 0.8947729981611534,
+            "intercept": -0.21039423497405632
           },
           "shd_moderate_or_greater_flag": {
             "prevalence": 0.3997970573313039,
@@ -11151,43 +11151,43 @@
             "prevalence": 0.06610009442870633,
             "mean_predicted": 0.13818398708340424,
             "brier": 0.055331486230849956,
-            "slope": 1.2502731015136528,
+            "slope": 1.2502731015136523,
             "intercept": -0.9634489821522363
           },
           "lvwt_gte_13_flag": {
             "prevalence": 0.13786591123701605,
             "mean_predicted": 0.1957250378315352,
             "brier": 0.10852244133022831,
-            "slope": 1.2443381039864334,
-            "intercept": -0.45937903047984746
+            "slope": 1.2443381039864336,
+            "intercept": -0.4593790304798475
           },
           "aortic_stenosis_moderate_or_greater_flag": {
             "prevalence": 0.04815864022662889,
             "mean_predicted": 0.039279460377342174,
             "brier": 0.042226626827423674,
-            "slope": 1.45082093334726,
-            "intercept": 0.22377448680694528
+            "slope": 1.4508209333472595,
+            "intercept": 0.2237744868069454
           },
           "aortic_regurgitation_moderate_or_greater_flag": {
             "prevalence": 0.003777148253068933,
             "mean_predicted": 0.009279183705044493,
             "brier": 0.0037497215562396426,
-            "slope": 1.501785726279025,
-            "intercept": -0.912313546739729
+            "slope": 1.5017857262790286,
+            "intercept": -0.912313546739728
           },
           "mitral_regurgitation_moderate_or_greater_flag": {
             "prevalence": 0.028328611898016998,
             "mean_predicted": 0.05732745268602871,
             "brier": 0.02827653834389719,
-            "slope": 1.0305701225791957,
-            "intercept": -0.7585281117895243
+            "slope": 1.0305701225791941,
+            "intercept": -0.7585281117895238
           },
           "tricuspid_regurgitation_moderate_or_greater_flag": {
             "prevalence": 0.024551463644948063,
             "mean_predicted": 0.06682714726863828,
             "brier": 0.025975473492919628,
-            "slope": 0.97309291285378,
-            "intercept": -1.0910082403783787
+            "slope": 0.9730929128537795,
+            "intercept": -1.091008240378378
           },
           "pulmonary_regurgitation_moderate_or_greater_flag": {
             "prevalence": 0.0,
@@ -11200,15 +11200,15 @@
             "prevalence": 0.018885741265344664,
             "mean_predicted": 0.07083465727692517,
             "brier": 0.022538543002522993,
-            "slope": 1.1419645995881114,
-            "intercept": -1.467611644274106
+            "slope": 1.1419645995881111,
+            "intercept": -1.4676116442741054
           },
           "pericardial_effusion_moderate_large_flag": {
             "prevalence": 0.0018885741265344666,
             "mean_predicted": 0.018550520350620575,
             "brier": 0.0021516240778929508,
-            "slope": 2.200929561707289,
-            "intercept": -2.323558631410567
+            "slope": 2.200929561707298,
+            "intercept": -2.323558631410571
           },
           "pasp_gte_45_flag": {
             "prevalence": 0.059490084985835696,
@@ -11221,8 +11221,8 @@
             "prevalence": 0.033050047214353166,
             "mean_predicted": 0.07036183930307317,
             "brier": 0.03308019572491075,
-            "slope": 1.08950919251344,
-            "intercept": -0.8167493621158425
+            "slope": 1.0895091925134395,
+            "intercept": -0.8167493621158421
           },
           "shd_moderate_or_greater_flag": {
             "prevalence": 0.2559017941454202,
@@ -12444,7 +12444,7 @@
               "coverage_pos_p90": 0.9111111111111111,
               "coverage_neg_mean": 0.9002403846153846,
               "share_all_flagged": 0.0,
-              "abs_intercept_mean": 0.12351003081220195,
+              "abs_intercept_mean": 0.12351003081220197,
               "n_eval": 1102,
               "n_eval_pos": 270
             },
@@ -12468,7 +12468,7 @@
               "coverage_pos_p90": 1.0,
               "coverage_neg_mean": 0.9222956730769232,
               "share_all_flagged": 0.13,
-              "abs_intercept_mean": 0.3491960144700944,
+              "abs_intercept_mean": 0.34919601447009435,
               "n_eval": 1102,
               "n_eval_pos": 270
             },
@@ -12542,7 +12542,7 @@
               "coverage_pos_p90": 0.9847457627118644,
               "coverage_neg_mean": 0.91142578125,
               "share_all_flagged": 0.0,
-              "abs_intercept_mean": 0.26061301263977743,
+              "abs_intercept_mean": 0.2606130126397774,
               "n_eval": 1102,
               "n_eval_pos": 590
             },
@@ -12594,7 +12594,7 @@
               "coverage_pos_p90": 0.8758169934640523,
               "coverage_neg_mean": 0.9255702280912365,
               "share_all_flagged": 0.0,
-              "abs_intercept_mean": 0.3977257447647103,
+              "abs_intercept_mean": 0.39772574476471034,
               "n_eval": 986,
               "n_eval_pos": 153
             },
@@ -12618,7 +12618,7 @@
               "coverage_pos_p90": 1.0,
               "coverage_neg_mean": 0.9055222088835535,
               "share_all_flagged": 0.55,
-              "abs_intercept_mean": 0.3583956352423542,
+              "abs_intercept_mean": 0.35839563524235407,
               "n_eval": 986,
               "n_eval_pos": 153
             },
@@ -12704,7 +12704,7 @@
               "coverage_pos_p90": 0.9606879606879607,
               "coverage_neg_mean": 0.9144645941278066,
               "share_all_flagged": 0.0,
-              "abs_intercept_mean": 0.2198180544626872,
+              "abs_intercept_mean": 0.21981805446268715,
               "n_eval": 986,
               "n_eval_pos": 407
             },
@@ -12728,7 +12728,7 @@
               "coverage_pos_p90": 0.9066339066339066,
               "coverage_neg_mean": 0.9152331606217616,
               "share_all_flagged": 0.0,
-              "abs_intercept_mean": 0.12019353865753243,
+              "abs_intercept_mean": 0.12019353865753246,
               "n_eval": 986,
               "n_eval_pos": 407
             }
@@ -12744,7 +12744,7 @@
               "coverage_pos_p90": 0.875,
               "coverage_neg_mean": 0.9738955823293173,
               "share_all_flagged": 0.0,
-              "abs_intercept_mean": 1.1130215790964995,
+              "abs_intercept_mean": 1.1130215790964992,
               "n_eval": 530,
               "n_eval_pos": 32
             },
@@ -12768,7 +12768,7 @@
               "coverage_pos_p90": 1.0,
               "coverage_neg_mean": 0.9087550200803213,
               "share_all_flagged": 1.0,
-              "abs_intercept_mean": 0.5177530342682369,
+              "abs_intercept_mean": 0.5177530342682367,
               "n_eval": 530,
               "n_eval_pos": 32
             },
@@ -12792,7 +12792,7 @@
               "coverage_pos_p90": 0.9375,
               "coverage_neg_mean": 0.8871285140562248,
               "share_all_flagged": 0.03,
-              "abs_intercept_mean": 0.31730166790212844,
+              "abs_intercept_mean": 0.3173016679021283,
               "n_eval": 530,
               "n_eval_pos": 32
             },
@@ -12804,7 +12804,7 @@
               "coverage_pos_p90": 0.9375,
               "coverage_neg_mean": 0.8846887550200804,
               "share_all_flagged": 0.0,
-              "abs_intercept_mean": 0.27750114368653056,
+              "abs_intercept_mean": 0.2775011436865305,
               "n_eval": 530,
               "n_eval_pos": 32
             }
@@ -12842,7 +12842,7 @@
               "coverage_pos_p90": 1.0,
               "coverage_neg_mean": 0.903206106870229,
               "share_all_flagged": 0.105,
-              "abs_intercept_mean": 0.3052267320605262,
+              "abs_intercept_mean": 0.30522673206052625,
               "n_eval": 530,
               "n_eval_pos": 137
             },
@@ -12866,7 +12866,7 @@
               "coverage_pos_p90": 0.8905109489051095,
               "coverage_neg_mean": 0.8921246819338422,
               "share_all_flagged": 0.0,
-              "abs_intercept_mean": 0.11915869189639496,
+              "abs_intercept_mean": 0.11915869189639498,
               "n_eval": 530,
               "n_eval_pos": 137
             },
@@ -12878,7 +12878,7 @@
               "coverage_pos_p90": 0.8759124087591241,
               "coverage_neg_mean": 0.8889058524173028,
               "share_all_flagged": 0.0,
-              "abs_intercept_mean": 0.05376829606701875,
+              "abs_intercept_mean": 0.05376829606701876,
               "n_eval": 530,
               "n_eval_pos": 137
             }
@@ -17332,56 +17332,56 @@
             "mean_predicted": 0.2502178455482284,
             "brier": 0.16103051031856552,
             "slope": 0.6926857721276237,
-            "intercept": -0.20972306612705874
+            "intercept": -0.20972306612705877
           },
           "aortic_stenosis_moderate_or_greater_flag": {
             "prevalence": 0.06400363141171131,
             "mean_predicted": 0.04664214813384068,
             "brier": 0.05352303121301639,
-            "slope": 0.7981786776679091,
-            "intercept": 0.4087522075494663
+            "slope": 0.7981786776679087,
+            "intercept": 0.4087522075494662
           },
           "aortic_regurgitation_moderate_or_greater_flag": {
             "prevalence": 0.014979573309123922,
             "mean_predicted": 0.013640783406799566,
             "brier": 0.016566287458532603,
-            "slope": 0.16318177156536048,
-            "intercept": 0.11185095669005438
+            "slope": 0.1631817715653602,
+            "intercept": 0.11185095669005427
           },
           "mitral_regurgitation_moderate_or_greater_flag": {
             "prevalence": 0.07852927825692238,
             "mean_predicted": 0.08982013360237008,
             "brier": 0.06699248999297915,
             "slope": 0.7884512168538959,
-            "intercept": -0.1765765166228763
+            "intercept": -0.17657651662287624
           },
           "tricuspid_regurgitation_moderate_or_greater_flag": {
             "prevalence": 0.08306854289605084,
             "mean_predicted": 0.11062554899916283,
             "brier": 0.07020888554690868,
-            "slope": 0.7648340541742187,
-            "intercept": -0.3952066614601396
+            "slope": 0.7648340541742186,
+            "intercept": -0.3952066614601395
           },
           "pulmonary_regurgitation_moderate_or_greater_flag": {
             "prevalence": 0.006354970494779845,
             "mean_predicted": 0.008413190302654246,
             "brier": 0.008127149379278976,
-            "slope": 0.2133377073986386,
-            "intercept": -0.3597040111612383
+            "slope": 0.2133377073986385,
+            "intercept": -0.3597040111612402
           },
           "rv_systolic_dysfunction_moderate_or_greater_flag": {
             "prevalence": 0.11166591012256015,
             "mean_predicted": 0.13732537911446868,
             "brier": 0.07989014375080762,
-            "slope": 0.8804752169068425,
-            "intercept": -0.32218443884131553
+            "slope": 0.8804752169068424,
+            "intercept": -0.3221844388413155
           },
           "pericardial_effusion_moderate_large_flag": {
             "prevalence": 0.020426690876078075,
             "mean_predicted": 0.028555004634141984,
             "brier": 0.022048151229002777,
-            "slope": 0.29781168091056637,
-            "intercept": -0.37722210429748515
+            "slope": 0.2978116809105662,
+            "intercept": -0.3772221042974847
           },
           "pasp_gte_45_flag": {
             "prevalence": 0.15705855651384476,
@@ -17394,15 +17394,15 @@
             "prevalence": 0.08216068996822515,
             "mean_predicted": 0.1036492586312099,
             "brier": 0.07551014437477396,
-            "slope": 0.5700485124618682,
-            "intercept": -0.2950163778768454
+            "slope": 0.5700485124618683,
+            "intercept": -0.29501637787684537
           },
           "shd_moderate_or_greater_flag": {
             "prevalence": 0.5247389922832502,
             "mean_predicted": 0.5519494330979752,
             "brier": 0.1819520232202639,
             "slope": 0.8754697817358512,
-            "intercept": -0.16197672273680608
+            "intercept": -0.1619767227368061
           }
         },
         "emergency": {
@@ -17411,83 +17411,83 @@
             "mean_predicted": 0.1770912312466263,
             "brier": 0.08544077026882617,
             "slope": 0.9794035535264116,
-            "intercept": -0.22661427287446487
+            "intercept": -0.2266142728744648
           },
           "lvwt_gte_13_flag": {
             "prevalence": 0.19888381532217148,
             "mean_predicted": 0.19969931402598531,
             "brier": 0.1333811217176863,
-            "slope": 0.9517685041013881,
-            "intercept": -0.006244875246479813
+            "slope": 0.9517685041013882,
+            "intercept": -0.006244875246479846
           },
           "aortic_stenosis_moderate_or_greater_flag": {
             "prevalence": 0.0334855403348554,
             "mean_predicted": 0.04195543656643079,
             "brier": 0.035686001519634254,
-            "slope": 0.44330404449882027,
-            "intercept": -0.2808850871427777
+            "slope": 0.44330404449882016,
+            "intercept": -0.2808850871427776
           },
           "aortic_regurgitation_moderate_or_greater_flag": {
             "prevalence": 0.012683916793505834,
             "mean_predicted": 0.011626802719586318,
             "brier": 0.01381921690803988,
-            "slope": 0.21147947400004785,
-            "intercept": 0.10254592967319892
+            "slope": 0.21147947400004755,
+            "intercept": 0.10254592967319881
           },
           "mitral_regurgitation_moderate_or_greater_flag": {
             "prevalence": 0.06037544393708777,
             "mean_predicted": 0.07071183301767836,
             "brier": 0.050277570240592956,
-            "slope": 0.8718011770240219,
-            "intercept": -0.20380373671061536
+            "slope": 0.8718011770240217,
+            "intercept": -0.2038037367106151
           },
           "tricuspid_regurgitation_moderate_or_greater_flag": {
             "prevalence": 0.06646372399797057,
             "mean_predicted": 0.08408584488926239,
             "brier": 0.057442399989617664,
-            "slope": 0.8116025842863919,
-            "intercept": -0.3186360666166838
+            "slope": 0.8116025842863916,
+            "intercept": -0.31863606661668376
           },
           "pulmonary_regurgitation_moderate_or_greater_flag": {
             "prevalence": 0.0030441400304414,
             "mean_predicted": 0.006826855775689112,
             "brier": 0.004555745875937334,
-            "slope": 0.3792787802468793,
-            "intercept": -1.0495987836146647
+            "slope": 0.3792787802468802,
+            "intercept": -1.0495987836146683
           },
           "rv_systolic_dysfunction_moderate_or_greater_flag": {
             "prevalence": 0.07356671740233384,
             "mean_predicted": 0.08939679703947614,
             "brier": 0.05055821992711977,
             "slope": 1.009499090339569,
-            "intercept": -0.29524646609100746
+            "intercept": -0.2952464660910073
           },
           "pericardial_effusion_moderate_large_flag": {
             "prevalence": 0.009639776763064434,
             "mean_predicted": 0.01892779544257474,
             "brier": 0.010185568558815585,
-            "slope": 0.5429765432061212,
-            "intercept": -0.7365356657346812
+            "slope": 0.542976543206121,
+            "intercept": -0.7365356657346811
           },
           "pasp_gte_45_flag": {
             "prevalence": 0.13952308472856417,
             "mean_predicted": 0.15587628758803032,
             "brier": 0.10396146439034976,
-            "slope": 0.8827745526508635,
-            "intercept": -0.15991460200608337
+            "slope": 0.8827745526508634,
+            "intercept": -0.15991460200608332
           },
           "tr_max_gte_32_flag": {
             "prevalence": 0.0745814307458143,
             "mean_predicted": 0.08440383232174085,
             "brier": 0.06591374268179287,
-            "slope": 0.7466371449249941,
-            "intercept": -0.15832536845705827
+            "slope": 0.7466371449249939,
+            "intercept": -0.15832536845705825
           },
           "shd_moderate_or_greater_flag": {
             "prevalence": 0.3997970573313039,
             "mean_predicted": 0.4322716989736382,
             "brier": 0.1627460795889419,
-            "slope": 0.9460920980456134,
+            "slope": 0.9460920980456136,
             "intercept": -0.20528155456690486
           }
         },
@@ -17496,43 +17496,43 @@
             "prevalence": 0.06610009442870633,
             "mean_predicted": 0.09671628377846653,
             "brier": 0.04368967136899583,
-            "slope": 1.1116121338621006,
-            "intercept": -0.5885327621637241
+            "slope": 1.1116121338621003,
+            "intercept": -0.5885327621637237
           },
           "lvwt_gte_13_flag": {
             "prevalence": 0.13786591123701605,
             "mean_predicted": 0.15701796871331206,
             "brier": 0.10273319026887037,
             "slope": 0.9759491682662195,
-            "intercept": -0.1816678311143078
+            "intercept": -0.18166783111430782
           },
           "aortic_stenosis_moderate_or_greater_flag": {
             "prevalence": 0.04815864022662889,
             "mean_predicted": 0.03592073646412742,
             "brier": 0.04075770429326549,
-            "slope": 1.0307645432127015,
-            "intercept": 0.36103056560204677
+            "slope": 1.0307645432127013,
+            "intercept": 0.3610305656020466
           },
           "aortic_regurgitation_moderate_or_greater_flag": {
             "prevalence": 0.003777148253068933,
             "mean_predicted": 0.00812570843074167,
             "brier": 0.004233193620260872,
-            "slope": 0.744425843986487,
-            "intercept": -0.8140503963658755
+            "slope": 0.7444258439864893,
+            "intercept": -0.8140503963658771
           },
           "mitral_regurgitation_moderate_or_greater_flag": {
             "prevalence": 0.028328611898016998,
             "mean_predicted": 0.03935757064115655,
             "brier": 0.02846052283437952,
-            "slope": 0.7135230192529625,
-            "intercept": -0.3771677807534909
+            "slope": 0.7135230192529626,
+            "intercept": -0.3771677807534905
           },
           "tricuspid_regurgitation_moderate_or_greater_flag": {
             "prevalence": 0.024551463644948063,
             "mean_predicted": 0.048491115118878186,
             "brier": 0.02551243702821824,
-            "slope": 0.8112378087795268,
-            "intercept": -0.8189550073125184
+            "slope": 0.8112378087795262,
+            "intercept": -0.8189550073125181
           },
           "pulmonary_regurgitation_moderate_or_greater_flag": {
             "prevalence": 0.0,
@@ -17545,35 +17545,35 @@
             "prevalence": 0.018885741265344664,
             "mean_predicted": 0.04646983590428616,
             "brier": 0.019101929764377495,
-            "slope": 0.9951036167020855,
-            "intercept": -1.0982822950627897
+            "slope": 0.9951036167020852,
+            "intercept": -1.0982822950627895
           },
           "pericardial_effusion_moderate_large_flag": {
             "prevalence": 0.0018885741265344666,
             "mean_predicted": 0.01203920653089084,
             "brier": 0.002114741497348122,
-            "slope": 1.6728280641715128,
-            "intercept": -1.8920559945640265
+            "slope": 1.6728280641715214,
+            "intercept": -1.8920559945640312
           },
           "pasp_gte_45_flag": {
             "prevalence": 0.059490084985835696,
             "mean_predicted": 0.10164260356427576,
             "brier": 0.05709790594060371,
-            "slope": 0.8130940403365376,
-            "intercept": -0.6613058640580669
+            "slope": 0.8130940403365378,
+            "intercept": -0.6613058640580668
           },
           "tr_max_gte_32_flag": {
             "prevalence": 0.033050047214353166,
             "mean_predicted": 0.05102025777859151,
             "brier": 0.032866446560336916,
-            "slope": 0.7923268267050783,
-            "intercept": -0.5042195706437138
+            "slope": 0.7923268267050779,
+            "intercept": -0.5042195706437134
           },
           "shd_moderate_or_greater_flag": {
             "prevalence": 0.2559017941454202,
             "mean_predicted": 0.31940806311633474,
             "brier": 0.14849835382142995,
-            "slope": 0.900837204083741,
+            "slope": 0.9008372040837411,
             "intercept": -0.4316168831545996
           }
         }
@@ -18801,7 +18801,7 @@
               "coverage_pos_p90": 1.0,
               "coverage_neg_mean": 0.9283653846153846,
               "share_all_flagged": 0.89,
-              "abs_intercept_mean": 0.5174370610502905,
+              "abs_intercept_mean": 0.5174370610502904,
               "n_eval": 1102,
               "n_eval_pos": 270
             },
@@ -18813,7 +18813,7 @@
               "coverage_pos_p90": 1.0,
               "coverage_neg_mean": 0.9141165865384616,
               "share_all_flagged": 0.13,
-              "abs_intercept_mean": 0.37888045475564874,
+              "abs_intercept_mean": 0.37888045475564863,
               "n_eval": 1102,
               "n_eval_pos": 270
             },
@@ -18825,7 +18825,7 @@
               "coverage_pos_p90": 0.9740740740740741,
               "coverage_neg_mean": 0.9074338942307691,
               "share_all_flagged": 0.0,
-              "abs_intercept_mean": 0.23961469099775162,
+              "abs_intercept_mean": 0.23961469099775157,
               "n_eval": 1102,
               "n_eval_pos": 270
             },
@@ -18863,7 +18863,7 @@
               "coverage_pos_p90": 0.9033898305084745,
               "coverage_neg_mean": 0.916015625,
               "share_all_flagged": 0.0,
-              "abs_intercept_mean": 0.1439607149161017,
+              "abs_intercept_mean": 0.14396071491610174,
               "n_eval": 1102,
               "n_eval_pos": 590
             },
@@ -18939,7 +18939,7 @@
               "coverage_pos_p90": 0.8496732026143791,
               "coverage_neg_mean": 0.936374549819928,
               "share_all_flagged": 0.0,
-              "abs_intercept_mean": 0.32837942459499436,
+              "abs_intercept_mean": 0.3283794245949943,
               "n_eval": 986,
               "n_eval_pos": 153
             },
@@ -18999,7 +18999,7 @@
               "coverage_pos_p90": 0.9803921568627451,
               "coverage_neg_mean": 0.8745198079231693,
               "share_all_flagged": 0.0,
-              "abs_intercept_mean": 0.2076089889305774,
+              "abs_intercept_mean": 0.20760898893057736,
               "n_eval": 986,
               "n_eval_pos": 153
             }
@@ -19049,7 +19049,7 @@
               "coverage_pos_p90": 0.9606879606879607,
               "coverage_neg_mean": 0.899853195164076,
               "share_all_flagged": 0.0,
-              "abs_intercept_mean": 0.20633126638704546,
+              "abs_intercept_mean": 0.2063312663870455,
               "n_eval": 986,
               "n_eval_pos": 407
             },
@@ -19061,7 +19061,7 @@
               "coverage_pos_p90": 0.9294840294840294,
               "coverage_neg_mean": 0.8993264248704662,
               "share_all_flagged": 0.0,
-              "abs_intercept_mean": 0.12851232935883108,
+              "abs_intercept_mean": 0.12851232935883103,
               "n_eval": 986,
               "n_eval_pos": 407
             },
@@ -19089,7 +19089,7 @@
               "coverage_pos_p90": 0.84375,
               "coverage_neg_mean": 0.9799196787148594,
               "share_all_flagged": 0.0,
-              "abs_intercept_mean": 0.6536179979707912,
+              "abs_intercept_mean": 0.653617997970791,
               "n_eval": 530,
               "n_eval_pos": 32
             },
@@ -19101,7 +19101,7 @@
               "coverage_pos_p90": 1.0,
               "coverage_neg_mean": 0.9122289156626506,
               "share_all_flagged": 1.0,
-              "abs_intercept_mean": 0.6188237974216712,
+              "abs_intercept_mean": 0.618823797421671,
               "n_eval": 530,
               "n_eval_pos": 32
             },
@@ -19113,7 +19113,7 @@
               "coverage_pos_p90": 1.0,
               "coverage_neg_mean": 0.9150301204819278,
               "share_all_flagged": 1.0,
-              "abs_intercept_mean": 0.5418631233938933,
+              "abs_intercept_mean": 0.5418631233938932,
               "n_eval": 530,
               "n_eval_pos": 32
             },
@@ -19125,7 +19125,7 @@
               "coverage_pos_p90": 1.0,
               "coverage_neg_mean": 0.8988755020080322,
               "share_all_flagged": 0.73,
-              "abs_intercept_mean": 0.35987577369626145,
+              "abs_intercept_mean": 0.3598757736962614,
               "n_eval": 530,
               "n_eval_pos": 32
             },
@@ -19137,7 +19137,7 @@
               "coverage_pos_p90": 1.0,
               "coverage_neg_mean": 0.9034939759036144,
               "share_all_flagged": 0.03,
-              "abs_intercept_mean": 0.24153657639188794,
+              "abs_intercept_mean": 0.24153657639188789,
               "n_eval": 530,
               "n_eval_pos": 32
             },
@@ -19163,7 +19163,7 @@
               "coverage_pos_p90": 0.708029197080292,
               "coverage_neg_mean": 0.9720101781170484,
               "share_all_flagged": 0.0,
-              "abs_intercept_mean": 0.4440653991190708,
+              "abs_intercept_mean": 0.44406539911907084,
               "n_eval": 530,
               "n_eval_pos": 137
             },
@@ -23676,50 +23676,50 @@
             "prevalence": 0.06400363141171131,
             "mean_predicted": 0.380872995747381,
             "brier": 0.1798125431688481,
-            "slope": 1.6021482144883676,
+            "slope": 1.6021482144883674,
             "intercept": -2.6355700487985874
           },
           "aortic_regurgitation_moderate_or_greater_flag": {
             "prevalence": 0.014979573309123922,
             "mean_predicted": 0.3975070843847635,
             "brier": 0.21100539141230912,
-            "slope": 0.6358676843726881,
-            "intercept": -4.157666028932981
+            "slope": 0.6358676843726876,
+            "intercept": -4.15766602893298
           },
           "mitral_regurgitation_moderate_or_greater_flag": {
             "prevalence": 0.07852927825692238,
             "mean_predicted": 0.41223009226271307,
             "brier": 0.21150253152981885,
-            "slope": 0.8823837923741146,
+            "slope": 0.8823837923741144,
             "intercept": -2.5905793347301396
           },
           "tricuspid_regurgitation_moderate_or_greater_flag": {
             "prevalence": 0.08306854289605084,
             "mean_predicted": 0.42463325522755474,
             "brier": 0.20826718878369432,
-            "slope": 0.9873100195048864,
+            "slope": 0.9873100195048863,
             "intercept": -2.54314587405962
           },
           "pulmonary_regurgitation_moderate_or_greater_flag": {
             "prevalence": 0.006354970494779845,
             "mean_predicted": 0.3402467930342375,
             "brier": 0.18266010139914532,
-            "slope": 0.8206476625738203,
+            "slope": 0.8206476625738216,
             "intercept": -5.126076919160561
           },
           "rv_systolic_dysfunction_moderate_or_greater_flag": {
             "prevalence": 0.11166591012256015,
             "mean_predicted": 0.41551884441478815,
             "brier": 0.19455787645946795,
-            "slope": 1.0660965868869003,
+            "slope": 1.0660965868869001,
             "intercept": -2.2692161999771834
           },
           "pericardial_effusion_moderate_large_flag": {
             "prevalence": 0.020426690876078075,
             "mean_predicted": 0.4604391883678237,
             "brier": 0.23894763365525715,
-            "slope": 1.1355826697829254,
-            "intercept": -3.984682618272785
+            "slope": 1.135582669782925,
+            "intercept": -3.9846826182727844
           },
           "pasp_gte_45_flag": {
             "prevalence": 0.15705855651384476,
@@ -23732,15 +23732,15 @@
             "prevalence": 0.08216068996822515,
             "mean_predicted": 0.43583640288282566,
             "brier": 0.22253787265702973,
-            "slope": 0.8325438156192967,
+            "slope": 0.8325438156192965,
             "intercept": -2.491488521128476
           },
           "shd_moderate_or_greater_flag": {
             "prevalence": 0.5247389922832502,
             "mean_predicted": 0.49304433275543447,
             "brier": 0.18442039358208964,
-            "slope": 0.9759990209648356,
-            "intercept": 0.1754390944838434
+            "slope": 0.9759990209648357,
+            "intercept": 0.17543909448384346
           }
         },
         "emergency": {
@@ -23762,36 +23762,36 @@
             "prevalence": 0.0334855403348554,
             "mean_predicted": 0.3266118336728817,
             "brier": 0.15971057700373822,
-            "slope": 0.942670699163516,
+            "slope": 0.9426706991635156,
             "intercept": -3.151997374423306
           },
           "aortic_regurgitation_moderate_or_greater_flag": {
             "prevalence": 0.012683916793505834,
             "mean_predicted": 0.32274032845140593,
             "brier": 0.16023315468191895,
-            "slope": 0.7048752837685873,
-            "intercept": -4.06750999335705
+            "slope": 0.7048752837685869,
+            "intercept": -4.067509993357049
           },
           "mitral_regurgitation_moderate_or_greater_flag": {
             "prevalence": 0.06037544393708777,
             "mean_predicted": 0.32293587037561083,
             "brier": 0.1514868651207061,
-            "slope": 1.0675394202412516,
+            "slope": 1.0675394202412514,
             "intercept": -2.5325814071021497
           },
           "tricuspid_regurgitation_moderate_or_greater_flag": {
             "prevalence": 0.06646372399797057,
             "mean_predicted": 0.33091575629302294,
             "brier": 0.14166383115327416,
-            "slope": 1.2312673633514415,
+            "slope": 1.2312673633514413,
             "intercept": -2.3751893260677077
           },
           "pulmonary_regurgitation_moderate_or_greater_flag": {
             "prevalence": 0.0030441400304414,
             "mean_predicted": 0.23443486167657562,
             "brier": 0.1113116548437828,
-            "slope": 1.225450547456102,
-            "intercept": -5.344706578268068
+            "slope": 1.225450547456109,
+            "intercept": -5.344706578268069
           },
           "rv_systolic_dysfunction_moderate_or_greater_flag": {
             "prevalence": 0.07356671740233384,
@@ -23805,28 +23805,28 @@
             "mean_predicted": 0.3913567362477004,
             "brier": 0.18122552063607522,
             "slope": 1.3487088195204964,
-            "intercept": -4.458862727573972
+            "intercept": -4.458862727573971
           },
           "pasp_gte_45_flag": {
             "prevalence": 0.13952308472856417,
             "mean_predicted": 0.36300003175911477,
             "brier": 0.16129276131129786,
             "slope": 1.0582558954339305,
-            "intercept": -1.5295817821141704
+            "intercept": -1.5295817821141706
           },
           "tr_max_gte_32_flag": {
             "prevalence": 0.0745814307458143,
             "mean_predicted": 0.3481870555115239,
             "brier": 0.1648842959264373,
-            "slope": 0.8641287064213069,
+            "slope": 0.8641287064213067,
             "intercept": -2.253573164596379
           },
           "shd_moderate_or_greater_flag": {
             "prevalence": 0.3997970573313039,
             "mean_predicted": 0.39018920763858317,
             "brier": 0.16483796574532122,
-            "slope": 1.0404928385820151,
-            "intercept": 0.05767966533759831
+            "slope": 1.0404928385820154,
+            "intercept": 0.05767966533759829
           }
         },
         "outpatient": {
@@ -23834,8 +23834,8 @@
             "prevalence": 0.06610009442870633,
             "mean_predicted": 0.2256888799770358,
             "brier": 0.08690416779421771,
-            "slope": 1.2581988070662828,
-            "intercept": -1.788945240020464
+            "slope": 1.2581988070662826,
+            "intercept": -1.7889452400204637
           },
           "lvwt_gte_13_flag": {
             "prevalence": 0.13786591123701605,
@@ -23848,29 +23848,29 @@
             "prevalence": 0.04815864022662889,
             "mean_predicted": 0.2828158116217868,
             "brier": 0.1163318424434352,
-            "slope": 1.6442893309275406,
-            "intercept": -2.4960710905755694
+            "slope": 1.6442893309275408,
+            "intercept": -2.496071090575569
           },
           "aortic_regurgitation_moderate_or_greater_flag": {
             "prevalence": 0.003777148253068933,
             "mean_predicted": 0.24423740501845356,
             "brier": 0.10318590465292243,
-            "slope": 0.9154969940766177,
-            "intercept": -4.8498178250151955
+            "slope": 0.915496994076622,
+            "intercept": -4.849817825015196
           },
           "mitral_regurgitation_moderate_or_greater_flag": {
             "prevalence": 0.028328611898016998,
             "mean_predicted": 0.22378394471849047,
             "brier": 0.09527860543937594,
-            "slope": 0.6847596870537469,
+            "slope": 0.6847596870537463,
             "intercept": -2.693980653648068
           },
           "tricuspid_regurgitation_moderate_or_greater_flag": {
             "prevalence": 0.024551463644948063,
             "mean_predicted": 0.22758021985195626,
             "brier": 0.08202569489995826,
-            "slope": 1.2158405760634292,
-            "intercept": -2.7997766201427825
+            "slope": 1.2158405760634288,
+            "intercept": -2.799776620142782
           },
           "pulmonary_regurgitation_moderate_or_greater_flag": {
             "prevalence": 0.0,
@@ -23883,28 +23883,28 @@
             "prevalence": 0.018885741265344664,
             "mean_predicted": 0.19360246091405664,
             "brier": 0.07162277022923438,
-            "slope": 1.102166368728015,
-            "intercept": -2.995246546806972
+            "slope": 1.1021663687280148,
+            "intercept": -2.9952465468069716
           },
           "pericardial_effusion_moderate_large_flag": {
             "prevalence": 0.0018885741265344666,
             "mean_predicted": 0.29906071826632685,
             "brier": 0.11215428180209988,
-            "slope": 1.7684914442043784,
-            "intercept": -5.625600073385545
+            "slope": 1.7684914442043924,
+            "intercept": -5.625600073385549
           },
           "pasp_gte_45_flag": {
             "prevalence": 0.059490084985835696,
             "mean_predicted": 0.2607274902342512,
             "brier": 0.10586658837460435,
-            "slope": 0.998572991991903,
+            "slope": 0.9985729919919027,
             "intercept": -1.965423603109378
           },
           "tr_max_gte_32_flag": {
             "prevalence": 0.033050047214353166,
             "mean_predicted": 0.24182171340261405,
             "brier": 0.09227595816418466,
-            "slope": 1.2050511162877595,
+            "slope": 1.2050511162877589,
             "intercept": -2.5288469575535992
           },
           "shd_moderate_or_greater_flag": {
@@ -23912,7 +23912,7 @@
             "mean_predicted": 0.280054490417031,
             "brier": 0.1406302338709561,
             "slope": 1.0419084634838718,
-            "intercept": -0.16299624115104555
+            "intercept": -0.16299624115104558
           }
         }
       },
@@ -25163,7 +25163,7 @@
               "coverage_pos_p90": 0.9851851851851852,
               "coverage_neg_mean": 0.913671875,
               "share_all_flagged": 0.0,
-              "abs_intercept_mean": 0.1885960797829633,
+              "abs_intercept_mean": 0.18859607978296336,
               "n_eval": 1102,
               "n_eval_pos": 270
             },
@@ -25175,7 +25175,7 @@
               "coverage_pos_p90": 0.9407407407407408,
               "coverage_neg_mean": 0.9105709134615384,
               "share_all_flagged": 0.0,
-              "abs_intercept_mean": 0.1373016236635275,
+              "abs_intercept_mean": 0.13730162366352752,
               "n_eval": 1102,
               "n_eval_pos": 270
             },
@@ -25187,7 +25187,7 @@
               "coverage_pos_p90": 0.9296296296296296,
               "coverage_neg_mean": 0.911201923076923,
               "share_all_flagged": 0.0,
-              "abs_intercept_mean": 0.08916117245622282,
+              "abs_intercept_mean": 0.08916117245622278,
               "n_eval": 1102,
               "n_eval_pos": 270
             }
@@ -25201,7 +25201,7 @@
               "coverage_pos_p90": 0.9084745762711864,
               "coverage_neg_mean": 0.896484375,
               "share_all_flagged": 0.0,
-              "abs_intercept_mean": 0.19955378968142692,
+              "abs_intercept_mean": 0.19955378968142698,
               "n_eval": 1102,
               "n_eval_pos": 590
             },
@@ -25225,7 +25225,7 @@
               "coverage_pos_p90": 0.988135593220339,
               "coverage_neg_mean": 0.90517578125,
               "share_all_flagged": 0.0,
-              "abs_intercept_mean": 0.2588637653960607,
+              "abs_intercept_mean": 0.25886376539606065,
               "n_eval": 1102,
               "n_eval_pos": 590
             },
@@ -25277,7 +25277,7 @@
               "coverage_pos_p90": 0.8758169934640523,
               "coverage_neg_mean": 0.9267707082833133,
               "share_all_flagged": 0.0,
-              "abs_intercept_mean": 1.4222929568786686,
+              "abs_intercept_mean": 1.4222929568786684,
               "n_eval": 986,
               "n_eval_pos": 153
             },
@@ -25351,7 +25351,7 @@
               "coverage_pos_p90": 0.8624078624078624,
               "coverage_neg_mean": 0.9499136442141624,
               "share_all_flagged": 0.0,
-              "abs_intercept_mean": 0.10909644702075365,
+              "abs_intercept_mean": 0.10909644702075368,
               "n_eval": 986,
               "n_eval_pos": 407
             },
@@ -25387,7 +25387,7 @@
               "coverage_pos_p90": 0.9606879606879607,
               "coverage_neg_mean": 0.9217962003454232,
               "share_all_flagged": 0.0,
-              "abs_intercept_mean": 0.21709565512477141,
+              "abs_intercept_mean": 0.2170956551247714,
               "n_eval": 986,
               "n_eval_pos": 407
             },
@@ -25399,7 +25399,7 @@
               "coverage_pos_p90": 0.9533169533169533,
               "coverage_neg_mean": 0.9208894645941278,
               "share_all_flagged": 0.0,
-              "abs_intercept_mean": 0.1503520820517713,
+              "abs_intercept_mean": 0.15035208205177134,
               "n_eval": 986,
               "n_eval_pos": 407
             },
@@ -25411,7 +25411,7 @@
               "coverage_pos_p90": 0.9238329238329238,
               "coverage_neg_mean": 0.9240241796200346,
               "share_all_flagged": 0.0,
-              "abs_intercept_mean": 0.11469063934728473,
+              "abs_intercept_mean": 0.11469063934728474,
               "n_eval": 986,
               "n_eval_pos": 407
             }
@@ -25475,7 +25475,7 @@
               "coverage_pos_p90": 1.0,
               "coverage_neg_mean": 0.8855321285140562,
               "share_all_flagged": 0.03,
-              "abs_intercept_mean": 0.34144335297493184,
+              "abs_intercept_mean": 0.3414433529749318,
               "n_eval": 530,
               "n_eval_pos": 32
             },
@@ -25501,7 +25501,7 @@
               "coverage_pos_p90": 0.7299270072992701,
               "coverage_neg_mean": 0.9770992366412213,
               "share_all_flagged": 0.0,
-              "abs_intercept_mean": 0.16176170592948524,
+              "abs_intercept_mean": 0.1617617059294853,
               "n_eval": 530,
               "n_eval_pos": 137
             },
@@ -25513,7 +25513,7 @@
               "coverage_pos_p90": 1.0,
               "coverage_neg_mean": 0.9119974554707379,
               "share_all_flagged": 0.88,
-              "abs_intercept_mean": 0.4536341869452821,
+              "abs_intercept_mean": 0.45363418694528224,
               "n_eval": 530,
               "n_eval_pos": 137
             },
@@ -25525,7 +25525,7 @@
               "coverage_pos_p90": 1.0,
               "coverage_neg_mean": 0.9146437659033078,
               "share_all_flagged": 0.21,
-              "abs_intercept_mean": 0.30638485739666477,
+              "abs_intercept_mean": 0.3063848573966648,
               "n_eval": 530,
               "n_eval_pos": 137
             },
@@ -25581,5 +25581,5 @@
     "Distance without labels between source and target ECGs": "T-068",
     "The same pair at a second hospital, Columbia to Beth Israel (MIMIC-IV-Echo)": "T-065, ambitious version, after PhysioNet credentialing"
   },
-  "commit": "755c37d16b7add98918bbc27f10a41e67b47dbc7"
+  "commit": "0a7c41e73308d89d52e386da29e4090e954472c7"
 }
