@@ -44,9 +44,9 @@ Coverage of the ill at Beth Israel, 90% asked for, per-label calibration. Sinus 
 
 Atrial fibrillation falls short from four of the five foreign sources, between 80.0% and 83.7%, and first-degree block from all five, between 75.7% and 87.4%. Left bundle-branch block holds from every source. Sinus rhythm swings from 95.1% to 63.7% with the source, which says more about how each corpus labels sinus rhythm than about Beth Israel.
 
-Carried the other way, Beth Israel's thresholds cover 74.0% of sinus rhythm at PTB-XL, 70.3% and 70.5% of left bundle-branch block at Chapman-Shaoxing and Ningbo and at CPSC, and 68.6% of right bundle-branch block at CPSC.
+Carried the other way, Beth Israel's thresholds cover 74.0% of sinus rhythm at PTB-XL, 70.3% and 70.5% of left bundle-branch block at Chapman-Shaoxing and Ningbo and at CPSC, and 68.7% of right bundle-branch block at CPSC.
 
-At home, three of the five figures sit below 90% with their whole interval: sinus rhythm 89.0%, right bundle-branch block 86.1%, first-degree block 84.0%. Over 200 half-size draws of the calibration part, the home means are 89.1%, 88.2% and 86.8%, with standard deviations of 0.8, 5.3 and 4.9 points; Georgia's left bundle-branch block at home averages 86.8% in the same way. One calibration draw of about a hundred positives moves a home figure by several points, and the guarantee holds on average over draws, not for one draw.
+At home, three of the five figures sit below 90% with their whole interval: sinus rhythm 89.0%, right bundle-branch block 86.1%, first-degree block 84.0%. Right bundle-branch block and first-degree block are fitted on 92 and 121 calibration positives. One calibration draw of about a hundred positives moves a home figure by several points, and the guarantee holds on average over draws, not for one draw.
 
 Two encoders compared elsewhere in the study saw MIMIC-IV-ECG at pre-training, ECG-FM and HuBERT-ECG, and `ecs.encoders.SAW` marks both. Any of their figures on MIMIC is an upper bound, not a transfer. The rotation itself uses the study's ResNet trained from scratch, which saw nothing outside its source.
 
