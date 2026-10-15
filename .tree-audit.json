@@ -1,0 +1,4 @@
+{
+  "ignore": ["third_party/*", "docs/templates/*"],
+  "index_names": ["NOTICE.md"]
+}

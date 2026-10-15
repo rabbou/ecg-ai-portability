@@ -1,25 +1,44 @@
 cff-version: 1.2.0
-title: Threshold generalisation to external sites for ECG-AI diagnostic support
+title: "Predicting an ECG model's positive predictive value from a clinic's prevalence: a retrospective measurement across hospitals and care settings"
 message: If you use this repository, please cite it as below.
 type: software
 authors:
   - family-names: Abbou
     given-names: Ruben
 repository-code: https://github.com/rabbou/ecg-conformal-shift
-version: 1.0.0
-date-released: 2026-09-30
+# v1.0.0 and v1.1.0 are tags of earlier articles; this one is cited as 2.0.0, and
+# date-released is written when that tag is made at the merge.
+version: 2.0.0
 license: MIT
 abstract: >-
-  Measures what three ways of turning the same frozen ECG classifier scores
-  into a clinical output deliver per label, and what happens to each when its
-  calibration threshold is carried unchanged to hospitals of different
-  myocardial infarction prevalence. PTB-XL as source, SPH (Shandong) and
-  ACS-ECG (Chongqing) as targets. The design is then repeated with each of
-  five corpus sources in the calibration role in turn, on five diagnoses.
-  Seven public corpora in all, counting Chapman-Shaoxing and Ningbo apart.
+  Across 174 transfers of a threshold between hospitals, care
+  settings and corpora, the positive predictive value recomputed by Bayes'
+  theorem at the target's true prevalence differed from the observed value by a median
+  of 5.3 (4.2 to 7.8) percentage points, against 0.3 (0.2 to 1.0) in
+  controls, and fell outside the observed value's 95% confidence interval in
+  75% (67% to 82%) of transfers, overestimating it in some and underestimating it in others. At Columbia, the network
+  discriminated nearly as well among outpatients as among inpatients (AUROC
+  0.805 and 0.815), but outpatients with and without structural
+  heart disease both scored lower, so at the inpatient threshold sensitivity
+  among outpatients was 71.6% and the observed positive predictive value
+  46.0% (41.3% to 50.7%), where the recomputation gave 34.2%. After threshold
+  recalibration on 858 separate outpatients, sensitivity was 86.3%. The transfers cover four structural heart
+  disease models in EchoNext, an infarction network transferred from PTB-XL to
+  hospitals in Chongqing and Shandong, and a rotation of five public corpora
+  on five rhythm and conduction diagnoses.
 keywords:
-  - conformal prediction
   - electrocardiography
-  - myocardial infarction
+  - structural heart disease
+  - positive predictive value
+  - decision threshold
+  - sensitivity
+  - spectrum effect
   - distribution shift
-  - class-conditional coverage
+preferred-citation:
+  type: article
+  title: "Predicting an ECG model's positive predictive value from a clinic's prevalence: a retrospective measurement across hospitals and care settings"
+  authors:
+    - family-names: Abbou
+      given-names: Ruben
+  year: 2026
+  url: https://github.com/rabbou/ecg-conformal-shift/blob/master/REPORT.md
