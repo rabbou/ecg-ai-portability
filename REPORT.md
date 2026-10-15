@@ -126,7 +126,7 @@ Figure 3. The inpatient threshold applied to the test outpatients (271 with SHD,
 
 ### 3.3 Factors associated with the lower outpatient scores
 
-The loss of sensitivity was concentrated in some findings: among patients with a wall thickness of 1.3 cm or more the threshold detected 69.2% of outpatients against 91.9% of inpatients, and among those with an ejection fraction of 45% or less 91.4% against 94.2%. Standardised to the inpatients' findings, ejection fraction, age and sex, the outpatients' sensitivity would have been 76.8% instead of 71.6%, a share of 27.5% (16% to 38%). Case mix thus accounted for about a quarter of the fall, and the remainder occurred among patients with the same findings, ejection fraction, age and sex. Women and younger outpatients scored lower, with and without SHD (supplement S1.17).
+The loss of sensitivity was concentrated in some findings: among patients with a wall thickness of 1.3 cm or more the threshold detected 69.2% of outpatients against 91.9% of inpatients, and among those with an ejection fraction of 45% or less 91.4% against 94.2%. Standardised to the inpatients' findings, ejection fraction, age and sex, the outpatients' sensitivity would have been 76.8% instead of 71.6%, a share of 27.5% (16% to 38%; the interval holds the inpatient threshold fixed and does not include its uncertainty). Case mix thus accounted for about a quarter of the fall, and the remainder occurred among patients with the same findings, ejection fraction, age and sex. Women and younger outpatients scored lower, with and without SHD (supplement S1.17).
 
 ### 3.4 Across hospitals, discrimination also changed
 
