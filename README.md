@@ -1,5 +1,7 @@
 # ecg-conformal-shift
 
+*En français.* Un modèle de prédiction conforme sur l'électrocardiogramme à douze dérivations, calibré sur un corpus hospitalier et évalué sans recalibration sur d'autres. La question mesurée : la garantie de couverture à 90 % survit-elle au changement d'hôpital, et laquelle des deux corrections usuelles (calibration par classe, pondération par le décalage de prévalence) la répare. Deux mesures : l'infarctus, calibré sur PTB-XL et dépensé sur Shandong et Chongqing ; puis la source de calibration qui tourne sur cinq corpus et cinq diagnostics. Le rapport reste en anglais ; sa page en français est sur https://rubenabbou.com/work/ecg-conformal-shift?lang=fr.
+
 Split conformal prediction on 12-lead ECG, calibrated on one hospital corpus
 and evaluated without re-calibration on others. The question measured is
 whether the 90% coverage guarantee survives the change of hospital; the two
