@@ -33,3 +33,31 @@ class TestTheWeightsDirectory:
         assert encoders.weights_dir(tmp_path) == tmp_path / "data/weights"
         monkeypatch.setenv("ECS_WEIGHTS_DIR", "/some/where")
         assert encoders.weights_dir(tmp_path) == Path("/some/where")
+
+    def test_a_relative_gitdir_is_read_from_the_worktree(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """git worktree.useRelativePaths writes the gitdir relative to the worktree."""
+        monkeypatch.delenv("ECS_WEIGHTS_DIR", raising=False)
+        main = tmp_path / "main"
+        linked = main / ".claude/worktrees/linked"
+        (main / ".git/worktrees/linked").mkdir(parents=True)
+        (main / "data/weights").mkdir(parents=True)
+        linked.mkdir(parents=True)
+        (linked / ".git").write_text("gitdir: ../../../.git/worktrees/linked\n")
+        assert encoders.weights_dir(linked) == main / "data/weights"
+
+
+class TestPeakMemory:
+    """getrusage counts bytes on macOS and KiB on Linux; the record is bytes on both."""
+
+    @pytest.mark.parametrize(("platform", "factor"), [("darwin", 1), ("linux", 1024)])
+    def test_the_peak_is_in_bytes(
+        self, platform: str, factor: int, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        class Usage:
+            ru_maxrss = 2_000
+
+        monkeypatch.setattr(encoders.sys, "platform", platform)
+        monkeypatch.setattr(encoders.resource, "getrusage", lambda _: Usage())
+        assert encoders.peak_rss_bytes() == 2_000 * factor

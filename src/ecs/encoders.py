@@ -2,8 +2,7 @@
 
 An *arm* is a way of turning a canonical (12, 5000) tracing into one vector.
 Four are pre-trained encoders published by other groups; the fifth is our own
-ResNet1d left at its random initialisation, the floor the others have to clear
-.
+ResNet1d left at its random initialisation, the floor the others have to clear.
 
 Two of the four saw PTB-XL at pre-training and one saw Shandong as well, so
 their figures on those corpora are partly memory rather than transfer.  What
@@ -28,6 +27,7 @@ import hashlib
 import os
 import pickle
 import platform
+import resource
 import subprocess
 import sys
 import types
@@ -52,6 +52,7 @@ __all__ = [
     "allowlisted_load",
     "ecgfounder_net",
     "machine_info",
+    "peak_rss_bytes",
 ]
 
 
@@ -60,7 +61,8 @@ def weights_dir(root: Path = REPO_ROOT) -> Path:
     of this checkout, or of the main checkout when this one is a linked worktree.
 
     The weights are untracked and fetched once per clone, so a worktree of the clone
-    holds none of its own; its ``.git`` file names the main checkout's git directory.
+    holds none of its own; its ``.git`` file names the main checkout's git directory,
+    as an absolute path or, under ``worktree.useRelativePaths``, relative to the worktree.
     """
     if override := os.environ.get("ECS_WEIGHTS_DIR"):
         return Path(override)
@@ -68,7 +70,7 @@ def weights_dir(root: Path = REPO_ROOT) -> Path:
     marker = root / ".git"
     if local.exists() or not marker.is_file():
         return local
-    gitdir = Path(marker.read_text().split("gitdir:", 1)[1].strip())
+    gitdir = Path(os.path.normpath(root / marker.read_text().split("gitdir:", 1)[1].strip()))
     if gitdir.parent.name != "worktrees":
         return local
     return gitdir.parent.parent.parent / "data/weights"
@@ -116,6 +118,8 @@ ALLOWED_GLOBALS = frozenset(
         ("collections", "OrderedDict"),
         ("torch._utils", "_rebuild_tensor_v2"),
         ("numpy.core.multiarray", "scalar"),
+        # The same function as numpy 2 names it when it writes a checkpoint.
+        ("numpy._core.multiarray", "scalar"),
         ("numpy", "dtype"),
         ("_codecs", "encode"),
     }
@@ -466,6 +470,15 @@ def machine_info() -> dict[str, object]:
         "torch": torch.__version__,
         "torch_threads": torch.get_num_threads(),
     }
+
+
+def peak_rss_bytes() -> int:
+    """Peak resident set of this process, in bytes on every platform.
+
+    getrusage reports ``ru_maxrss`` in bytes on macOS and in KiB on Linux.
+    """
+    peak = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+    return int(peak if sys.platform == "darwin" else peak * 1024)
 
 
 def _cpu_name() -> str:

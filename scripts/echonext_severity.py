@@ -42,6 +42,7 @@ from ecs.severity import (
     VERDICT_RULE,
     bootstrap_reweighted,
     compare,
+    finding_stratum,
     findings_count,
     graded,
     lvef_band,
@@ -105,7 +106,7 @@ def describe(inpatient: pd.DataFrame, outpatient: pd.DataFrame) -> dict[str, Any
 
 
 def count_stratum(meta: pd.DataFrame) -> NDArray[np.str_]:
-    out: NDArray[np.str_] = np.where(findings_count(meta, FINDINGS) >= 2, "2+", "1")
+    out: NDArray[np.str_] = finding_stratum(findings_count(meta, FINDINGS))
     return out
 
 

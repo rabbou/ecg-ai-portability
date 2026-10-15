@@ -191,7 +191,8 @@ def label_free(
             )
         )
     prior, corrected = prior_shift(p_cal, y_cal, p_target)
-    recipe = ppv_at_prevalence(sens, spec, prior) if sens * prior + (1 - spec) > 0 else None
+    flagged_share = sens * prior + (1 - spec) * (1 - prior)
+    recipe = ppv_at_prevalence(sens, spec, prior) if flagged_share > 0 else None
     return {
         "prevalence_estimated": prior,
         "ppv_recipe_estimated_prevalence": recipe,

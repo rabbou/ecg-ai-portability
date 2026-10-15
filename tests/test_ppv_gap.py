@@ -122,6 +122,17 @@ class TestLabelShiftCheck:
         assert check["likelihood_ratio_healthy_target"] == pytest.approx(np.exp(-1.0), abs=0.05)
 
 
+def test_the_recipe_is_undefined_when_the_estimated_prevalence_leaves_nobody_flagged() -> None:
+    """At an estimated prevalence of 1 and a sensitivity of 0, the recipe flags
+    sens * 1 + (1 - spec) * 0 = 0 of the site: there is no PPV to give."""
+    p_cal = np.r_[np.full(80, 0.8), np.full(20, 0.8), np.full(20, 0.2), np.full(80, 0.2)]
+    y_cal = np.r_[np.ones(80), np.zeros(20), np.ones(20), np.zeros(80)].astype(int)
+    p_target = np.full(50, 0.95)
+    out = label_free(p_cal, y_cal, p_target, p_target > 0.5, sens=0.0, spec=0.5)
+    assert out["prevalence_estimated"] == 1.0
+    assert out["ppv_recipe_estimated_prevalence"] is None
+
+
 def test_label_free_predictions_by_hand() -> None:
     """A calibrated source at prevalence 0.5 and a target whose probabilities
     are 0.8 for three in four records and 0.2 for the rest: the estimated

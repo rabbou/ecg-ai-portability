@@ -11,6 +11,7 @@ from ecs.severity import (
     MODERATE,
     bootstrap_reweighted,
     compare,
+    finding_stratum,
     findings_count,
     graded,
     lvef_band,
@@ -59,6 +60,14 @@ def test_ejection_fraction_bands_are_inclusive_at_their_upper_edge() -> None:
 def test_cells_cross_the_finding_count_with_the_band() -> None:
     cells = severity_cell(np.array([1, 3]), np.array([60.0, 30.0]))
     assert cells.tolist() == ["1 finding, LVEF >45", "2+ finding, LVEF <=35"]
+
+
+def test_a_record_with_no_finding_has_no_stratum() -> None:
+    assert finding_stratum(np.array([1, 2, 5])).tolist() == ["1", "2+", "2+"]
+    with pytest.raises(ValueError, match="no finding"):
+        finding_stratum(np.array([1, 0]))
+    with pytest.raises(ValueError, match="no finding"):
+        severity_cell(np.array([0]), np.array([60.0]))
 
 
 def test_compare_reports_quartiles_and_a_test_only_when_both_sides_have_values() -> None:

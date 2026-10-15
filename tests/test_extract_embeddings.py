@@ -305,6 +305,17 @@ class TestNoThirdPartyWeightOpensUnchecked:
         loaded = encoders.allowlisted_load(tensors)
         assert torch.equal(loaded["state_dict"]["w"], torch.ones(2))
 
+    def test_the_allowlist_reads_a_numpy_scalar_as_numpy_1_or_2_names_it(self) -> None:
+        """numpy 2 pickles its scalar under numpy._core; numpy 1.26 reads both names."""
+        import pickle
+
+        from ecs import encoders
+
+        written = pickle.dumps(np.float64(1.5), protocol=2)
+        assert b"cnumpy.core.multiarray\nscalar" in written
+        for stream in (written, written.replace(b"numpy.core.", b"numpy._core.")):
+            assert encoders._AllowlistedUnpickler(io.BytesIO(stream)).load() == 1.5
+
     def test_the_file_transformers_executes_is_in_the_manifest(self) -> None:
         from ecs import encoders
 

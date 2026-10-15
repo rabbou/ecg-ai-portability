@@ -26,8 +26,8 @@ difference between two pre-trainings.
 Three things come out, into ``results/arms.json``:
 
 *Discrimination.*  AUROC and AUPRC per arm and corpus, each with a 95% bootstrap
-interval, and the paired difference between every pair of arms on every corpus
-.  Paired because the arms scored the same records: two intervals that
+interval, and the paired difference between every pair of arms on every corpus.
+Paired because the arms scored the same records: two intervals that
 overlap can still hide a difference that is there in every draw.
 
 *The break.*  Coverage on PTB-XL, Shandong and Chongqing under one threshold
