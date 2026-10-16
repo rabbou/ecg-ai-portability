@@ -42,6 +42,10 @@ class TestTheAllocation:
         # which goes to the first of the two .5 remainders.
         quota = proportional_allocation(pd.Series([70, 20, 10], index=["a", "b", "c"]), 15)
         assert quota.to_dict() == {"a": 11, "b": 3, "c": 1}
+        # 10 of (10, 75, 15): exact 1.0, 7.5, 1.5; floors 1, 7, 1 leave one spare, and
+        # the largest remainder is not the first stratum's.
+        quota = proportional_allocation(pd.Series([10, 75, 15], index=["a", "b", "c"]), 10)
+        assert quota.to_dict() == {"a": 1, "b": 8, "c": 1}
 
     def test_an_exact_share_needs_no_rounding(self) -> None:
         """Proportional allocation with whole shares must reproduce them exactly."""

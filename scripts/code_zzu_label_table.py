@@ -24,7 +24,9 @@ from dataclasses import asdict
 from pathlib import Path
 from typing import Any
 
+import numpy as np
 import pandas as pd
+from scipy.signal import butter, sosfiltfilt
 
 from ecs import code_ecg, zzu
 from ecs.code_ecg import (
@@ -37,7 +39,7 @@ from ecs.code_ecg import (
 )
 from ecs.config import CODE15_DIR, CODE_TEST_DIR, RESULTS_DIR, ZZU_DIR
 from ecs.provenance import provenance_block
-from ecs.rotation import corpus_index
+from ecs.rotation import corpus_index, load_waveforms
 from ecs.zzu import IAVB_STATEMENT, aha_tokens, zzu_labels
 
 OUT = Path(RESULTS_DIR) / "code_zzu_label_map.json"
@@ -187,6 +189,33 @@ def zzu_table() -> dict[str, Any]:
     }
 
 
+AMPLITUDE_CORPORA = ("ptbxl", "mimic", "code15", "code_test", "zzu")
+AMPLITUDE_RECORDS = 400
+
+
+def amplitude(corpus: str) -> dict[str, Any]:
+    """How large the tracings are as read: DC offset and band-passed QRS range.
+
+    Read on the first 400 test records of the corpus, as the models read them
+    (canonical, unfiltered).  The range is the 0.5th to 99.5th percentile of the
+    signal band-passed at 1-40 Hz, so baseline wander and offset do not enter it.
+    """
+    index = corpus_index(corpus)
+    x, _ = load_waveforms(index, index.ids("test")[:AMPLITUDE_RECORDS])
+    band = butter(2, [1, 40], btype="band", fs=500, output="sos")
+    filtered = sosfiltfilt(band, x[:, :, 250:4750], axis=-1)
+    spread = np.quantile(filtered, 0.995, axis=-1) - np.quantile(filtered, 0.005, axis=-1)
+    offset = np.abs(x.mean(axis=-1))
+    return {
+        "n": len(x),
+        "median_abs_offset_mv": round(float(np.median(offset)), 3),
+        "median_qrs_range_mv": {
+            lead: round(float(np.median(spread[:, i])), 3)
+            for lead, i in (("II", 1), ("V2", 7), ("V5", 10))
+        },
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -202,9 +231,11 @@ def main() -> int:
         "code_test": code_test_table(),
         "zzu": zzu_table(),
     }
+    amplitudes = {}
     if not args.no_rotation:
         for corpus, table in corpora.items():
             table["rotation"] = rotation_counts(corpus)
+        amplitudes = {c: amplitude(c) for c in AMPLITUDE_CORPORA}
     out = {
         "written_by": "scripts/code_zzu_label_table.py",
         "provenance": provenance_block(PRODUCERS),
@@ -213,6 +244,7 @@ def main() -> int:
         "ambiguities": [asdict(a) for a in (*code_ecg.AMBIGUITIES, *zzu.AMBIGUITIES)],
         "documented": DOCUMENTED,
         "corpora": corpora,
+        "amplitude": amplitudes,
     }
     OUT.write_text(json.dumps(out, indent=1) + "\n")
     print(json.dumps({c: t.get("release", {}) for c, t in corpora.items()}, indent=1))
