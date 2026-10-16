@@ -17,8 +17,10 @@ from __future__ import annotations
 import ast
 import csv
 import json
+import os
 import re
 import statistics
+import subprocess
 from collections.abc import Iterator
 from pathlib import Path
 from typing import Any
@@ -658,3 +660,39 @@ def test_no_committed_figure_is_one_no_script_draws() -> None:
         if p.is_file() and p.name not in names
     ]
     assert orphans == [], orphans
+
+
+# The random arm's last draw before its seed was fixed (PR 14), quoted in section S2.10.
+UNSEEDED_COMMIT = "eb53ca9"
+
+
+def test_the_unseeded_draw_is_quoted_from_its_commit() -> None:
+    """S2.10 sets the seeded control against the earlier unseeded draw; both readings
+    are rebuilt here, the earlier one from arms.json as that commit holds it."""
+    shown = subprocess.run(
+        ["git", "show", f"{UNSEEDED_COMMIT}:results/arms.json"], capture_output=True, cwd=ROOT
+    )
+    if shown.returncode != 0:
+        if os.environ.get("CI"):
+            pytest.fail(f"CI must check out the full history: {UNSEEDED_COMMIT} is missing")
+        pytest.skip(f"{UNSEEDED_COMMIT} is not in this clone")
+
+    def reading(arms: dict[str, Any]) -> tuple[str, str]:
+        head = arms["headline"]
+        rows = arms["coverage"]["random_init"]
+        key = (head["alpha"], head["score"], head["correction"])
+        cover = next(
+            r["coverage"] for r in rows if (r["alpha"], r["score"], r["correction"]) == key
+        )
+        auroc = arms["discrimination"]["random_init"]["ptbxl"]["auroc"]
+        return _pct(float(cover["acs"]["mean"])), f"{auroc:.3f}"
+
+    (old_acs, old_auroc), (new_acs, new_auroc) = (
+        reading(json.loads(shown.stdout)),
+        reading(_read("arms.json")),
+    )
+    text = (ROOT / "SUPPLEMENT.md").read_text()
+    assert (
+        f"read {old_acs} at Chongqing rather than {new_acs}, "
+        f"with an AUROC of {old_auroc} rather than {new_auroc}"
+    ) in text

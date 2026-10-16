@@ -12,9 +12,7 @@ Usage: .venv/bin/python scripts/echonext_provenance.py
 from __future__ import annotations
 
 import json
-import resource
 import subprocess
-import sys
 import time
 
 from ecs.config import RESULTS_DIR
@@ -28,7 +26,7 @@ from ecs.echonext import (
     read_metadata,
     verify_files,
 )
-from ecs.encoders import machine_info
+from ecs.encoders import machine_info, peak_rss_bytes
 
 OUT = RESULTS_DIR / "echonext_provenance.json"
 
@@ -36,11 +34,6 @@ OUT = RESULTS_DIR / "echonext_provenance.json"
 def git_commit() -> str:
     out = subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True, text=True, check=False)
     return out.stdout.strip() or "unknown"
-
-
-def peak_rss_bytes() -> int:
-    peak = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
-    return int(peak if sys.platform == "darwin" else peak * 1024)  # Linux reports KiB
 
 
 def main() -> None:

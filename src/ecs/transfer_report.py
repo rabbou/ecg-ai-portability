@@ -60,17 +60,21 @@ def _coverage_section(result: dict[str, Any], arm: dict[str, Any], target: str) 
     lines = [
         f"## Coverage per label at the {pct(1 - result['alpha'], 0)} level",
         "",
-        "Ill covered is the share of patients with the finding whose decision includes it: "
+        "Covered with the finding is the share of patients with the finding whose decision "
+        "includes it: "
         "the sensitivity for the plain threshold, the coverage of the positive class for the "
         "two conformal schemes. A per-label threshold that the calibration positives cannot "
         "certify flags everyone, and the row then shows the whole target flagged. The plain "
-        "threshold and the per-label threshold of the ill are the same calibration quantile, "
-        "so their columns agree; the per-label scheme adds a threshold for the healthy, and "
+        "threshold and the per-label threshold of patients with the finding are the same "
+        "calibration quantile, "
+        "so their columns agree; the per-label scheme adds a threshold for patients without "
+        "it, and "
         "with it the share sent to a human.",
         "",
-        "| Label | Prevalence, source | Prevalence, target | Ill in target "
-        "| Ill covered, plain | Ill covered, pooled | Ill covered, per-label "
-        "| Healthy covered, per-label, sent to a human included "
+        "| Label | Prevalence, source | Prevalence, target | With the finding in target "
+        "| Covered with the finding, plain | Covered with the finding, pooled "
+        "| Covered with the finding, per-label "
+        "| Covered without the finding, per-label, sent to a human included "
         "| Sent to a human, per-label | AUROC, target |",
         "|---|---|---|---|---|---|---|---|---|---|",
     ]
@@ -93,9 +97,9 @@ def _coverage_section(result: dict[str, Any], arm: dict[str, Any], target: str) 
 
 def _subgroup_section(arm: dict[str, Any], target: str) -> list[str]:
     lines = [
-        "## Coverage of the ill inside groups, composite, per-label thresholds",
+        "## Coverage of patients with the finding inside groups, composite, per-label thresholds",
         "",
-        "| Group | | Ill | Ill covered [95% CI] |",
+        "| Group | | With the finding | Covered with the finding [95% CI] |",
         "|---|---|---|---|",
     ]
     for row in arm["subgroups"]:
@@ -167,7 +171,7 @@ def _ppv_section(arm: dict[str, Any], target: str) -> list[str]:
         "",
         "| Label | Prevalence, target | Sensitivity, source / target "
         "| Specificity, source / target | PPV from source | PPV observed "
-        "| False alerts per ill patient found, from source / observed |",
+        "| False alerts per patient with the finding found, from source / observed |",
         "|---|---|---|---|---|---|---|",
     ]
     for label in (COMPOSITE, LVEF):
@@ -195,8 +199,8 @@ def _ladder_section(arm: dict[str, Any], target: str) -> list[str]:
         "reads the refit on separate outpatients as well (REPORT.md section 3.7, "
         "SUPPLEMENT.md Tables S7 to S7c); those figures supersede this ladder's.",
         "",
-        "| Label | Target labels | Ill covered, mean [10th, 90th centile] "
-        "| Healthy covered, sent to a human included "
+        "| Label | Target labels | Covered with the finding, mean [10th, 90th centile] "
+        "| Covered without the finding, sent to a human included "
         "| Draws that flag everyone | Absolute intercept after shift |",
         "|---|---|---|---|---|---|",
     ]
@@ -223,10 +227,11 @@ def _gap_section(rows: list[dict[str, Any]]) -> list[str]:
         "to the target's true prevalence. The gap is recomputed minus observed, in percentage "
         "points, with the 2.5th and 97.5th centiles of 2,000 redraws of both tables; the "
         "observed PPV carries its 95% Wilson interval. If only the prevalence had changed, the "
-        "mean likelihood ratio among the healthy would stay at its source value, close to 1.",
+        "mean likelihood ratio among patients without the finding would stay at its source "
+        "value, close to 1.",
         "",
         "| Label | Prevalence, target | Flagged | PPV recomputed | PPV observed "
-        "| Gap, points | Mean likelihood ratio of the healthy, source / target |",
+        "| Gap, points | Mean likelihood ratio without the finding, source / target |",
         "|---|---|---|---|---|---|---|",
     ]
     for row in rows:
@@ -320,8 +325,8 @@ def render(
         f"{pct(_cell(arm['coverage'], COMPOSITE, target, 'plain')['coverage_neg'])} of "
         f"those without it unflagged, and send {pct(per['abstention'])} to a human. A "
         "patient without it whom the thresholds send to a human counts below as covered, "
-        f"which makes the healthy covered ({pct(per['coverage_neg'])}) more than the "
-        "healthy left unflagged. The composite's prevalence falls from "
+        f"which makes those covered ({pct(per['coverage_neg'])}) more than those left "
+        "unflagged. The composite's prevalence falls from "
         f"{pct(source['prevalence'][COMPOSITE])} to {pct(tgt['prevalence'][COMPOSITE])}.",
         "",
         "| | Source | Target |",

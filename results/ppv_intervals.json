@@ -227,14 +227,14 @@
     }
   },
   "provenance": {
-    "commit": "300fb4da98af8e5e18e50297e1416d59e106e375",
+    "commit": "f4ad5a877c8d4197cd0696763acc3c434ed42e5e",
     "producers": {
       "results/echonext_clinical.json": "791088551738f273a7228d5514aea572e8e34ef4b0431eb88b4f93dd8b245889",
-      "results/echonext_ppv_gap.json": "2bfb4cd3d624e79e57976c2e6deeb5a3eebcc534c4039b0e68423b186e291cfb",
-      "results/ppv_gap.json": "c397026136517c942c1d2570d4e8724ba5663a633e54f111efb79dcca1eb2717",
+      "results/echonext_ppv_gap.json": "ce8ea612cc09fdc701c70219bf2c9ef5e950eece038959fd34d8931fed315ca4",
+      "results/ppv_gap.json": "533766b2321a35fb8c2a9e4fd26f6ea7f90277755ba3fcc95bb9a6cb35540be8",
       "scripts/ppv_intervals.py": "7107bb4621dcf50e07be574459666ee39804cfaa8fb7aca6057f8662998d1b08",
       "src/ecs/metrics.py": "e04509abce93b400ac90cbd102a63a747f0559de4d2c9d20cdc2ee4ce1cf90e6"
     }
   },
-  "seconds": 1.0
+  "seconds": 0.4
 }

@@ -54,6 +54,7 @@ __all__ = [
     "prior_shift",
     "local_recalibration",
     "net_benefit_of",
+    "patient_bootstrap_weights",
     "repair_cell",
 ]
 
@@ -142,11 +143,26 @@ def net_benefit_of(y: IntArray, treated: BoolArray, threshold: float) -> float:
     return tp / n - fp / n * threshold / (1.0 - threshold)
 
 
-def _nb_draws(y: IntArray, treated: BoolArray, threshold: float, index: IntArray) -> Array:
-    """Net benefit on each bootstrap redraw of the records, one row of ``index`` each."""
-    yy, tt = y[index], treated[index]
-    tp = (tt & (yy == 1)).mean(axis=1)
-    fp = (tt & (yy == 0)).mean(axis=1)
+def patient_bootstrap_weights(patients: pd.Series, draws: int, seed: int) -> IntArray:
+    """How many times each record enters each bootstrap redraw of the patients.
+
+    Patients are drawn with replacement and a drawn patient brings every one of
+    their records, so a record's weight is its patient's count in the draw.  A
+    redraw of the records instead would treat two ECGs of one patient as two
+    independent observations and narrow the interval.
+    """
+    codes, uniques = pd.factorize(patients.to_numpy())
+    rng = np.random.default_rng(seed)
+    counts = rng.multinomial(len(uniques), np.full(len(uniques), 1.0 / len(uniques)), size=draws)
+    out: IntArray = counts[:, codes]
+    return out
+
+
+def _nb_draws(y: IntArray, treated: BoolArray, threshold: float, weights: IntArray) -> Array:
+    """Net benefit on each bootstrap redraw of the patients, one row of ``weights`` each."""
+    n = weights.sum(axis=1)
+    tp = (weights * (treated & (y == 1))).sum(axis=1) / n
+    fp = (weights * (treated & (y == 0))).sum(axis=1) / n
     out: Array = tp - fp * threshold / (1.0 - threshold)
     return out
 
@@ -244,7 +260,7 @@ def repair_cell(
         if 0 < y_eval.sum() < len(y_eval)
         else p_eval
     )
-    index = np.random.default_rng(seed + 1).integers(0, len(held), size=(BOOTSTRAP, len(held)))
+    weights = patient_bootstrap_weights(patients.iloc[held], BOOTSTRAP, seed + 1)
 
     def at(t: float) -> dict[str, Any]:
         fixed = {
@@ -256,13 +272,13 @@ def repair_cell(
             "every_local_label": oracle >= t,
         }
         row: dict[str, Any] = {"threshold": t, "treat_none": 0.0}
-        base = _nb_draws(y_eval, fixed["as_delivered"], t, index)
+        base = _nb_draws(y_eval, fixed["as_delivered"], t, weights)
         # 95% bootstrap interval of each rule's net benefit minus the model's.
         versus: dict[str, list[float]] = {}
         for name, treated in fixed.items():
             row[name] = net_benefit_of(y_eval, treated, t)
             if name not in ("as_delivered", "every_local_label"):
-                diff = _nb_draws(y_eval, treated, t, index) - base
+                diff = _nb_draws(y_eval, treated, t, weights) - base
                 versus[name] = [float(np.percentile(diff, 2.5)), float(np.percentile(diff, 97.5))]
         row["minus_as_delivered"] = versus
         local_nb = np.array([net_benefit_of(y_eval, q >= t, t) for q in local])

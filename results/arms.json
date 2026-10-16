@@ -103,7 +103,7 @@
   "n_draws": 200,
   "bootstrap_draws": 1000,
   "seed": 0,
-  "git_commit": "b315e2735a04b0fa46098f61f4d1a42d19c12a31",
+  "git_commit": "0a7c41e73308d89d52e386da29e4090e954472c7",
   "discrimination": {
     "random_init": {
       "ptbxl": {
@@ -5041,5 +5041,5 @@
     }
   },
   "paired_note": "discrimination_paired resamples records, so its interval is a statement about another sample of patients; coverage_gap_paired is the spread over the calibration draws themselves and says how much two arms differ across the calibrations that could have been drawn",
-  "seconds": 645.1
+  "seconds": 705.3
 }

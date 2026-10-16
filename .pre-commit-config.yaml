@@ -1,6 +1,8 @@
 # The gates, on every commit.  They call the project's own tools in .venv so the
 # hook and `uv run ruff / mypy / pytest` can never disagree.
 exclude: ^third_party/  # upstream code kept as published
+# `pre-commit install` alone then installs the commit-msg hook as well.
+default_install_hook_types: [pre-commit, pre-push, commit-msg]
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
@@ -34,3 +36,8 @@ repos:
         language: system
         pass_filenames: false
         stages: [pre-push]
+      - id: commit-subject
+        name: commit subject (72 characters, no framing colon)
+        entry: .venv/bin/python scripts/check_commit_subject.py
+        language: system
+        stages: [commit-msg]

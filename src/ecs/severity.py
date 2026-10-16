@@ -32,6 +32,7 @@ __all__ = [
     "VERDICT_RULE",
     "bootstrap_reweighted",
     "compare",
+    "finding_stratum",
     "findings_count",
     "graded",
     "lvef_band",
@@ -123,9 +124,20 @@ def lvef_band(lvef: NDArray[np.float64]) -> StrArray:
     return out
 
 
+def finding_stratum(count: NDArray[np.int_]) -> StrArray:
+    """One finding, or two and more.  Only an ill patient has a stratum, and an
+    ill patient carries at least one finding; a count of 0 is refused, not filed
+    under one."""
+    count = np.asarray(count)
+    if (count < 1).any():
+        raise ValueError("a record with no finding has no severity stratum")
+    out: StrArray = np.where(count >= 2, "2+", "1")
+    return out
+
+
 def severity_cell(count: NDArray[np.int_], lvef: NDArray[np.float64]) -> StrArray:
     """The reweighting cell: one finding or two and more, by ejection-fraction band."""
-    findings = np.where(np.asarray(count) >= 2, "2+", "1")
+    findings = finding_stratum(count)
     out: StrArray = np.char.add(np.char.add(findings, " finding, LVEF "), lvef_band(lvef))
     return out
 
