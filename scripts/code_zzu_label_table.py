@@ -27,7 +27,14 @@ from typing import Any
 import pandas as pd
 
 from ecs import code_ecg, zzu
-from ecs.code_ecg import CODE_FLAGS, TEN_SECONDS_AT_400, code15_sample, code_labels
+from ecs.code_ecg import (
+    CODE_FLAGS,
+    TEN_SECONDS_AT_400,
+    code15_pool,
+    code15_sample,
+    code_labels,
+    strata_of,
+)
 from ecs.config import CODE15_DIR, CODE_TEST_DIR, RESULTS_DIR, ZZU_DIR
 from ecs.provenance import provenance_block
 from ecs.rotation import corpus_index
@@ -102,8 +109,8 @@ def code15_table(spans_path: Path, ids_out: Path | None) -> dict[str, Any]:
     if ids_out is not None:
         ids_out.write_text(ids)
     eligible = exams[exams["exam_id"].isin(ten.index)]
+    pool = code15_pool(exams, spans)
     sample_labels = code_labels(sample)
-    sample_strata = sample_labels[list(CODE_FLAGS)].astype(int).astype(str).agg("".join, axis=1)
     return {
         "release": {
             "n_exams": len(exams),
@@ -123,7 +130,15 @@ def code15_table(spans_path: Path, ids_out: Path | None) -> dict[str, Any]:
             "seed": code_ecg.CODE15_SAMPLE_SEED,
             "strata": "the four flags AF, LBBB, RBBB, 1dAVb of each patient's drawn exam",
             "strata_order": list(CODE_FLAGS),
-            "drawn_per_stratum": {str(k): int(v) for k, v in sample_strata.value_counts().items()},
+            "pool": {
+                "what": "one ten-second exam per patient who has one, the frame the draw is from",
+                "n": len(pool),
+                "per_stratum": {str(k): int(v) for k, v in strata_of(pool).value_counts().items()},
+                "prevalence": prevalences(code_labels(pool)),
+            },
+            "drawn_per_stratum": {
+                str(k): int(v) for k, v in strata_of(sample).value_counts().items()
+            },
             "ids_sha256": hashlib.sha256(ids.encode()).hexdigest(),
             "counts": counts(sample_labels),
             "prevalence": prevalences(sample_labels),
@@ -137,6 +152,7 @@ def code_test_table() -> dict[str, Any]:
     return {
         "release": {"n_exams": len(labels), "counts": counts(labels)},
         "short_exams": int(short.sum()),
+        "short_exam_ids": [str(i) for i in frame.index[short.to_numpy()]],
         "ten_second_exams": {"n": int((~short).sum()), **counts(labels[~short])},
     }
 

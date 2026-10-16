@@ -46,6 +46,12 @@ results/rotation/**/model.pt
 results/rotation_six/**/model.pt
 results/rotation_six/**/train.log
 !results/mimic_shadow/
+!results/code_zzu_label_map.json
+!results/code_zzu_rotation.json
+!results/code_zzu_rotation.csv
+!results/rotation_seven/
+results/rotation_seven/**/model.pt
+results/rotation_seven/**/train.log
 !results/embeddings/
 results/embeddings/**/*.npz
 !results/figures/

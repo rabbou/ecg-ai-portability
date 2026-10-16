@@ -54,6 +54,7 @@ __all__ = [
     "REFUSED",
     "TEN_SECONDS_AT_400",
     "code15_frame",
+    "code15_pool",
     "code15_sample",
     "code_labels",
     "code_test_frame",
@@ -62,6 +63,7 @@ __all__ = [
     "read_code_test",
     "short_exams",
     "spans_of",
+    "strata_of",
 ]
 
 # The rotation's class key to the CODE flag that carries it.
@@ -217,35 +219,46 @@ def proportional_allocation(sizes: pd.Series, n: int) -> pd.Series:
     return base
 
 
+def code15_pool(
+    exams: pd.DataFrame, spans: pd.Series, seed: int = CODE15_SAMPLE_SEED
+) -> pd.DataFrame:
+    """One ten-second exam per patient who has one, drawn with ``seed``.
+
+    ``exams`` is ``exams.csv`` and ``spans`` the non-zero span of every exam,
+    indexed by ``exam_id``.  Returns rows of ``exams`` indexed by ``exam_id``.
+    """
+    exams = exams.set_index("exam_id", drop=False).sort_index()
+    eligible = exams[spans.reindex(exams.index).fillna(0).to_numpy() >= TEN_SECONDS_AT_400]
+    shuffled = eligible.iloc[np.random.default_rng(seed).permutation(len(eligible))]
+    return shuffled[~shuffled["patient_id"].duplicated(keep="first")].sort_index()
+
+
+def strata_of(rows: pd.DataFrame) -> pd.Series:
+    """Each row's combination of the four rotation flags, as a string like ``0100``."""
+    return code_labels(rows)[list(CODE_FLAGS)].astype(int).astype(str).agg("".join, axis=1)
+
+
 def code15_sample(
     exams: pd.DataFrame,
     spans: pd.Series,
     n: int = CODE15_SAMPLE_SIZE,
     seed: int = CODE15_SAMPLE_SEED,
 ) -> pd.DataFrame:
-    """``n`` patients, one ten-second exam each, stratified on the four flags.
+    """``n`` patients of :func:`code15_pool`, stratified on the four flags.
 
-    ``exams`` is ``exams.csv`` and ``spans`` the non-zero span of every exam,
-    indexed by ``exam_id``.  An exam is eligible when it holds ten seconds; each
-    patient with an eligible exam keeps one, drawn with ``seed``; the patients are
-    then drawn within strata of the combination of the four rotation flags, in
-    proportion to each stratum's size, so the sample's prevalences are the
-    corpus's.  Returns the chosen rows of ``exams``, indexed by ``exam_id``.
+    The patients are drawn within strata of the combination of the four rotation
+    flags, in proportion to each stratum's size, so the sample's prevalences are
+    the pool's to within one patient per stratum.
     """
-    exams = exams.set_index("exam_id", drop=False).sort_index()
-    eligible = exams[spans.reindex(exams.index).fillna(0).to_numpy() >= TEN_SECONDS_AT_400]
-    rng = np.random.default_rng(seed)
-    shuffled = eligible.iloc[rng.permutation(len(eligible))]
-    one = shuffled[~shuffled["patient_id"].duplicated(keep="first")].sort_index()
-    flags = code_labels(one)[list(CODE_FLAGS)]
-    stratum = flags.astype(int).astype(str).agg("".join, axis=1)
-    sizes = stratum.value_counts().sort_index()
-    quota = proportional_allocation(sizes, n)
+    pool = code15_pool(exams, spans, seed)
+    stratum = strata_of(pool)
+    quota = proportional_allocation(stratum.value_counts().sort_index(), n)
+    rng = np.random.default_rng(seed + 1)
     chosen: list[int] = []
     for name, k in quota.items():
         members = stratum.index[stratum == name].to_numpy()
         chosen.extend(int(e) for e in rng.choice(members, size=int(k), replace=False))
-    return one.loc[sorted(chosen)]
+    return pool.loc[sorted(chosen)]
 
 
 def code15_frame(root: Path, sample: Path) -> tuple[pd.DataFrame, pd.DataFrame]:
