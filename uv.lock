@@ -256,7 +256,7 @@ wheels = [
 ]
 
 [[package]]
-name = "ecg-conformal-shift"
+name = "ecg-ai-portability"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
