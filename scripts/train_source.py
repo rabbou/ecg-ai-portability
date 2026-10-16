@@ -11,7 +11,8 @@ is the hospital the records came from.  The head has five sigmoid outputs, one
 per diagnosis, because an ECG carries several at once: a record can be sinus
 rhythm and right bundle-branch block together.
 
-Four files per source, under ``results/rotation/<source>/``:
+Four files per source, under ``results/rotation/<source>/`` for the published
+five and under ``--rotation-dir`` for any other source, which must name it:
 
 ``config.json``   everything that moves the number, including the split sizes,
                   the standardisation the training part fixed, and the machine;
@@ -40,12 +41,12 @@ from numpy.typing import NDArray
 from sklearn.metrics import roc_auc_score
 from torch import nn
 
-from ecs.config import N_LEADS, RESULTS_DIR, WINDOW_SAMPLES
+from ecs.config import N_LEADS, WINDOW_SAMPLES
 from ecs.encoders import machine_info
 from ecs.models import ResNet1d
 from ecs.rotation import (
     CAL_CAP,
-    EXTENDED_SOURCES,
+    CODE_ZZU_SOURCES,
     TEST_CAP,
     TRAIN_CAP,
     VAL_CAP,
@@ -53,6 +54,7 @@ from ecs.rotation import (
     class_keys,
     corpus_index,
     load_waveforms,
+    rotation_dir_for,
     usable_classes,
 )
 
@@ -260,22 +262,33 @@ def train(source: str, settings: Settings, rotation_dir: Path) -> dict[str, Any]
     return metrics
 
 
-def main() -> int:
+def arguments(argv: list[str] | None = None) -> tuple[str, Settings, Path, int]:
+    """The source, the settings, where to write, and the thread count, from ``argv``."""
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--source", required=True, choices=list(EXTENDED_SOURCES))
+    parser.add_argument("--source", required=True, choices=list(CODE_ZZU_SOURCES))
     parser.add_argument(
         "--rotation-dir",
         type=Path,
-        default=Path(RESULTS_DIR) / "rotation",
-        help="where <source>/ is written (default results/rotation)",
+        default=None,
+        help="where <source>/ is written; required for a source outside the published five",
     )
     parser.add_argument("--epochs", type=int, default=Settings.epochs)
     parser.add_argument("--threads", type=int, default=0, help="torch intra-op threads")
     parser.add_argument("--device", default=Settings.device, help="cpu or mps")
-    args = parser.parse_args()
-    if args.threads:
-        torch.set_num_threads(args.threads)
-    train(args.source, Settings(epochs=args.epochs, device=args.device), args.rotation_dir)
+    args = parser.parse_args(argv)
+    try:
+        rotation_dir = rotation_dir_for([args.source], args.rotation_dir)
+    except ValueError as error:
+        parser.error(str(error))
+    settings = Settings(epochs=args.epochs, device=args.device)
+    return args.source, settings, rotation_dir, args.threads
+
+
+def main() -> int:
+    source, settings, rotation_dir, threads = arguments()
+    if threads:
+        torch.set_num_threads(threads)
+    train(source, settings, rotation_dir)
     return 0
 
 

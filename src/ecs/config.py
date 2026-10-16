@@ -26,6 +26,22 @@ CHALLENGE2021_DIR = Path(
 # shadow run read are extracted from the release zip; see scripts/mimic_extract.py.
 MIMIC_ECG_DIR = Path(os.environ.get("ECS_MIMIC_ECG_DIR", Path.home() / "data/mimic-iv-ecg"))
 
+# CODE-15% (Zenodo 4916206): exams.csv at the top.  The sampled exams the
+# rotation reads are in one HDF5 file written by scripts/code15_extract.py,
+# because the release's 44 GB of zipped HDF5 cannot be read in place.
+CODE15_DIR = Path(os.environ.get("ECS_CODE15_DIR", Path.home() / "data/code15"))
+CODE15_SAMPLE = Path(
+    os.environ.get("ECS_CODE15_SAMPLE", Path.home() / "data/code15-sample/code15_sample.h5")
+)
+
+# The CODE test set (Zenodo 3765780), its data.zip unpacked in place (data/).
+CODE_TEST_DIR = Path(os.environ.get("ECS_CODE_TEST_DIR", Path.home() / "data/code-test"))
+
+# ZZU pECG (figshare 27078763): the tables at the top of the release, and the
+# WFDB records unpacked from its split archive Child_ecg.z01 + Child_ecg.zip.
+ZZU_DIR = Path(os.environ.get("ECS_ZZU_DIR", Path.home() / "data/zzu-pecg"))
+ZZU_RECORDS_DIR = Path(os.environ.get("ECS_ZZU_RECORDS_DIR", Path.home() / "data/zzu-pecg-records"))
+
 # The MIMIC-IV patients table (hosp/patients.csv), which holds each patient's
 # anchor_year_group, the only key from shifted to real calendar years.  The full
 # table is credentialed; the open demo (100 patients, ODbL) has the same schema.

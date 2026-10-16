@@ -31,6 +31,7 @@ import numpy as np
 import pandas as pd
 from numpy.typing import NDArray
 
+from . import code_ecg, zzu
 from .challenge import (
     challenge_small_set_labels,
     join_ptbxl_to_challenge,
@@ -39,12 +40,17 @@ from .challenge import (
     sph_small_set_labels,
 )
 from .config import (
+    CODE15_DIR,
+    CODE15_SAMPLE,
+    CODE_TEST_DIR,
     MIMIC_ECG_DIR,
     PTBXL_DIR,
     RESULTS_DIR,
     SAMPLING_RATE_HZ,
     SPH_DIR,
     WINDOW_SAMPLES,
+    ZZU_DIR,
+    ZZU_RECORDS_DIR,
 )
 from .duplicates import grouping_key
 from .ingest import Record, assemble_corpus, read_or_error, read_sph, read_wfdb
@@ -59,8 +65,11 @@ __all__ = [
     "TEST_CAP",
     "TRAIN_CAP",
     "VAL_CAP",
+    "CODE_ZZU_SOURCES",
     "CorpusIndex",
     "EXTENDED_SOURCES",
+    "SIDE_ARM",
+    "TARGET_ONLY",
     "AGE_BANDS",
     "age_band",
     "class_keys",
@@ -68,6 +77,7 @@ __all__ = [
     "duplicate_groups_of",
     "labels_of",
     "load_waveforms",
+    "rotation_dir_for",
     "usable_classes",
 ]
 
@@ -77,6 +87,18 @@ SOURCES: tuple[str, ...] = ("ptbxl", "sph", "chapman_ningbo", "georgia", "cpsc")
 # SOURCES so the published five-corpus rotation and everything that reads it
 # stay as they were; the six-corpus run writes under its own results directory.
 EXTENDED_SOURCES: tuple[str, ...] = (*SOURCES, "mimic")
+
+# The rotation with CODE-15% as a seventh source, under its own results
+# directory again.  The CODE test set and ZZU are read as targets only: the test
+# set's 827 exams cannot fill a calibration part, and ZZU's children are a side
+# arm, never a source and never pooled with the adult corpora.
+CODE_ZZU_SOURCES: tuple[str, ...] = (*EXTENDED_SOURCES, "code15")
+TARGET_ONLY: tuple[str, ...] = ("code_test", "zzu")
+SIDE_ARM: tuple[str, ...] = ("zzu",)
+
+# Refusals the new corpora declare in their own modules, beside the five
+# corpora's in small_set, whose published label table they would otherwise change.
+_EXTENSION_REFUSALS = frozenset((*code_ecg.REFUSED, *zzu.REFUSED))
 
 # Shares of patients, drawn once per corpus with a fixed seed.  The eval side is
 # the larger one: a coverage figure needs test records far more than a model
@@ -162,7 +184,8 @@ def usable_classes(corpus: str) -> list[str]:
     would have to invent to fill.  It is dropped from the corpus's rows of the
     table rather than reported as zero coverage.
     """
-    refused = {key for name, key in refusals() if name == corpus}
+    declared = {*refusals(), *_EXTENSION_REFUSALS}
+    refused = {key for name, key in declared if name == corpus}
     return [key for key in class_keys() if key not in refused]
 
 
@@ -180,6 +203,28 @@ def duplicate_groups_of(corpus: str) -> list[list[str]]:
         return []
     scanned = json.loads(path.read_text())["corpora"].get(corpus)
     return [list(members) for members in scanned["groups"]] if scanned else []
+
+
+PUBLISHED_ROTATION_DIR = Path(RESULTS_DIR) / "rotation"
+
+
+def rotation_dir_for(corpora: Sequence[str], given: Path | None) -> Path:
+    """Where a training or scoring run writes, refusing the published directory.
+
+    ``results/rotation`` holds the published five-corpus rotation.  A run that
+    names any other corpus must say where it writes, so a model of MIMIC or
+    CODE-15%, or a score of one of their corpora, never lands beside the
+    published files; a run of the five alone keeps the published default.
+    """
+    if given is not None:
+        return given
+    outside = sorted(set(corpora) - set(SOURCES))
+    if outside:
+        raise ValueError(
+            f"{', '.join(outside)} is not in the published rotation; pass --rotation-dir "
+            f"so nothing is written under {PUBLISHED_ROTATION_DIR}"
+        )
+    return PUBLISHED_ROTATION_DIR
 
 
 def _capped(frame: pd.DataFrame, part: str, cap: int, rng: np.random.Generator) -> pd.Series:
@@ -204,9 +249,18 @@ def _capped(frame: pd.DataFrame, part: str, cap: int, rng: np.random.Generator) 
     return inside & frame["patient"].isin(keep)
 
 
-def _split(frame: pd.DataFrame) -> pd.DataFrame:
-    """Draw the four parts by patient, then cap each one."""
+def _split(frame: pd.DataFrame, target_only: bool = False) -> pd.DataFrame:
+    """Draw the four parts by patient, then cap each one.
+
+    A corpus read only as a target puts every patient in ``test``, capped like
+    any other test part.
+    """
     frame = frame.copy()
+    if target_only:
+        frame["part"] = "test"
+        keep = _capped(frame, "test", TEST_CAP, np.random.default_rng(SPLIT_SEED))
+        frame.loc[~keep, "part"] = "unused"
+        return frame
     frame["part"] = patient_split(frame["patient"], PARTS, SPLIT_SEED)
     rng = np.random.default_rng(SPLIT_SEED)
     caps = {"train": TRAIN_CAP, "val": VAL_CAP, "cal": CAL_CAP, "test": TEST_CAP}
@@ -266,6 +320,15 @@ def corpus_index(corpus: str, widen_duplicates: bool = True) -> CorpusIndex:
             "diagnoses are AHA codes bridged to SNOMED by Leinonen et al.'s table",
             "records run from ten to sixty seconds; the first ten are kept",
         ]
+    elif corpus == "code15":
+        frame, labels = code_ecg.code15_frame(CODE15_DIR, CODE15_SAMPLE)
+        deviations = list(code_ecg.CODE15_DEVIATIONS)
+    elif corpus == "code_test":
+        frame, labels = code_ecg.code_test_frame(CODE_TEST_DIR)
+        deviations = list(code_ecg.CODE_TEST_DEVIATIONS)
+    elif corpus == "zzu":
+        frame, labels = zzu.zzu_frame(ZZU_DIR, ZZU_RECORDS_DIR)
+        deviations = list(zzu.ZZU_DEVIATIONS)
     elif corpus == "mimic":
         mimic, labels = rotation_frame(MIMIC_ECG_DIR)
         frame = mimic[["patient", "path", "age", "sex"]].copy()
@@ -304,7 +367,7 @@ def corpus_index(corpus: str, widen_duplicates: bool = True) -> CorpusIndex:
             f"{len(groups)} groups of identical tracings, {records_in_groups} records, split as "
             "one unit: the corpus repeats a tracing under more than one record identifier"
         )
-    return CorpusIndex(corpus, _split(frame), deviations)
+    return CorpusIndex(corpus, _split(frame, corpus in TARGET_ONLY), deviations)
 
 
 def _read(corpus: str, path: object) -> Record | Exception:
@@ -312,6 +375,10 @@ def _read(corpus: str, path: object) -> Record | Exception:
         return read_or_error(read_sph, SPH_DIR / "records" / f"{path}.h5")
     if corpus == "ptbxl":
         return read_or_error(read_wfdb, PTBXL_DIR / str(path))
+    if corpus == "code15":
+        return read_or_error(code_ecg.read_code15, Path(str(path)))
+    if corpus == "code_test":
+        return read_or_error(code_ecg.read_code_test, Path(str(path)))
     return read_or_error(read_wfdb, Path(str(path)))
 
 
