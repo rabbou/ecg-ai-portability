@@ -14,6 +14,7 @@ from ecs.repairs import (
     estimate_prior,
     local_recalibration,
     net_benefit_of,
+    patient_bootstrap_weights,
     prior_shift,
     repair_cell,
 )
@@ -154,3 +155,38 @@ def test_repair_cell_reads_every_rule_on_the_evaluation_half() -> None:
         t = row["threshold"]
         assert row["treat_all"] == pytest.approx(prev - (1 - prev) * t / (1 - t))
     assert cell["prevalence_estimated"] == pytest.approx(prev, abs=0.04)
+
+
+def test_a_bootstrap_draw_takes_all_of_a_patients_records_or_none() -> None:
+    patients = pd.Series(["a", "a", "a", "b", "c", "c"])
+    weights = patient_bootstrap_weights(patients, draws=200, seed=0)
+    assert (weights[:, 0] == weights[:, 1]).all() and (weights[:, 1] == weights[:, 2]).all()
+    assert (weights[:, 4] == weights[:, 5]).all()
+    # Three patients drawn per redraw, so the record weights of one patient each count once.
+    assert (weights[:, [0, 3, 4]].sum(axis=1) == 3).all()
+
+
+def test_copying_each_patients_ecg_does_not_narrow_the_net_benefit_interval() -> None:
+    """Twenty-five identical ECGs of one patient are one observation, not twenty-five.
+
+    A redraw of the records reads them as independent and returns an interval
+    about five times narrower; a redraw of the patients returns the same one."""
+    rng = np.random.default_rng(11)
+    n_pat = 80
+    ill = (rng.random(n_pat) < 0.3).astype(int)
+    p_tgt = rng.uniform(0.02, 0.6, n_pat)
+    xs, ys = gaussian(4_000, 0.3, rng)
+    p_cal = posterior(xs, 0.3)
+    ids = [f"p{i:02d}" for i in range(n_pat)]
+
+    def treat_all_interval(copies: int) -> list[float]:
+        patients = pd.Series(np.repeat(ids, copies))
+        y, p = np.repeat(ill, copies), np.repeat(p_tgt, copies)
+        cell = repair_cell(p_cal, ys, p, y, patients, draws=2)
+        row = next(r for r in cell["net_benefit"] if r["threshold"] == 0.10)
+        interval: list[float] = row["minus_as_delivered"]["treat_all"]
+        return interval
+
+    once, copied = treat_all_interval(1), treat_all_interval(25)
+    assert once[1] - once[0] > 0
+    assert copied == pytest.approx(once)

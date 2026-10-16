@@ -1,6 +1,6 @@
 # Transfer report: the study's ResNet frozen at random initialisation, with logistic probes, Columbia inpatients to Columbia outpatients
 
-Calibrated on 1903 inpatient ECGs and applied unchanged to 1059 outpatients, the per-label thresholds cover 78.6% of outpatients with structural heart disease (composite) where 90% was asked, leave 57.4% of those without it unflagged, and send 44.2% to a human. A patient without it whom the thresholds send to a human counts below as covered, which makes the healthy covered (97.2%) more than the healthy left unflagged. The composite's prevalence falls from 53.2% to 25.6%.
+Calibrated on 1903 inpatient ECGs and applied unchanged to 1059 outpatients, the per-label thresholds cover 78.6% of outpatients with structural heart disease (composite) where 90% was asked, leave 57.4% of those without it unflagged, and send 44.2% to a human. A patient without it whom the thresholds send to a human counts below as covered, which makes those covered (97.2%) more than those left unflagged. The composite's prevalence falls from 53.2% to 25.6%.
 
 | | Source | Target |
 |---|---|---|
@@ -13,9 +13,9 @@ Model: study ResNet1d frozen at its seeded initialisation, one probe per label. 
 
 ## Coverage per label at the 90% level
 
-Ill covered is the share of patients with the finding whose decision includes it: the sensitivity for the plain threshold, the coverage of the positive class for the two conformal schemes. A per-label threshold that the calibration positives cannot certify flags everyone, and the row then shows the whole target flagged. The plain threshold and the per-label threshold of the ill are the same calibration quantile, so their columns agree; the per-label scheme adds a threshold for the healthy, and with it the share sent to a human.
+Covered with the finding is the share of patients with the finding whose decision includes it: the sensitivity for the plain threshold, the coverage of the positive class for the two conformal schemes. A per-label threshold that the calibration positives cannot certify flags everyone, and the row then shows the whole target flagged. The plain threshold and the per-label threshold of patients with the finding are the same calibration quantile, so their columns agree; the per-label scheme adds a threshold for patients without it, and with it the share sent to a human.
 
-| Label | Prevalence, source | Prevalence, target | Ill in target | Ill covered, plain | Ill covered, pooled | Ill covered, per-label | Healthy covered, per-label, sent to a human included | Sent to a human, per-label | AUROC, target |
+| Label | Prevalence, source | Prevalence, target | With the finding in target | Covered with the finding, plain | Covered with the finding, pooled | Covered with the finding, per-label | Covered without the finding, per-label, sent to a human included | Sent to a human, per-label | AUROC, target |
 |---|---|---|---|---|---|---|---|---|---|
 | LVEF ≤45% | 24.5% | 6.6% | 70 | 85.7% | 54.3% | 85.7% [75.7%, 92.1%] | 97.2% | 29.3% | 0.841 |
 | LV wall ≥1.3 cm | 22.1% | 13.8% | 146 | 86.3% | 52.7% | 86.3% [79.8%, 91.0%] | 95.4% | 51.7% | 0.758 |
@@ -30,9 +30,9 @@ Ill covered is the share of patients with the finding whose decision includes it
 | TR velocity ≥3.2 m/s | 7.4% | 3.3% | 35 | 74.3% | 0.0% | 74.3% [57.9%, 85.8%] | 97.3% | 40.9% | 0.704 |
 | Composite (any of the above) | 53.2% | 25.6% | 271 | 78.6% | 82.7% | 78.6% [73.3%, 83.1%] | 97.2% | 44.2% | 0.758 |
 
-## Coverage of the ill inside groups, composite, per-label thresholds
+## Coverage of patients with the finding inside groups, composite, per-label thresholds
 
-| Group | | Ill | Ill covered [95% CI] |
+| Group | | With the finding | Covered with the finding [95% CI] |
 |---|---|---|---|
 | sex | female | 126 | 73.8% [65.5%, 80.7%] |
 | sex | male | 145 | 82.8% [75.8%, 88.0%] |
@@ -89,7 +89,7 @@ Net benefit is true positives per patient minus false positives per patient weig
 
 The source column is what a buyer computes from the sensitivity and specificity measured at the source, at the target's prevalence; the target column is observed.
 
-| Label | Prevalence, target | Sensitivity, source / target | Specificity, source / target | PPV from source | PPV observed | False alerts per ill patient found, from source / observed |
+| Label | Prevalence, target | Sensitivity, source / target | Specificity, source / target | PPV from source | PPV observed | False alerts per patient with the finding found, from source / observed |
 |---|---|---|---|---|---|---|
 | Composite (any of the above) | 25.6% | 90.1% / 78.6% | 32.0% / 57.4% | 31.3% | 38.8% | 2.2 / 1.6 |
 | LVEF ≤45% | 6.6% | 90.4% / 85.7% | 47.4% / 68.8% | 10.8% | 16.3% | 8.2 / 5.1 |
@@ -98,7 +98,7 @@ The source column is what a buyer computes from the sensitivity and specificity 
 
 The target is cut once by patient into a pool and an evaluation half. Rung 0 spends the source thresholds; rung n refits the per-label thresholds and an intercept shift on n ECGs drawn from the pool, over repeated draws, all read on the same evaluation half. One fixed half makes every draw share its luck, so the centiles below spread the labelled sample only. The study's report draws a new half in every draw and reads the refit on separate outpatients as well (REPORT.md section 3.7, SUPPLEMENT.md Tables S7 to S7c); those figures supersede this ladder's.
 
-| Label | Target labels | Ill covered, mean [10th, 90th centile] | Healthy covered, sent to a human included | Draws that flag everyone | Absolute intercept after shift |
+| Label | Target labels | Covered with the finding, mean [10th, 90th centile] | Covered without the finding, sent to a human included | Draws that flag everyone | Absolute intercept after shift |
 |---|---|---|---|---|---|
 | Composite (any of the above) | 0 | 79.6% [79.6%, 79.6%] | 96.9% | 0.0% | 0.76 |
 | Composite (any of the above) | 25 | 98.5% [94.2%, 100.0%] | 91.6% | 86.5% | 0.43 |
@@ -115,9 +115,9 @@ The target is cut once by patient into a pool and an evaluation half. Rung 0 spe
 
 ## Positive predictive value recomputed by Bayes' rule against observed
 
-At the plain threshold, the recipe carries the source's sensitivity and specificity to the target's true prevalence. The gap is recomputed minus observed, in percentage points, with the 2.5th and 97.5th centiles of 2,000 redraws of both tables; the observed PPV carries its 95% Wilson interval. If only the prevalence had changed, the mean likelihood ratio among the healthy would stay at its source value, close to 1.
+At the plain threshold, the recipe carries the source's sensitivity and specificity to the target's true prevalence. The gap is recomputed minus observed, in percentage points, with the 2.5th and 97.5th centiles of 2,000 redraws of both tables; the observed PPV carries its 95% Wilson interval. If only the prevalence had changed, the mean likelihood ratio among patients without the finding would stay at its source value, close to 1.
 
-| Label | Prevalence, target | Flagged | PPV recomputed | PPV observed | Gap, points | Mean likelihood ratio of the healthy, source / target |
+| Label | Prevalence, target | Flagged | PPV recomputed | PPV observed | Gap, points | Mean likelihood ratio without the finding, source / target |
 |---|---|---|---|---|---|---|
 | LVEF ≤45% | 6.6% | 369 | 10.8% | 16.3% [12.8%, 20.4%] | -5.4 [-7.6, -3.3] | 1.15 / 0.53 |
 | LV wall ≥1.3 cm | 13.8% | 615 | 16.4% | 20.5% [17.5%, 23.9%] | -4.1 [-5.7, -2.4] | 1.02 / 0.77 |

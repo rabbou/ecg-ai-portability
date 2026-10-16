@@ -3,8 +3,8 @@
 One calibration/test split gives one coverage figure, and that figure moves by
 several points depending on which half the split happened to pick.  Reporting it
 alone invites reading noise as an effect, so every coverage number in this
-project is a mean over at least a hundred re-draws with the spread beside it
-.  The re-draw is the standard way of evaluating a split conformal
+project is a mean over at least a hundred re-draws with the spread beside it.
+The re-draw is the standard way of evaluating a split conformal
 predictor -- Angelopoulos & Bates, arXiv:2107.07511, section 3.
 
 The split is drawn over patients, never over records: two tracings of one
@@ -462,28 +462,28 @@ def frozen_calibration_table(
 ) -> list[dict[str, object]]:
     """Coverage on every corpus under one PTB-XL calibration, over ``n_draws`` draws.
 
-     One row per (level, score, correction).  Each row carries the calibration
-     sample the thresholds came from -- its size and the points each class was
-     left with -- and a block per corpus holding coverage, coverage per
-     class, the set-size shares, the threshold actually spent there and
-     what that threshold cost in effective sample size.  Every figure is a
-     mean over the draws with its standard deviation.
+    One row per (level, score, correction).  Each row carries the calibration
+    sample the thresholds came from -- its size and the points each class was
+    left with -- and a block per corpus holding coverage, coverage per
+    class, the set-size shares, the threshold actually spent there and
+    what that threshold cost in effective sample size.  Every figure is a
+    mean over the draws with its standard deviation.
 
-     The threshold sits inside the corpus block rather than on the row because
-     one of the three corrections makes it depend on the corpus: ``weighted``
-     reads each target's estimated class mix.  It reads nothing else of the
-     target -- no label, no score -- so no corpus is ever calibrated on itself
-    , and under the other two corrections all three blocks carry the same
-     threshold, which is that claim made checkable on the file.
+    The threshold sits inside the corpus block rather than on the row because
+    one of the three corrections makes it depend on the corpus: ``weighted``
+    reads each target's estimated class mix.  It reads nothing else of the
+    target -- no label, no score -- so no corpus is ever calibrated on itself,
+    and under the other two corrections all three blocks carry the same
+    threshold, which is that claim made checkable on the file.
 
-     ``keep_draws`` additionally writes each corpus's coverage, per-class coverage
-     and mean set size draw by draw.  The summary alone cannot answer a paired
-     question -- the gap between two corpora within one draw, the gap between two
-     encoder arms on the same draw, or what one correction cost against another on
-     the draw they shared -- and subtracting two means throws away the fact that
-     the draws were shared.  It is off by default because the series is two
-     hundred numbers per corpus per row and only the caller asking a paired
-     question needs them.
+    ``keep_draws`` additionally writes each corpus's coverage, per-class coverage
+    and mean set size draw by draw.  The summary alone cannot answer a paired
+    question -- the gap between two corpora within one draw, the gap between two
+    encoder arms on the same draw, or what one correction cost against another on
+    the draw they shared -- and subtracting two means throws away the fact that
+    the draws were shared.  It is off by default because the series is two
+    hundred numbers per corpus per row and only the caller asking a paired
+    question needs them.
     """
     n_classes = source.probs.shape[1]
     keys = pd.Series(list(source.patients), index=range(len(source.labels)))

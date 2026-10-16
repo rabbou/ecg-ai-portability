@@ -11,7 +11,7 @@ Every number and figure the article prints is redrawn from the files in `results
 | `auxiliary.json` | `scripts/auxiliary.py` | The quantities the discussion and the limitations rest on |
 | `baseline.json` | summary of the PTB-XL baseline, read by `scripts/figures.py` and `tests/test_baseline.py` | The supervised baseline's headline numbers; the run's own files are in `baseline/` |
 | `duplicate_groups.json` | `scripts/duplicate_scan.py` | Which tracings a corpus holds twice |
-| `echonext_clinical.json` | `scripts/echonext_clinical.py` | EchoNext counted in patients: what the inpatient threshold does to 100 ill outpatients |
+| `echonext_clinical.json` | `scripts/echonext_clinical.py` | EchoNext counted in patients: what the inpatient threshold does to 100 outpatients with SHD |
 | `echonext_coverage.csv`, `echonext_transfer.json` | `scripts/echonext_transfer.py` | EchoNext inpatients to outpatients: the coverage table and the data behind the transfer reports |
 | `echonext_ppv_gap.json`, `ppv_gap.json`, `ppv_gap.csv` | `scripts/ppv_gap.py` | The PPV recomputed by Bayes' rule against the PPV observed, per transfer |
 | `echonext_provenance.json` | `scripts/echonext_provenance.py` | One provenance row per EchoNext tracing |

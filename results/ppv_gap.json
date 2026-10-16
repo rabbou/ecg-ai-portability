@@ -5561,17 +5561,17 @@
    }
   }
  },
- "seconds": 1.2,
+ "seconds": 1.1,
  "provenance": {
-  "commit": "87067f488d0110a2c6d469c703fb12f2b6b506b1",
+  "commit": "0a7c41e73308d89d52e386da29e4090e954472c7",
   "producers": {
    "scripts/ppv_gap.py": "01e50f0048aa529c113093552ef90c1e3cc80573040abea20ad7eecf0565675e",
    "scripts/score_pairs.py": "6faf9a18b793f43d543cade0eeef1127ff3510907006f33907bc787e9edf3805",
    "src/ecs/calibration.py": "d3154324fa595b4065982eef882658f5e9d24a96d2561fb934f5abd78bb54e4a",
    "src/ecs/conformal.py": "c434998b704a551d55bc2206a1a3ada6d42309947b0b92db11607746dcd068dc",
    "src/ecs/metrics.py": "e04509abce93b400ac90cbd102a63a747f0559de4d2c9d20cdc2ee4ce1cf90e6",
-   "src/ecs/ppv_gap.py": "9871bb5a7c1c3bbf9dfe0f2856d3f78401136a9a2405b926cf0681bc9ca29a84",
-   "src/ecs/repairs.py": "68f314e0065f175d46b8b163774002e3622c15c9388f231b2007e0fca148d3f2",
+   "src/ecs/ppv_gap.py": "12b0ef72636bab3b4c31d63f1e3720b30e8bb4810610c3d41c17bd72a9532b80",
+   "src/ecs/repairs.py": "40ebe88178711f935d64918b6bce06d66d0347b4d71e36efeb09aa9624b64070",
    "src/ecs/transfer.py": "e690339b52941e150a61527ac5e0e56a3cc5dbcd5772f7ba06ec8296b112d624"
   }
  }

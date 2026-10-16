@@ -27,7 +27,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import resource
 import time
 from collections.abc import Callable
 from pathlib import Path
@@ -60,6 +59,7 @@ from ecs.encoders import (
     allowlisted_load,
     ecgfounder_net,
     machine_info,
+    peak_rss_bytes,
     verified,
 )
 from ecs.models import ResNet1d
@@ -400,7 +400,7 @@ SCORERS: dict[str, Callable[[pd.DataFrame, Tracings], tuple[Float32Array, dict[s
 
 def peak_memory() -> dict[str, int]:
     """Peak resident set of this process, and what the Apple GPU driver holds now."""
-    out = {"peak_rss_bytes": int(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)}
+    out = {"peak_rss_bytes": peak_rss_bytes()}
     if torch.backends.mps.is_available():
         out["mps_driver_bytes"] = int(torch.mps.driver_allocated_memory())
     return out
