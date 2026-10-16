@@ -32,6 +32,8 @@ PATH = Path(RESULTS_DIR) / "code_zzu_label_map.json"
 
 @pytest.fixture(scope="module")
 def table() -> dict[str, Any]:
+    if not PATH.exists():
+        pytest.skip(f"{PATH} is not built; run scripts/code_zzu_label_table.py")
     return json.loads(PATH.read_text())
 
 
