@@ -1,6 +1,6 @@
 [project]
-name = "ecg-conformal-shift"
-version = "0.1.0"
+name = "ecg-ai-portability"
+version = "2.0.0"
 description = "Predicting an ECG model's positive predictive value from a clinic's prevalence: a retrospective measurement across hospitals and care settings"
 requires-python = ">=3.11,<3.12"
 dependencies = [

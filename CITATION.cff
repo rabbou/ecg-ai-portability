@@ -5,7 +5,7 @@ type: software
 authors:
   - family-names: Abbou
     given-names: Ruben
-repository-code: https://github.com/rabbou/ecg-conformal-shift
+repository-code: https://github.com/rabbou/ecg-ai-portability
 # v1.0.0 and v1.1.0 are tags of earlier articles; this one is cited as 2.0.0, and
 # date-released is written when that tag is made at the merge.
 version: 2.0.0
@@ -41,4 +41,4 @@ preferred-citation:
     - family-names: Abbou
       given-names: Ruben
   year: 2026
-  url: https://github.com/rabbou/ecg-conformal-shift/blob/master/REPORT.md
+  url: https://github.com/rabbou/ecg-ai-portability/blob/master/REPORT.md
