@@ -186,7 +186,7 @@ Cette étude de mesure rétrospective porte sur des données publiques désident
 
 ## Déclarations
 
-**Liens d'intérêts.** L'auteur a travaillé chez Idoven, qui développe des logiciels d'analyse de l'ECG, et chez Anumana, qui commercialise les travaux d'ECG par intelligence artificielle de la Mayo Clinic, dont la lignée de l'étude sur l'hyperkaliémie [1] ; les études citées en [9] et [10] viennent aussi de la Mayo Clinic. Ni Idoven ni Anumana n'ont pris part ni à la conception, à la conduite, au financement ni à la rédaction de cette étude. Aucune donnée, aucun modèle ni aucun logiciel de l'une ou l'autre entreprise n'a été utilisé.
+**Liens d'intérêts.** L'auteur a travaillé chez Idoven, qui développe des logiciels d'analyse de l'ECG, et chez Anumana, qui commercialise les travaux d'ECG par intelligence artificielle de la Mayo Clinic, dont la lignée de l'étude sur l'hyperkaliémie [1] ; les études citées en [9] et [10] viennent aussi de la Mayo Clinic. Ni Idoven ni Anumana n'ont pris part ni à la conception, ni à la conduite, ni au financement, ni à la rédaction de cette étude. Aucune donnée, aucun modèle ni aucun logiciel de l'une ou l'autre entreprise n'a été utilisé.
 
 **Financement.** Aucun.
 
