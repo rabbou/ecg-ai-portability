@@ -101,7 +101,11 @@ def rotation_counts(corpus: str) -> dict[str, Any]:
 
 def code15_table(spans_path: Path, ids_out: Path | None) -> dict[str, Any]:
     exams = pd.read_csv(CODE15_DIR / "exams.csv")
-    spans = pd.read_csv(spans_path).set_index("exam_id")["span"]
+    read = pd.read_csv(spans_path)
+    # Every part of the release ends with an empty row under exam_id 0, which
+    # exams.csv does not list; those rows are counted and set aside.
+    listed = read["exam_id"].isin(exams["exam_id"])
+    spans = read[listed].set_index("exam_id")["span"]
     release = code_labels(exams)
     ten = spans[spans >= TEN_SECONDS_AT_400]
     sample = code15_sample(exams, spans)
@@ -121,6 +125,7 @@ def code15_table(spans_path: Path, ids_out: Path | None) -> dict[str, Any]:
         "spans": {
             "file_sha256": hashlib.sha256(spans_path.read_bytes()).hexdigest(),
             "n_exams": len(spans),
+            "n_rows_not_in_exams_csv": int((~listed).sum()),
             "n_ten_seconds": len(ten),
             "span_counts": {str(k): int(v) for k, v in spans.value_counts().head(6).items()},
             "n_patients_with_a_ten_second_exam": int(eligible["patient_id"].nunique()),
