@@ -19,6 +19,9 @@ Every number and figure the article prints is redrawn from the files in `results
 | `infarction_sites.json` | `scripts/infarction_sites.py` | Infarction at the three sites: separation and threshold movement |
 | `ingest_report.json` | `scripts/scan_corpora.py` | Every record of every corpus through the ingestion chain |
 | `label_map.json` | `scripts/label_table.py` | What each of the five corpora calls each of the five diagnoses |
+| `mimic_label_map.json` | `scripts/mimic_label_table.py` | How the cart statements of MIMIC-IV-ECG map onto the five diagnoses, with every statement counted |
+| `mimic_rotation.json`, `mimic_rotation.csv` | `scripts/mimic_rotation.py` | The rotation with MIMIC-IV-ECG as a sixth corpus, and the check against the published scores |
+| `mimic_shadow.json`, `mimic_shadow.csv` | `scripts/mimic_shadow.py` | The Beth Israel model's thresholds fitted early and spent late |
 | `outcomes.json` | `scripts/outcomes.py` | What a patient of each label gets under three ways of thresholding |
 | `perturbations.json`, `perturbations.npz` | `scripts/perturbations.py` | What four acquisition faults do to coverage |
 | `ppv_intervals.json` | `scripts/ppv_intervals.py` | 95% intervals for the shares the article quotes that no other file carries |
@@ -42,3 +45,5 @@ Every number and figure the article prints is redrawn from the files in `results
 | `external/` | The PTB-XL model spent on Shandong (`sph`) and Chongqing (`acs`) | `scripts/score_external.py` |
 | `figures/` | The article's figures, English and French (`_fr`) | `scripts/figures.py`, `scripts/paper_figures.py`, `scripts/ppv_figures.py`, `scripts/bilingual_figures.py` |
 | `rotation/<source>/` | One model per source corpus: config, metrics, scores | `scripts/train_source.py`, `scripts/score_rotation.py` |
+| `rotation_six/<source>/` | The same rotation with MIMIC-IV-ECG as a sixth source: config, metrics, scores | `scripts/train_source.py`, `scripts/score_rotation.py` |
+| `mimic_shadow/scores/<model>/` | The scores behind the shadow run, one file per fitted and spent part | `scripts/mimic_shadow.py` |
