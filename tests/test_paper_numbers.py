@@ -224,6 +224,8 @@ SUPPLEMENT_CONSTANTS = {
     "6": "a reference of the report",
     "10": "the eight NewYork-Presbyterian hospitals' table, and a reference",
     "1.1": "EchoNext's version, 1.1.1",
+    "16.9%": "Millar and colleagues' coverage under marginal conformal prediction",
+    "77.5%": "Millar and colleagues' coverage under class-conditional prediction",
 }
 
 
