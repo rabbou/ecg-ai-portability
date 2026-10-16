@@ -44,3 +44,7 @@ jobs:
       # -m "not data" is the pre-push hook's selection: the rest needs corpora
       # that are not in the repository and are not downloadable here.
       - run: uv run pytest -q -m "not data"
+
+      # The provenance guard on full history, named in the log: it fails, not
+      # skips, when the checkout is shallow.
+      - run: uv run pytest -v tests/test_provenance.py
