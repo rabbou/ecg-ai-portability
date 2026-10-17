@@ -14,10 +14,14 @@ from typing import Any
 
 import numpy as np
 import pytest
-from code_zzu_rotation import ROTATION_SEVEN, all_rows, below
+from code_zzu_rotation import ROTATION_SEVEN, below, target_arrays
+from mimic_rotation import load
+from sklearn.metrics import roc_auc_score
 
 from ecs.config import RESULTS_DIR
 from ecs.provenance import REPO_ROOT
+from ecs.rotation import EXTENDED_SOURCES, class_keys, usable_classes
+from ecs.transfer import ALPHA, conformal_sets, coverage_row
 
 DOC = (REPO_ROOT / "CODE_ZZU.md").read_text()
 SOURCES = {
@@ -32,11 +36,45 @@ SOURCES = {
 LABELS = ("AF", "LBBB", "RBBB", "IAVB")
 
 
+TARGETS = ("code15", "code_test", "code_test_10s", "zzu")
+
+
+def perlabel_rows(source: str, target: str) -> list[dict[str, Any]]:
+    """The per-label rule's coverage with Wilson intervals, and the point AUROC.
+
+    Rebuilt from the score arrays with ``ecs.transfer`` like the published table,
+    without its bootstrap of the AUROC interval, which no figure of the document
+    prints and which would cost minutes per run.
+    """
+    y_cal, p_cal = load(ROTATION_SEVEN / source / "scores" / f"{source}_cal.npz")
+    y, p = target_arrays(ROTATION_SEVEN, source, target)
+    corpus = "code_test" if target == "code_test_10s" else target
+    out = []
+    for key in [k for k in usable_classes(source) if k in usable_classes(corpus)]:
+        j = class_keys().index(key)
+        sets = conformal_sets(p_cal[:, j], y_cal[:, j], p[:, j], ALPHA)["perlabel"]
+        row = coverage_row(sets, y[:, j])
+        auroc = roc_auc_score(y[:, j], p[:, j]) if 0 < y[:, j].sum() < len(y) else None
+        out.append(
+            {
+                "source": source,
+                "target": target,
+                "label": key,
+                "method": "perlabel",
+                "auroc": auroc,
+                **row,
+            }
+        )
+    return out
+
+
 @pytest.fixture(scope="module")
 def rows() -> list[dict[str, Any]]:
     if not (ROTATION_SEVEN / "code15" / "scores" / "code15_cal.npz").exists():
         pytest.skip("results/rotation_seven is not committed in this tree")
-    return [r for r in all_rows(ROTATION_SEVEN) if r["method"] == "perlabel"]
+    into_new = [r for s in SOURCES.values() for t in TARGETS for r in perlabel_rows(s, t)]
+    out_of_code15 = [r for t in EXTENDED_SOURCES for r in perlabel_rows("code15", t)]
+    return into_new + out_of_code15
 
 
 def cell(rows: list[dict[str, Any]], source: str, target: str, label: str) -> dict[str, Any]:
