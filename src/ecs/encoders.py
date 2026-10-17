@@ -198,12 +198,14 @@ PRETRAINING = {
 # Which corpora of this study an arm saw at pre-training, read off the sources
 # quoted in PRETRAINING.  The prose says it in a sentence; a figure that has to
 # be read as an upper bound rather than as transfer needs the fact itself.
+# HuBERT-ECG's "Ribeiro/CODE" is read as CODE-15%, the release of CODE that is
+# open; whether it also used the CODE test set its paper does not say.
 SAW: dict[str, tuple[str, ...]] = {
     "random_init": (),
     "ecgfounder": (),
     "ecgfm": ("ptbxl", "mimic"),
-    "hubert_ecg": ("ptbxl", "sph", "mimic"),
-    "ecg_jepa": ("chapman_ningbo",),
+    "hubert_ecg": ("ptbxl", "sph", "mimic", "code15"),
+    "ecg_jepa": ("chapman_ningbo", "code15"),
 }
 
 NO_EXTRA_PREPROCESSING = (

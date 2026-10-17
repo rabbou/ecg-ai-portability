@@ -51,6 +51,8 @@ class TestWhatTheArmDeclares:
                 assert "Shandong" in described, arm
             if "chapman_ningbo" in corpora:
                 assert "Chapman-Shaoxing" in described, arm
+            if "code15" in corpora:
+                assert "CODE" in described, arm
             if "mimic" in corpora:
                 assert "MIMIC-IV" in described, arm
             else:
@@ -62,7 +64,7 @@ class TestWhatTheArmDeclares:
         described = PRETRAINING["ecg_jepa"]
         assert "Chapman-Shaoxing" in described and "Ningbo" in described
         assert "not PTB-XL" in described
-        assert SAW["ecg_jepa"] == ("chapman_ningbo",)
+        assert SAW["ecg_jepa"] == ("chapman_ningbo", "code15")
 
     def test_the_eight_leads_are_the_ones_the_authors_keep(self) -> None:
         kept = [CANONICAL_LEADS[i] for i in JEPA_LEADS]

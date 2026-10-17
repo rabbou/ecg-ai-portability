@@ -30,9 +30,15 @@ import numpy as np
 import torch
 from numpy.typing import NDArray
 
-from ecs.config import RESULTS_DIR
 from ecs.models import ResNet1d
-from ecs.rotation import SOURCES, CorpusIndex, class_keys, corpus_index, load_waveforms
+from ecs.rotation import (
+    SOURCES,
+    CorpusIndex,
+    class_keys,
+    corpus_index,
+    load_waveforms,
+    rotation_dir_for,
+)
 
 CHUNK = 500
 
@@ -103,7 +109,8 @@ def score_part(
     return {"n": len(kept), "seconds": int(time.time() - started)}
 
 
-def main() -> int:
+def arguments(argv: list[str] | None = None) -> tuple[list[str], list[str], str, Path, int]:
+    """Sources, corpora, device, where models are read and scores written, threads."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "--sources",
@@ -120,17 +127,26 @@ def main() -> int:
     parser.add_argument(
         "--rotation-dir",
         type=Path,
-        default=Path(RESULTS_DIR) / "rotation",
-        help="where each source's model is read and its scores written",
+        default=None,
+        help="where each model is read and its scores written; required for any corpus "
+        "outside the published five",
     )
-    args = parser.parse_args()
-    if args.threads:
-        torch.set_num_threads(args.threads)
-
-    rotation_dir = args.rotation_dir
+    args = parser.parse_args(argv)
     sources = [s for s in args.sources.split(",") if s]
-    scorers = {source: Scorer(source, rotation_dir, args.device) for source in sources}
-    for corpus in [c for c in args.corpora.split(",") if c]:
+    corpora = [c for c in args.corpora.split(",") if c]
+    try:
+        rotation_dir = rotation_dir_for([*sources, *corpora], args.rotation_dir)
+    except ValueError as error:
+        parser.error(str(error))
+    return sources, corpora, args.device, rotation_dir, args.threads
+
+
+def main() -> int:
+    sources, corpora, device, rotation_dir, threads = arguments()
+    if threads:
+        torch.set_num_threads(threads)
+    scorers = {source: Scorer(source, rotation_dir, device) for source in sources}
+    for corpus in corpora:
         index = corpus_index(corpus)
         done = score_part(index, "test", scorers, rotation_dir)
         print(f"{corpus}/test: {done}", flush=True)
