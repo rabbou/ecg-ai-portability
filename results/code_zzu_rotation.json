@@ -1,7 +1,7 @@
 {
  "written_by": "scripts/code_zzu_rotation.py",
  "provenance": {
-  "commit": "6f721e8ae31a7c437141fa40a8e44e2d787804a2",
+  "commit": "3d2de4991cbba48ad29f995ce96657f43fb8598f",
   "producers": {
    "scripts/code_zzu_rotation.py": "33603d216c6d4cf8e1d7c592f3eb779e6872b482da3652ac9c78158d50a3730f",
    "scripts/mimic_rotation.py": "c12bdff3f8a7a7eaf4819ee61e2d4382ea947aa51ff9adacf296df43c4769610",
