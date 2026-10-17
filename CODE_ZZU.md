@@ -38,7 +38,7 @@ The six sources of MIMIC.md and CODE-15% are trained with the same seed, caps an
 
 Coverage of the cases in the CODE test set, 90% asked for, per-label calibration; 13, 30, 34 and 28 cases.
 
-The discrimination of the foreign models on the test set is lower than at any hospital of the rotation: the median AUROC over the six sources is 0.817 for atrial fibrillation, 0.892 for left and 0.865 for right bundle-branch block, and 0.833 for first-degree block. With 13 to 34 cases per diagnosis, each figure carries a wide interval, given per cell in the grid.
+The discrimination of the foreign models on the test set is lower than at any hospital of the rotation: the median AUROC over the six sources is 0.824 for atrial fibrillation, 0.895 for left and 0.876 for right bundle-branch block, and 0.834 for first-degree block. With 13 to 34 cases per diagnosis, each figure carries a wide interval, given per cell in the grid.
 
 The tracings explain part of it. Read as the models read them, unfiltered, the CODE-15% tracings have a median absolute offset of 0.76 mV per lead against 0.003 mV in PTB-XL, and 39% of their leads sit more than 1 mV from zero; their QRS range in lead II, band-passed at 1 to 40 Hz, is about 1.5 times that of the adult hospital corpora (`amplitude` in `results/code_zzu_label_map.json`). The study's protocol applies no filter and no per-record normalisation, so this difference reaches the network as a difference between hospitals. Under it, the CODE-15% model stops at epoch 1 with a validation macro AUROC of 0.571, and the foreign models read CODE-15% at a median AUROC between 0.548 and 0.634. The CODE-15% rows of the grid are therefore a measure of the protocol's limit on this release, not of transfer: at home its thresholds cover 88.9% to 95.5% of the cases by sending 77% to 82% of tracings to a human reader, and carried elsewhere they miss 90% in 30 of 32 cells.
 
@@ -49,13 +49,13 @@ The tracings explain part of it. Read as the models read them, unfiltered, the C
 | PTB-XL | 33.3% | 33.3% | 71.3% | 65.6% |
 | Shandong | 46.7% | 83.3% | 94.6% | 65.6% |
 | Chapman-Shaoxing and Ningbo | 13.3% | 100.0% | 86.0% | 70.5% |
-| Georgia | 93.3% | 50.0% | 89.9% | 68.8% |
+| Georgia | 93.3% | 50.0% | 89.9% | 68.9% |
 | CPSC | 26.7% | 66.7% | 96.9% | 59.0% |
 | Beth Israel | 53.3% | 50.0% | 80.6% | 65.6% |
 
 Coverage of the cases in ZZU pECG, 90% asked for, per-label calibration; 15, 6, 129 and 61 cases.
 
-The adult models discriminate right bundle-branch block in children as well as in adults (median AUROC 0.966) and first-degree block nearly as well (0.927), yet first-degree block is covered at 59.0% to 70.5% from every source. This suggests that the scores of children fall on the other side of thresholds fitted on adults, rather than that the models fail to rank them. Atrial fibrillation and left bundle-branch block hold 15 and 6 cases and are reported, not interpreted.
+The adult models discriminate right bundle-branch block in children as well as in adults (median AUROC 0.968) and first-degree block nearly as well (0.938), yet first-degree block is covered at 59.0% to 70.5% from every source. This suggests that the scores of children fall on the other side of thresholds fitted on adults, rather than that the models fail to rank them. Atrial fibrillation and left bundle-branch block hold 15 and 6 cases and are reported, not interpreted.
 
 ## Limits
 

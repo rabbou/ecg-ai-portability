@@ -52,7 +52,7 @@ REGENERABLE = (
 # Not regenerable here, yet carrying a provenance block whose digests are checked: the
 # code that wrote them cannot drift unnoticed even where the data are absent, and
 # tests/test_echonext_data.py rebuilds the numbers where the data are present.
-DIGEST_CHECKED = ("echonext_clinical.json",)
+DIGEST_CHECKED = ("code_zzu_label_map.json", "echonext_clinical.json")
 
 # Not regenerable in a session, and why. The reason is the point: it is what a
 # reader needs in order to judge how much the recorded commit is worth.
