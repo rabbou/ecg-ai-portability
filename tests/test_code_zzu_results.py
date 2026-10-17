@@ -126,6 +126,6 @@ def test_the_label_counts_printed_are_the_table_s() -> None:
     assert printed == [str(test[k]) for k in LABELS]
     shares = table["code15"]["release"]["prevalence"]
     printed = table_after("The counts reproduce")["CODE-15%, share of 345,779 exams"][:4]
-    assert printed == [pct(shares[k]) for k in LABELS]
+    assert printed == [f"{100 * shares[k]:.2f}%" for k in LABELS]
     assert re.search(r"Only 132,161 exams hold ten seconds", DOC)
     assert table["code15"]["spans"]["n_ten_seconds"] == 132_161
