@@ -1,0 +1,287 @@
+{
+ "written_by": "scripts/code_zzu_rotation.py",
+ "provenance": {
+  "commit": "6f721e8ae31a7c437141fa40a8e44e2d787804a2",
+  "producers": {
+   "scripts/code_zzu_rotation.py": "33603d216c6d4cf8e1d7c592f3eb779e6872b482da3652ac9c78158d50a3730f",
+   "scripts/mimic_rotation.py": "c12bdff3f8a7a7eaf4819ee61e2d4382ea947aa51ff9adacf296df43c4769610",
+   "src/ecs/code_ecg.py": "aa4197d3f445dc74f8a8715e924b94323044715bcbc34bdef9a0813520a83c21",
+   "src/ecs/conformal.py": "c434998b704a551d55bc2206a1a3ada6d42309947b0b92db11607746dcd068dc",
+   "src/ecs/encoders.py": "7f66e9763ae7ea7f64fe7c4ddb3850c8aa0dd3e7123e88f8a3f9bc2ac85fa6c5",
+   "src/ecs/metrics.py": "e04509abce93b400ac90cbd102a63a747f0559de4d2c9d20cdc2ee4ce1cf90e6",
+   "src/ecs/rotation.py": "82db1f66b6454f956cd96209b7dd3b8e86117ba042019c361f436ba924364ee3",
+   "src/ecs/small_set.py": "cffa219c823ff009f109ac8557fa7acb2c14c10ea438d1445eedb9c8a360d43f",
+   "src/ecs/transfer.py": "e690339b52941e150a61527ac5e0e56a3cc5dbcd5772f7ba06ec8296b112d624",
+   "src/ecs/zzu.py": "936da865b4cc44673c587fd4b9ad1554ace1e9247abb93735804d53d550633e1"
+  }
+ },
+ "settings": {
+  "alpha": 0.1,
+  "methods": [
+   "plain",
+   "pooled",
+   "perlabel"
+  ],
+  "headline_method": "perlabel",
+  "interval": "Wilson score interval, 95%, over the target's test tracings",
+  "calibration": "the source's whole calibration part, thresholds fitted once",
+  "corpus_names": {
+   "ptbxl": "PTB-XL",
+   "sph": "Shandong",
+   "chapman_ningbo": "Chapman-Shaoxing and Ningbo",
+   "georgia": "Georgia",
+   "cpsc": "CPSC 2018 and extension",
+   "mimic": "MIMIC-IV-ECG (Beth Israel Deaconess)",
+   "code15": "CODE-15% (Telehealth Network of Minas Gerais)",
+   "code_test": "CODE test set (Telehealth Network of Minas Gerais, 2018)",
+   "code_test_10s": "CODE test set, ten-second exams only",
+   "zzu": "ZZU pECG (First Affiliated Hospital of Zhengzhou University, children)"
+  },
+  "classes": [
+   "NSR",
+   "AF",
+   "LBBB",
+   "RBBB",
+   "IAVB"
+  ],
+  "side_arm": [
+   "zzu"
+  ]
+ },
+ "label_sources": {
+  "code15": "CODE's reconciled report labels (results/code_zzu_label_map.json)",
+  "code_test": "two cardiologists, a third settling disagreements",
+  "zzu": "ECG-room physicians' statements as AHA codes",
+  "mimic": "machine statements (results/mimic_label_map.json)",
+  "others": "SNOMED or AHA codes of each release (results/label_map.json)"
+ },
+ "encoders_that_saw_code15": [
+  "ecg_jepa",
+  "hubert_ecg"
+ ],
+ "sources": {
+  "ptbxl": {
+   "split_sizes": {
+    "train": 3500,
+    "val": 600,
+    "cal": 2000,
+    "test": 8000,
+    "unused": 7699
+   },
+   "standardisation": {
+    "centre_mv": -0.0004722433805000037,
+    "scale_mv": 0.2345341444015503
+   },
+   "deviations": [
+    "waveforms and patient identifiers from the PTB-XL distribution, SNOMED codes from the Challenge-2021 bundle's PTB-XL partition",
+    "293 patients older than 89 are recorded as age 300 by PTB-XL's de-identification and are read into the oldest band"
+   ],
+   "machine": {
+    "cpu": "Apple M5",
+    "platform": "macOS-27.0.1-arm64-arm-64bit",
+    "python": "3.11.15",
+    "torch": "2.2.2",
+    "torch_threads": 10
+   }
+  },
+  "sph": {
+   "split_sizes": {
+    "train": 3500,
+    "val": 600,
+    "cal": 2000,
+    "test": 8000,
+    "unused": 11670
+   },
+   "standardisation": {
+    "centre_mv": -0.0005905981524847448,
+    "scale_mv": 1.3738830089569092
+   },
+   "deviations": [
+    "diagnoses are AHA codes bridged to SNOMED by Leinonen et al.'s table",
+    "records run from ten to sixty seconds; the first ten are kept",
+    "168 groups of identical tracings, 336 records, split as one unit: the corpus repeats a tracing under more than one record identifier"
+   ],
+   "machine": {
+    "cpu": "Apple M5",
+    "platform": "macOS-27.0.1-arm64-arm-64bit",
+    "python": "3.11.15",
+    "torch": "2.2.2",
+    "torch_threads": 10
+   }
+  },
+  "chapman_ningbo": {
+   "split_sizes": {
+    "train": 3500,
+    "val": 600,
+    "cal": 2000,
+    "test": 8000,
+    "unused": 31052
+   },
+   "standardisation": {
+    "centre_mv": 0.0014309398829936981,
+    "scale_mv": 0.2703396677970886
+   },
+   "deviations": [
+    "the Challenge bundle ships no patient identifier, so each record is its own patient for splitting",
+    "87 groups of identical tracings, 174 records, split as one unit: the corpus repeats a tracing under more than one record identifier"
+   ],
+   "machine": {
+    "cpu": "Apple M5",
+    "platform": "macOS-27.0.1-arm64-arm-64bit",
+    "python": "3.11.15",
+    "torch": "2.2.2",
+    "torch_threads": 10
+   }
+  },
+  "georgia": {
+   "split_sizes": {
+    "train": 3492,
+    "val": 600,
+    "cal": 2000,
+    "test": 4123,
+    "unused": 77
+   },
+   "standardisation": {
+    "centre_mv": -0.00231633591465652,
+    "scale_mv": 0.19954797625541687
+   },
+   "deviations": [
+    "the Challenge bundle ships no patient identifier, so each record is its own patient for splitting",
+    "52 records shorter than ten seconds, dropped before the split",
+    "89 groups of identical tracings, 180 records, split as one unit: the corpus repeats a tracing under more than one record identifier"
+   ],
+   "machine": {
+    "cpu": "Apple M5",
+    "platform": "macOS-27.0.1-arm64-arm-64bit",
+    "python": "3.11.15",
+    "torch": "2.2.2",
+    "torch_threads": 10
+   }
+  },
+  "cpsc": {
+   "split_sizes": {
+    "train": 3500,
+    "val": 600,
+    "cal": 2000,
+    "test": 4115,
+    "unused": 93
+   },
+   "standardisation": {
+    "centre_mv": -0.00013810404925607145,
+    "scale_mv": 0.27626466751098633
+   },
+   "deviations": [
+    "the Challenge bundle ships no patient identifier, so each record is its own patient for splitting",
+    "record lengths run from 5000 to 72000 samples; the first ten seconds are kept",
+    "22 records shorter than ten seconds, dropped before the split",
+    "637 groups of identical tracings, 1296 records, split as one unit: the corpus repeats a tracing under more than one record identifier"
+   ],
+   "machine": {
+    "cpu": "Apple M5",
+    "platform": "macOS-27.0.1-arm64-arm-64bit",
+    "python": "3.11.15",
+    "torch": "2.2.2",
+    "torch_threads": 10
+   }
+  },
+  "mimic": {
+   "split_sizes": {
+    "train": 3500,
+    "val": 600,
+    "cal": 2000,
+    "test": 8000,
+    "unused": 147252
+   },
+   "standardisation": {
+    "centre_mv": 0.00851166807115078,
+    "scale_mv": 0.1889648288488388
+   },
+   "deviations": [
+    "labels are the cart's machine statements mapped by src/ecs/mimic.py, not a cardiologist's reading; results/mimic_label_map.json names every join",
+    "one ECG per patient, drawn with a fixed seed from the patient's 1 to 260 tracings",
+    "age and sex are in the credentialed MIMIC-IV patients table, not in the open release, so every MIMIC record is in the 'unknown' age band and sex",
+    "lead order I, II, III, aVR, aVF, aVL, V1-V6 in the release, reordered by header name",
+    "200 ADC units per mV: 5 microvolt resolution against PTB-XL's 1"
+   ],
+   "machine": {
+    "cpu": "Apple M5",
+    "platform": "macOS-27.0.1-arm64-arm-64bit",
+    "python": "3.11.15",
+    "torch": "2.2.2",
+    "torch_threads": 10
+   }
+  },
+  "code15": {
+   "split_sizes": {
+    "train": 3500,
+    "val": 600,
+    "cal": 2000,
+    "test": 8000,
+    "unused": 7900
+   },
+   "standardisation": {
+    "centre_mv": -0.17703382670879364,
+    "scale_mv": 2.0965895652770996
+   },
+   "deviations": [
+    "a stratified sample of 22,000 patients, one ten-second exam each, from CODE-15%'s 345,779 exams; the labels are CODE's reconciled report labels",
+    "sampled at 400 Hz and resampled to 500 Hz",
+    "lead order from the release description, checked against the limb-lead relations",
+    "age and sex from exams.csv"
+   ],
+   "machine": {
+    "cpu": "Apple M5",
+    "platform": "macOS-27.0.1-arm64-arm-64bit",
+    "python": "3.11.15",
+    "torch": "2.2.2",
+    "torch_threads": 10
+   }
+  }
+ },
+ "grid": {
+  "file": "results/code_zzu_rotation.csv",
+  "columns": [
+   "source",
+   "target",
+   "role",
+   "label",
+   "method",
+   "n",
+   "n_pos",
+   "prevalence",
+   "auroc",
+   "coverage_pos",
+   "coverage_pos_low",
+   "coverage_pos_high",
+   "coverage_neg",
+   "coverage_neg_low",
+   "coverage_neg_high",
+   "abstention",
+   "n_cal_pos"
+  ]
+ },
+ "summary": {
+  "into_new_adult_targets": {
+   "cells": 80,
+   "below_90": 56,
+   "interval_below_90": 46
+  },
+  "from_code15": {
+   "cells": 32,
+   "below_90": 30,
+   "interval_below_90": 27
+  },
+  "into_zzu": {
+   "cells": 28,
+   "below_90": 24,
+   "interval_below_90": 19
+  }
+ },
+ "reproduction": {
+  "what": "coverage of the diagnosis under the per-label rule, rotation_six against rotation_seven, same records, same recipe, trained twice",
+  "n_cells": 169,
+  "median_absolute_difference": 0.0,
+  "p90_absolute_difference": 0.0,
+  "max_absolute_difference": 0.0
+ }
+}
