@@ -1,13 +1,13 @@
 {
  "written_by": "scripts/mimic_rotation.py",
  "provenance": {
-  "commit": "4d6eddfb1602d867ab6f9a70ee15765d58c51735",
+  "commit": "9136aff49d23ebbfc206abd935af976847526134",
   "producers": {
    "scripts/mimic_rotation.py": "c12bdff3f8a7a7eaf4819ee61e2d4382ea947aa51ff9adacf296df43c4769610",
    "src/ecs/conformal.py": "c434998b704a551d55bc2206a1a3ada6d42309947b0b92db11607746dcd068dc",
-   "src/ecs/encoders.py": "6648d8ade058d9aa90696427d16affb0a11ea3f8327d84c81208e50a8f377d57",
+   "src/ecs/encoders.py": "7f66e9763ae7ea7f64fe7c4ddb3850c8aa0dd3e7123e88f8a3f9bc2ac85fa6c5",
    "src/ecs/metrics.py": "e04509abce93b400ac90cbd102a63a747f0559de4d2c9d20cdc2ee4ce1cf90e6",
-   "src/ecs/rotation.py": "9d8b9e17ea2ff0b720d5c773ba3e64828be845476a6f84329a76a0d5cd9d72da",
+   "src/ecs/rotation.py": "82db1f66b6454f956cd96209b7dd3b8e86117ba042019c361f436ba924364ee3",
    "src/ecs/small_set.py": "cffa219c823ff009f109ac8557fa7acb2c14c10ea438d1445eedb9c8a360d43f",
    "src/ecs/transfer.py": "e690339b52941e150a61527ac5e0e56a3cc5dbcd5772f7ba06ec8296b112d624"
   }
