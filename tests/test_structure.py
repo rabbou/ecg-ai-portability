@@ -10,7 +10,6 @@ import math
 import numpy as np
 import pytest
 
-from ecs.calibration import integrated_calibration_index
 from ecs.structure import (
     a2_verdict,
     augrc,
@@ -18,6 +17,7 @@ from ecs.structure import (
     domain_weights,
     effective_cases,
     holm_rejections,
+    integrated_calibration_index,
     selective_sensitivity,
     superiority_p,
     weighted_perlabel_sets,

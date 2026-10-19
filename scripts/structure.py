@@ -39,7 +39,7 @@ from typing import Any
 import numpy as np
 import pandas as pd
 from echonext_scores import ECGFOUNDER_VERSION, Tabular
-from echonext_transfer import SCORES_DIR, git_commit, scores_for
+from echonext_transfer import SCORES_DIR, scores_for
 from numpy.typing import NDArray
 
 from ecs.config import REPO_ROOT, RESULTS_DIR
@@ -54,6 +54,7 @@ from ecs.echonext import (
 )
 from ecs.embedding_store import EmbeddingStore
 from ecs.metrics import effective_sample_size
+from ecs.provenance import provenance_block
 from ecs.structure import (
     JUDGED_MIN_CASES,
     a2_verdict,
@@ -237,6 +238,20 @@ def verdicts(table: pd.DataFrame, arms: list[str], judged: list[str]) -> dict[st
     return out
 
 
+# The script, and every module whose behaviour the numbers depend on.
+PRODUCERS = [
+    "scripts/echonext_scores.py",
+    "scripts/echonext_transfer.py",
+    "scripts/structure.py",
+    "src/ecs/calibration.py",
+    "src/ecs/conformal.py",
+    "src/ecs/echonext.py",
+    "src/ecs/embedding_store.py",
+    "src/ecs/metrics.py",
+    "src/ecs/splits.py",
+    "src/ecs/structure.py",
+    "src/ecs/transfer.py",
+]
 DOC = REPO_ROOT / "STRUCTURE.md"
 BLOCK = re.compile(r"(<!-- table:(\w+) -->\n)(.*?)(<!-- /table -->)", re.DOTALL)
 
@@ -286,7 +301,7 @@ def main() -> None:
         },
         **verdicts(table, arms, judged),
         "seconds": round(time.time() - started, 1),
-        "commit": git_commit(),
+        "provenance": provenance_block(PRODUCERS),
     }
     table.to_csv(RESULTS_DIR / "structure_coverage.csv", index=False)
     (RESULTS_DIR / "structure_calibration.json").write_text(

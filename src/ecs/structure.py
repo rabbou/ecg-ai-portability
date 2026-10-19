@@ -46,7 +46,7 @@ from sklearn.model_selection import GridSearchCV, StratifiedKFold, cross_val_pre
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
-from .calibration import _logit, brier, integrated_calibration_index, slope_intercept
+from .calibration import _logit, brier, slope_intercept
 from .conformal import lac_scores, lac_scores_all, weighted_conformal_quantile
 from .metrics import effective_sample_size, wilson_interval
 
@@ -61,6 +61,7 @@ __all__ = [
     "domain_weights",
     "effective_cases",
     "holm_rejections",
+    "integrated_calibration_index",
     "selective_sensitivity",
     "superiority_p",
     "weighted_perlabel_sets",
@@ -79,6 +80,7 @@ ANOMALY_FLOOR = 0.80
 ONE_SIDED_LEVEL = 0.025
 RETAINED = 0.80
 BOOTSTRAP_DRAWS = 500
+ICI_GRID = 200
 
 
 @dataclass(frozen=True)
@@ -201,6 +203,27 @@ def a2_verdict(composite: dict[str, Any], anomalies: dict[str, dict[str, Any]]) 
         "anomalies_judged": len(passed),
         "repair_holds": bool(composite_pass and majority),
     }
+
+
+def integrated_calibration_index(y: IntArray, p: Array) -> float:
+    """Mean |p - smoothed observed rate at p| over the records.
+
+    Austin & Steyerberg (Stat Med 2019) smooth the outcome on the prediction
+    with loess; here the smoother is a Gaussian kernel on logit(p) with
+    Silverman's bandwidth, evaluated on a grid of ``ICI_GRID`` points and
+    interpolated, which keeps a bootstrap of thousands of records linear in n.
+    """
+    y = np.asarray(y, dtype=np.float64)
+    p = np.asarray(p, dtype=np.float64)
+    z = _logit(p)
+    spread = float(np.std(z))
+    if spread == 0.0:
+        return float(abs(p.mean() - y.mean()))
+    bandwidth = 1.06 * spread * len(z) ** -0.2
+    grid = np.linspace(z.min(), z.max(), ICI_GRID)
+    kernel = np.exp(-0.5 * ((grid[:, None] - z[None, :]) / bandwidth) ** 2)
+    observed = np.interp(z, grid, kernel @ y / kernel.sum(axis=1))
+    return float(np.mean(np.abs(p - observed)))
 
 
 def _confidence_order(p: Array, threshold: float) -> IntArray:
