@@ -14,6 +14,9 @@ probability itself can be read as a risk, and what acting on it is worth.
                          model fitted jointly, the pair that maps logit(p) to
                          a recalibrated logit.
 ``brier``                mean squared error of the probability.
+``integrated_calibration_index``  Austin & Steyerberg (2019): the mean absolute
+                         gap between each probability and the observed rate a
+                         smoother of the outcome on logit(p) gives at it.
 ``net_benefit``          Vickers & Elkin (2006): true positives per patient
                          minus false positives per patient weighted by the odds
                          of the threshold.
@@ -39,6 +42,7 @@ __all__ = [
     "calibration_in_the_large",
     "decision_curve",
     "false_alerts_per_detection",
+    "integrated_calibration_index",
     "net_benefit",
     "net_benefit_treat_all",
     "ppv_at_prevalence",
@@ -151,6 +155,30 @@ def recalibrated(p: Array, intercept: float, slope: float) -> Array:
     eta = intercept + slope * _logit(np.asarray(p, dtype=float))
     out: Array = 0.5 * (1.0 + np.tanh(eta / 2.0))  # expit, without overflow for large |eta|
     return out
+
+
+ICI_GRID = 200
+
+
+def integrated_calibration_index(y: Outcomes, p: Array) -> float:
+    """Mean |p - smoothed observed rate at p| over the records.
+
+    Austin & Steyerberg (Stat Med 2019) smooth the outcome on the prediction
+    with loess; here the smoother is a Gaussian kernel on logit(p) with
+    Silverman's bandwidth, evaluated on a grid of ``ICI_GRID`` points and
+    interpolated, which keeps a bootstrap of thousands of records linear in n.
+    """
+    y, p = _check(y, p)
+    z = _logit(p)
+    spread = float(np.std(z))
+    if spread == 0.0:
+        return float(abs(p.mean() - y.mean()))
+    bandwidth = 1.06 * spread * len(z) ** -0.2
+    grid = np.linspace(z.min(), z.max(), ICI_GRID)
+    kernel = np.exp(-0.5 * ((grid[:, None] - z[None, :]) / bandwidth) ** 2)
+    observed_on_grid = kernel @ y / kernel.sum(axis=1)
+    observed = np.interp(z, grid, observed_on_grid)
+    return float(np.mean(np.abs(p - observed)))
 
 
 def calibration_curve(y: Outcomes, p: Array, n_bins: int = 10) -> list[dict[str, float]]:
