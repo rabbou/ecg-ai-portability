@@ -13,8 +13,10 @@ digest of that table.  The second reads the target records and applies the five
 repairs of ``ecs.ppv_repairs``: methods 1 and 5 on the whole target with no
 label, methods 2 to 4 over 200 draws of n target labels, n = 25 to 400.
 
-Writes ``results/ppv_repairs.json``.  Needs EchoNext with its four arms' stored
-scores, and the patient tables of PTB-XL, Shandong and Chongqing.
+Writes ``results/ppv_repairs.json``, with the summaries, the falsifiers and the rows
+of the main hospitals and the controls, and ``results/ppv_repairs_reserve.json``
+with the secondary rows.  Needs EchoNext with its four arms' stored scores, and the
+patient tables of PTB-XL, Shandong and Chongqing.
 
 Usage: .venv/bin/python scripts/ppv_repairs.py
 """
@@ -26,6 +28,7 @@ import json
 import time
 import zlib
 from collections.abc import Iterable
+from pathlib import Path
 from typing import Any
 
 import numpy as np
@@ -48,6 +51,8 @@ from ecs.provenance import provenance_block
 from ecs.repairs import patient_bootstrap_weights
 
 OUT = RESULTS_DIR / "ppv_repairs.json"
+# The secondary targets' rows, apart so that each file stays under the 512 kB bar.
+RESERVE = RESULTS_DIR / "ppv_repairs_reserve.json"
 MAIN = ("columbia", "beth_israel", "chongqing")
 HOSPITAL_OF_TARGET = {
     "outpatient": "columbia",
@@ -65,7 +70,7 @@ BOOTSTRAP = 200
 CLOSE = 0.02  # the falsifier's two points
 VIOLATION_BAR = 0.15  # delta plus 0.05 for 200 dependent draws
 FALSIFIER_BUDGET = 100
-DIGITS = 4
+DIGITS = 3  # per-transfer figures; the summaries keep six
 
 PRODUCERS = [
     "scripts/ppv_repairs.py",
@@ -287,20 +292,24 @@ def falsifiers(summary: dict[str, Any]) -> dict[str, Any]:
 
 
 def public_row(row: dict[str, Any]) -> dict[str, Any]:
-    """The row without the per-draw lists the summaries pool."""
+    """The row without the per-draw lists the summaries pool, each error as its median."""
     out = {k: v for k, v in row.items() if not k.startswith("_")}
-    out["budgets"] = [{k: v for k, v in b.items() if not k.startswith("_")} for b in row["budgets"]]
+    out["budgets"] = []
+    for rung in row["budgets"]:
+        kept = {k: v for k, v in rung.items() if not k.startswith("_")}
+        for method in ("recalibrated", "resampled"):
+            block = dict(kept[method])
+            block["abs_error"] = block["abs_error"].get("median")
+            kept[method] = block
+        out["budgets"].append(kept)
     return out
 
 
-def write(result: dict[str, Any]) -> None:
+def write(path: Path, head: dict[str, Any], rows: list[dict[str, Any]]) -> None:
     """One transfer per line, so a rerun's diff names the transfers that moved."""
-    head = {k: v for k, v in result.items() if k != "rows"}
-    rows = ",\n".join(
-        "  " + json.dumps(rounded(r, DIGITS), separators=(",", ":")) for r in result["rows"]
-    )
-    text = json.dumps(rounded(head), indent=1)[:-2] + ',\n "rows": [\n' + rows + "\n ]\n}\n"
-    OUT.write_text(text)
+    lines = ",\n".join("  " + json.dumps(rounded(r, DIGITS), separators=(",", ":")) for r in rows)
+    text = json.dumps(rounded(head), indent=1)[:-2] + ',\n "rows": [\n' + lines + "\n ]\n}\n"
+    path.write_text(text)
 
 
 def published_control() -> float:
@@ -349,9 +358,20 @@ def main() -> None:
         "falsifiers": falsifiers(summary),
         "seconds": round(time.time() - started, 1),
         "provenance": provenance_block(PRODUCERS),
-        "rows": [public_row(r) for r in rows],
     }
-    write(result)
+    kept = [public_row(r) for r in rows if r["hospital"] in (*MAIN, "control")]
+    reserve = [public_row(r) for r in rows if r["hospital"] not in (*MAIN, "control")]
+    write(OUT, result | {"reserve_rows": RESERVE.name}, kept)
+    write(
+        RESERVE,
+        {
+            "rows_of": OUT.name,
+            "targets_digest": frozen,
+            "commit": commit,
+            "provenance": result["provenance"],
+        },
+        reserve,
+    )
     print(f"{len(rows)} transfers in {time.time() - started:.1f} s")
 
 
