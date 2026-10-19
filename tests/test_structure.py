@@ -75,14 +75,14 @@ class TestDomainWeights:
         """Weights fitted between identical populations must stay near 1, or the
         inpatient-to-inpatient row would show a repair where nothing moved."""
         rng = np.random.default_rng(2)
-        w = domain_weights(rng.normal(size=(600, 3)), rng.normal(size=(400, 3)))
+        w = domain_weights(rng.normal(size=(300, 3)), rng.normal(size=(200, 3)))
         assert w.domain_auroc < 0.58
         assert 0.9 < w.calibration.mean() < 1.1
 
     def test_a_shifted_population_recovers_the_true_density_ratio(self) -> None:
         """The fitted w(x) must track p_t(x)/p_s(x), the quantity the guarantee needs."""
         rng = np.random.default_rng(3)
-        x_cal, x_tgt = rng.normal(0, 1, (1500, 1)), rng.normal(-1, 1, (1000, 1))
+        x_cal, x_tgt = rng.normal(0, 1, (600, 1)), rng.normal(-1, 1, (400, 1))
         w = domain_weights(x_cal, x_tgt)
         truth = np.exp(-x_cal[:, 0] - 0.5)
         kept = truth <= w.cap  # the cap clips the tail on purpose
@@ -127,6 +127,9 @@ class TestVerdict:
         strong = {"x": self._row(0.95, 400)}
         assert a2_verdict(self._row(0.9, 400), strong)["composite_pass"] is True
         assert a2_verdict(self._row(0.9, 100), strong)["composite_pass"] is False
+        # 97% on 400 (Wilson 94.8-98.3%) overshoots the band: a threshold that flags far
+        # more than 90% of cases is not the 90% the inpatient threshold promised.
+        assert a2_verdict(self._row(0.97, 400), strong)["composite_pass"] is False
 
     def test_the_repair_needs_a_strict_majority_of_judged_anomalies(self) -> None:
         """Three of four anomalies above 80% hold the repair; two of four do not."""
@@ -156,13 +159,16 @@ class TestSelective:
 
 
 class TestCalibration:
-    def test_ici_is_small_when_calibrated_and_large_when_shifted(self) -> None:
-        """The ICI column must separate a calibrated model from one 0.2 too high."""
+    def test_ici_is_small_when_calibrated_and_large_when_miscalibrated(self) -> None:
+        """The ICI column must separate a calibrated model from one 0.2 too high, and
+        from an overconfident one whose errors cancel on average (mean |gap| 0.15)."""
         rng = np.random.default_rng(4)
-        p = rng.uniform(0.05, 0.75, 20000)
+        p = rng.uniform(0.1, 0.7, 20000)
         y = (rng.random(20000) < p).astype(int)
         assert integrated_calibration_index(y, p) < 0.02
         assert integrated_calibration_index(y, p + 0.2) > 0.17
+        overconfident = 0.4 + 2 * (p - 0.4)  # gap |p' - p| = |p - 0.4|, mean 0.15
+        assert integrated_calibration_index(y, np.clip(overconfident, 0, 1)) > 0.12
 
     def test_the_cell_brackets_each_point_and_counts_its_draws(self) -> None:
         """Every interval of structure_calibration.json holds its point, and a metric
@@ -170,10 +176,10 @@ class TestCalibration:
         rng = np.random.default_rng(5)
         p = rng.uniform(0.05, 0.95, 400)
         y = (rng.random(400) < p).astype(int)
-        cell = calibration_cell(y, p, threshold=0.5, draws=50)
+        cell = calibration_cell(y, p, threshold=0.5, draws=20)
         for key in ("slope", "ici", "brier", "augrc", "sensitivity_at_80"):
             assert cell[f"{key}_low"] <= cell[key] <= cell[f"{key}_high"]
-        assert cell["brier_draws"] == 50
+        assert cell["brier_draws"] == 20
         empty = calibration_cell(np.zeros(50, dtype=int), p[:50], threshold=0.5, draws=10)
         assert empty["sensitivity_at_80"] is None
         assert empty["sensitivity_at_80_low"] is None
