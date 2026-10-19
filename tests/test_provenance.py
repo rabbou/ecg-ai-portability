@@ -52,7 +52,7 @@ REGENERABLE = (
 # Not regenerable here, yet carrying a provenance block whose digests are checked: the
 # code that wrote them cannot drift unnoticed even where the data are absent, and
 # tests/test_echonext_data.py rebuilds the numbers where the data are present.
-DIGEST_CHECKED = ("code_zzu_label_map.json", "echonext_clinical.json")
+DIGEST_CHECKED = ("code_zzu_label_map.json", "echonext_clinical.json", "ppv_repairs.json")
 
 # Not regenerable in a session, and why. The reason is the point: it is what a
 # reader needs in order to judge how much the recorded commit is worth.
@@ -139,6 +139,10 @@ NOT_REGENERABLE = {
     "repairs.json": (
         "needs the EchoNext arms' per-record scores and the patient tables of PTB-XL, "
         "Shandong and Chongqing on disk"
+    ),
+    "ppv_repairs.json": (
+        "needs the four EchoNext arms' per-record scores, which may not be committed, and "
+        "the patient tables of PTB-XL, Shandong and Chongqing"
     ),
     "echonext_clinical.json": (
         "needs EchoNext's metadata and the four arms' stored per-record scores, neither of "

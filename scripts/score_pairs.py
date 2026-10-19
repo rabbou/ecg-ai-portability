@@ -1,14 +1,16 @@
 """Every source-target pair the study holds scores for, one diagnosis at a time.
 
-Three families.  ``infarction``: the PTB-XL baseline, its fold 10 as source,
+Four families.  ``infarction``: the PTB-XL baseline, its fold 10 as source,
 Shandong and Chongqing as targets.  ``rotation``: five corpora, each model's
 calibration part as source and every corpus's test part as target, its own
 included, on five rhythm and conduction diagnoses.  ``echonext``: four models,
 the inpatient ECGs of EchoNext's validation split as source and the inpatient,
 emergency and outpatient ECGs of its test split as targets, on eleven findings
-and their composite.
+and their composite.  ``rotation_seven``: the seven-source rotation, each
+source's calibration part against every test part, the CODE test set and ZZU
+included.
 
-The first two read only files this repository carries.  The third needs
+All but ``echonext`` read only files this repository carries.  ``echonext`` needs
 EchoNext's metadata and the per-record scores kept beside it, under its
 licence; when they are absent the family is skipped and the caller is told.
 Patients are attached on request, for the repairs that cut a target in halves
@@ -107,6 +109,44 @@ def rotation(results: Path = RESULTS_DIR, patients: bool = False) -> Iterator[Pa
             for k, label in enumerate(classes):
                 yield Pair(
                     "rotation",
+                    f"resnet_{source}",
+                    source,
+                    target,
+                    label,
+                    p_s[:, k],
+                    y_s[:, k],
+                    p_t[:, k],
+                    y_t[:, k],
+                    cache[target] if patients else None,
+                )
+
+
+def rotation_seven(results: Path = RESULTS_DIR, patients: bool = False) -> Iterator[Pair]:
+    """The seven-source rotation: each source's calibration part against every test part.
+
+    Targets are the seven sources' own test parts, the CODE test set and ZZU,
+    on the classes both sides can carry.  MIMIC, CODE-15%, the CODE test set and
+    ZZU were indexed one record per patient, so a record stands for its patient.
+    """
+    from ecs.rotation import CODE_ZZU_SOURCES, TARGET_ONLY, class_keys, usable_classes
+
+    keys = class_keys()
+    cache: dict[str, pd.Series] = {}
+    for source in CODE_ZZU_SOURCES:
+        directory = results / "rotation_seven" / source / "scores"
+        with np.load(directory / f"{source}_cal.npz") as cal:
+            p_s, y_s = cal["p"].astype(np.float64), cal["y"].astype(int)
+        for target in (*CODE_ZZU_SOURCES, *TARGET_ONLY):
+            with np.load(directory / f"{target}_test.npz") as test:
+                ids = [str(i) for i in test["ids"]]
+                p_t, y_t = test["p"].astype(np.float64), test["y"].astype(int)
+            if patients and target not in cache:
+                multi = target in ("ptbxl", "sph")
+                cache[target] = _patients(target, ids) if multi else pd.Series(ids, index=ids)
+            for label in (k for k in usable_classes(source) if k in usable_classes(target)):
+                k = keys.index(label)
+                yield Pair(
+                    "rotation_seven",
                     f"resnet_{source}",
                     source,
                     target,
