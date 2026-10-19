@@ -56,6 +56,7 @@ DIGEST_CHECKED = (
     "code_zzu_label_map.json",
     "echonext_clinical.json",
     "ppv_repairs.json",
+    "ppv_repairs_controls.json",
     "ppv_repairs_reserve.json",
 )
 
@@ -149,6 +150,7 @@ NOT_REGENERABLE = {
         "needs the four EchoNext arms' per-record scores, which may not be committed, and "
         "the patient tables of PTB-XL, Shandong and Chongqing"
     ),
+    "ppv_repairs_controls.json": "the in-distribution controls' rows, written by the same run",
     "ppv_repairs_reserve.json": "the secondary targets' rows, written by the same run",
     "echonext_clinical.json": (
         "needs EchoNext's metadata and the four arms' stored per-record scores, neither of "

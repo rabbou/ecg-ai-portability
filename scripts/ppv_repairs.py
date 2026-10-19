@@ -14,8 +14,9 @@ repairs of ``ecs.ppv_repairs``: methods 1 and 5 on the whole target with no
 label, methods 2 to 4 over 200 draws of n target labels, n = 25 to 400.
 
 Writes ``results/ppv_repairs.json``, with the summaries, the falsifiers and the rows
-of the main hospitals and the controls, and ``results/ppv_repairs_reserve.json``
-with the secondary rows.  Needs EchoNext with its four arms' stored scores, and the
+of the three main hospitals; ``results/ppv_repairs_controls.json`` and
+``results/ppv_repairs_reserve.json`` hold the controls' and the secondary targets' rows,
+under the same provenance.  Needs EchoNext with its four arms' stored scores, and the
 patient tables of PTB-XL, Shandong and Chongqing.
 
 Usage: .venv/bin/python scripts/ppv_repairs.py
@@ -27,12 +28,13 @@ import hashlib
 import json
 import time
 import zlib
-from collections.abc import Iterable
+from collections.abc import Iterable, Iterator
 from pathlib import Path
 from typing import Any
 
 import numpy as np
-from score_pairs import Pair, echonext, echonext_available, infarction, rotation_seven, rounded
+import pandas as pd
+from score_pairs import Pair, _patients, echonext, echonext_available, infarction, rounded
 from sklearn.metrics import roc_auc_score
 
 from ecs.config import RESULTS_DIR
@@ -51,7 +53,9 @@ from ecs.provenance import provenance_block
 from ecs.repairs import patient_bootstrap_weights
 
 OUT = RESULTS_DIR / "ppv_repairs.json"
-# The secondary targets' rows, apart so that each file stays under the 512 kB bar.
+# The controls' and the secondary targets' rows, apart so that each file stays under
+# the repository's 512 kB bar.
+CONTROLS = RESULTS_DIR / "ppv_repairs_controls.json"
 RESERVE = RESULTS_DIR / "ppv_repairs_reserve.json"
 MAIN = ("columbia", "beth_israel", "chongqing")
 HOSPITAL_OF_TARGET = {
@@ -82,6 +86,44 @@ PRODUCERS = [
     "src/ecs/conformal.py",
     "src/ecs/transfer.py",
 ]
+
+
+def rotation_seven(patients: bool = False) -> Iterator[Pair]:
+    """The seven-source rotation: each source's calibration part against every test part.
+
+    Targets are the seven sources' own test parts, the CODE test set and ZZU,
+    on the classes both sides can carry.  MIMIC, CODE-15%, the CODE test set and
+    ZZU were indexed one record per patient, so a record stands for its patient.
+    """
+    from ecs.rotation import CODE_ZZU_SOURCES, TARGET_ONLY, class_keys, usable_classes
+
+    keys = class_keys()
+    cache: dict[str, pd.Series] = {}
+    for source in CODE_ZZU_SOURCES:
+        directory = RESULTS_DIR / "rotation_seven" / source / "scores"
+        with np.load(directory / f"{source}_cal.npz") as cal:
+            p_s, y_s = cal["p"].astype(np.float64), cal["y"].astype(int)
+        for target in (*CODE_ZZU_SOURCES, *TARGET_ONLY):
+            with np.load(directory / f"{target}_test.npz") as test:
+                ids = [str(i) for i in test["ids"]]
+                p_t, y_t = test["p"].astype(np.float64), test["y"].astype(int)
+            if patients and target not in cache:
+                multi = target in ("ptbxl", "sph")
+                cache[target] = _patients(target, ids) if multi else pd.Series(ids, index=ids)
+            for label in (k for k in usable_classes(source) if k in usable_classes(target)):
+                k = keys.index(label)
+                yield Pair(
+                    "rotation_seven",
+                    f"resnet_{source}",
+                    source,
+                    target,
+                    label,
+                    p_s[:, k],
+                    y_s[:, k],
+                    p_t[:, k],
+                    y_t[:, k],
+                    cache[target] if patients else None,
+                )
 
 
 def key_of(pair: Pair) -> str:
@@ -135,7 +177,7 @@ def prior_bootstrap(pair: Pair, target: Target, seed: int) -> list[float | None]
     return out
 
 
-def measure(pair: Pair, target: Target, commit: str) -> dict[str, Any]:
+def measure(pair: Pair, target: Target) -> dict[str, Any]:
     assert pair.target_patients is not None
     key = key_of(pair)
     seed = seed_of(key)
@@ -162,7 +204,6 @@ def measure(pair: Pair, target: Target, commit: str) -> dict[str, Any]:
         "v": target.ppv,
         "source_cut": target.cut,
         "seed": seed,
-        "commit": commit,
         **cell,
     }
     if row["hospital"] in MAIN:
@@ -333,8 +374,7 @@ def main() -> None:
     ]
     targets = freeze_targets(pairs)
     frozen = digest(targets)
-    commit = provenance_block(PRODUCERS)["commit"]
-    rows = [measure(p, targets[key_of(p)], commit) for p in pairs]
+    rows = [measure(p, targets[key_of(p)]) for p in pairs]
     groups = sorted({r["hospital"] for r in rows})
     summary = {
         h: hospital_summary([r for r in rows if r["hospital"] == h], seed_of(h)) for h in groups
@@ -359,19 +399,13 @@ def main() -> None:
         "seconds": round(time.time() - started, 1),
         "provenance": provenance_block(PRODUCERS),
     }
-    kept = [public_row(r) for r in rows if r["hospital"] in (*MAIN, "control")]
+    side = {"rows_of": OUT.name, "targets_digest": frozen, "provenance": result["provenance"]}
+    main_rows = [public_row(r) for r in rows if r["hospital"] in MAIN]
+    controls = [public_row(r) for r in rows if r["hospital"] == "control"]
     reserve = [public_row(r) for r in rows if r["hospital"] not in (*MAIN, "control")]
-    write(OUT, result | {"reserve_rows": RESERVE.name}, kept)
-    write(
-        RESERVE,
-        {
-            "rows_of": OUT.name,
-            "targets_digest": frozen,
-            "commit": commit,
-            "provenance": result["provenance"],
-        },
-        reserve,
-    )
+    write(OUT, result | {"control_rows": CONTROLS.name, "reserve_rows": RESERVE.name}, main_rows)
+    write(CONTROLS, side, controls)
+    write(RESERVE, side, reserve)
     print(f"{len(rows)} transfers in {time.time() - started:.1f} s")
 
 

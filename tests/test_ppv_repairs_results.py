@@ -21,7 +21,10 @@ from ecs.config import REPO_ROOT, RESULTS_DIR
 
 ALPHA = 0.10
 FILE = RESULTS_DIR / "ppv_repairs.json"
+CONTROLS = RESULTS_DIR / "ppv_repairs_controls.json"
 RESERVE = RESULTS_DIR / "ppv_repairs_reserve.json"
+# Rows are written to three significant digits.
+ROUNDING = 5e-3
 MAIN = ("columbia", "beth_israel", "chongqing")
 CLASSES = ("NSR", "AF", "LBBB", "RBBB", "IAVB")
 
@@ -51,27 +54,28 @@ def source_scores(row: dict[str, Any]) -> tuple[np.ndarray, np.ndarray]:
 
 
 @pytest.fixture(scope="module")
-def reserve() -> dict[str, Any]:
-    loaded: dict[str, Any] = json.loads(RESERVE.read_text())
-    return loaded
+def every_row(result: dict[str, Any]) -> list[dict[str, Any]]:
+    """The main hospitals' rows, then the controls' and the reserve's from their files."""
+    side = [json.loads(path.read_text()) for path in (CONTROLS, RESERVE)]
+    for block in side:
+        assert block["targets_digest"] == result["targets_digest"]
+        assert block["provenance"] == result["provenance"]
+    return [*result["rows"], *(r for block in side for r in block["rows"])]
 
 
-def test_every_public_target_is_the_source_ppv(
-    result: dict[str, Any], reserve: dict[str, Any]
-) -> None:
+def test_every_public_target_is_the_source_ppv(every_row: list[dict[str, Any]]) -> None:
     """Protocol section 7: each v is the source's PPV at its own threshold, before any
     evaluation patient is read; a v drawn from the target would grade every repair
     against the answer."""
-    rows = result["rows"] + reserve["rows"]
-    public = [r for r in rows if r["family"] in ("infarction", "rotation_seven")]
+    public = [r for r in every_row if r["family"] in ("infarction", "rotation_seven")]
     assert len(public) > 200
     for row in public:
         p, y = source_scores(row)
-        assert row["v"] == pytest.approx(source_v(p, y), rel=1e-3), row
+        assert row["v"] == pytest.approx(source_v(p, y), rel=ROUNDING), row
 
 
 @pytest.mark.data
-def test_every_echonext_target_is_frozen_from_the_source(result: dict[str, Any]) -> None:
+def test_every_echonext_target_is_frozen_from_the_source(every_row: list[dict[str, Any]]) -> None:
     """The EchoNext v rebuilt with every target array blanked: none moves."""
     from ppv_repairs import freeze_targets, key_of
     from score_pairs import Pair, echonext, echonext_available
@@ -94,24 +98,24 @@ def test_every_echonext_target_is_frozen_from_the_source(result: dict[str, Any])
         for p in echonext()
     ]
     frozen = freeze_targets(blind)
-    rows = [r for r in result["rows"] if r["family"] == "echonext"]
+    rows = [r for r in every_row if r["family"] == "echonext"]
     assert rows
     for row in rows:
         key = "/".join(row[k] for k in ("family", "model", "source", "target", "label"))
-        assert row["v"] == pytest.approx(frozen[key].ppv, rel=1e-3), key
+        assert row["v"] == pytest.approx(frozen[key].ppv, rel=ROUNDING), key
     assert key_of(blind[0]) in frozen
 
 
 def test_every_hospital_summary_counts_its_rows(
-    result: dict[str, Any], reserve: dict[str, Any]
+    result: dict[str, Any], every_row: list[dict[str, Any]]
 ) -> None:
     """A summary filter that drifted from the rows would print a count no row backs."""
-    every = result["rows"] + reserve["rows"]
+    every = every_row
     assert set(result["summary"]) == {r["hospital"] for r in every}
     for hospital in result["summary"]:
         rows = [r for r in every if r["hospital"] == hospital and r["summarised"]]
         assert result["summary"][hospital]["transfers"] == len(rows) > 0, hospital
-    assert {r["hospital"] for r in result["rows"]} == {*MAIN, "control"}
+    assert {r["hospital"] for r in result["rows"]} == set(MAIN)
     assert sum(r["hospital"] == "chongqing" for r in result["rows"]) == 1
 
 
@@ -123,7 +127,7 @@ def test_the_prior_summary_is_the_median_of_its_rows(result: dict[str, Any]) -> 
             if r["hospital"] == hospital and r["summarised"]
         ]
         block = result["summary"][hospital]["prior"]["abs_error"]
-        assert block["median"] == pytest.approx(float(np.median(errors)), rel=1e-3), hospital
+        assert block["median"] == pytest.approx(float(np.median(errors)), rel=ROUNDING), hospital
 
 
 def test_the_falsifiers_follow_from_their_numbers(result: dict[str, Any]) -> None:
@@ -145,9 +149,11 @@ def lists_in(value: Any) -> list[int]:
     return []
 
 
-def test_no_row_carries_per_record_values(result: dict[str, Any]) -> None:
+def test_no_row_carries_per_record_values(
+    result: dict[str, Any], every_row: list[dict[str, Any]]
+) -> None:
     """EchoNext's licence: no per-patient score may enter the repository."""
-    rows = [r for r in result["rows"] if r["family"] == "echonext"]
+    rows = [r for r in every_row if r["family"] == "echonext"]
     assert rows
     assert max(n for r in rows for n in lists_in(r)) <= len(result["budgets"])
 
@@ -171,9 +177,9 @@ def ppv_md_figures(result: dict[str, Any]) -> list[str]:
         out.append(f"{s[h]['transfers']} transfer")
         at = {b["n"]: b for b in s[h]["budgets"]}
         for n in (25, 100, 400):
-            if at[n]["transfers"]:
-                out.append(f"{pts(at[n]['recalibrated_abs_error']['median'])} points")
-                out.append(f"{pts(at[n]['resampled_abs_error']['median'])} points")
+            # Listed as "6.0, 5.7 and 6.6 points", so the unit is not beside each figure.
+            out.append(pts(at[n]["recalibrated_abs_error"]["median"]))
+            out.append(pts(at[n]["resampled_abs_error"]["median"]))
         out.append(f"{at[100]['certified_violation_rate']:.3f}")
         out.append(f"{at[100]['certified_share_threshold_exists']:.3f}")
         out.append(f"{s[h]['selection']['mean_fdp']:.2f}")
@@ -183,6 +189,9 @@ def ppv_md_figures(result: dict[str, Any]) -> list[str]:
         out.append(f"{pts(upper)} points")
     out.append(f"{pts(s['control']['prior']['abs_error']['median'])} points")
     out.append(f"{pts(result['published_control_median_gap'])} points")
+    published = json.loads((RESULTS_DIR / "echonext_ppv_gap.json").read_text())
+    free = published["summary"]["echonext"]["transfer"]["label_free_predictors"]
+    out.append(f"{pts(free['recipe_estimated_prevalence']['median_abs_points'])} points")
     return out
 
 
@@ -194,7 +203,9 @@ def test_ppv_md_prints_the_file(result: dict[str, Any]) -> None:
 
 
 def test_ppv_md_prints_no_figure_the_file_does_not_hold(result: dict[str, Any]) -> None:
-    """The twin: every 'x.y points' in the section is one of the file's figures."""
-    printed = set(re.findall(r"\d+\.\d points", ppv_md_section()))
-    assert printed
-    assert printed <= set(ppv_md_figures(result)), printed - set(ppv_md_figures(result))
+    """The twin: every figure in points, alone or in a list ending in 'points', is the file's."""
+    listed = r"(\d+\.\d)(?=(?:,? (?:and )?\d+\.\d)* points)"
+    printed = set(re.findall(listed, ppv_md_section()))
+    held = {f.removesuffix(" points") for f in ppv_md_figures(result)}
+    assert len(printed) > 20
+    assert printed <= held, printed - held
