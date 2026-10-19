@@ -22,12 +22,17 @@ and named in ``results/structure.json``; the fine-tuned arms appear once
 Writes ``results/structure_coverage.csv``, ``results/structure_calibration.json``
 and ``results/structure.json``.
 
-Usage: .venv/bin/python scripts/structure.py
+``--pages`` re-renders the tables of STRUCTURE.md alone from the committed
+result files, between its ``<!-- table:<name> -->`` and ``<!-- /table -->`` lines.
+
+Usage: .venv/bin/python scripts/structure.py [--pages]
 """
 
 from __future__ import annotations
 
+import argparse
 import json
+import re
 import time
 from typing import Any
 
@@ -37,7 +42,7 @@ from echonext_scores import ECGFOUNDER_VERSION, Tabular
 from echonext_transfer import SCORES_DIR, git_commit, scores_for
 from numpy.typing import NDArray
 
-from ecs.config import RESULTS_DIR
+from ecs.config import REPO_ROOT, RESULTS_DIR
 from ecs.conformal import conformal_quantile
 from ecs.echonext import (
     COMPOSITE,
@@ -57,6 +62,7 @@ from ecs.structure import (
     effective_cases,
     weighted_perlabel_sets,
 )
+from ecs.structure_report import load, tables
 from ecs.transfer import ALPHA, conformal_sets, coverage_row, ladder_rows
 
 ARMS = (
@@ -231,7 +237,26 @@ def verdicts(table: pd.DataFrame, arms: list[str], judged: list[str]) -> dict[st
     return out
 
 
+DOC = REPO_ROOT / "STRUCTURE.md"
+BLOCK = re.compile(r"(<!-- table:(\w+) -->\n)(.*?)(<!-- /table -->)", re.DOTALL)
+
+
+def write_pages() -> None:
+    """Replace each table block of STRUCTURE.md with its rendering from the result files."""
+    rendered = tables(*load())
+    text = DOC.read_text()
+    names = [m.group(2) for m in BLOCK.finditer(text)]
+    if sorted(names) != sorted(rendered):
+        raise ValueError(f"STRUCTURE.md holds blocks {names}, the renderer {sorted(rendered)}")
+    DOC.write_text(BLOCK.sub(lambda m: f"{m.group(1)}{rendered[m.group(2)]}\n{m.group(4)}", text))
+
+
 def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--pages", action="store_true", help="re-render STRUCTURE.md only")
+    if parser.parse_args().pages:
+        write_pages()
+        return
     started = time.time()
     meta = read_metadata()
     cohorts = transfer_cohorts(meta, "inpatient", TARGETS)
@@ -268,6 +293,7 @@ def main() -> None:
         json.dumps(calibration, indent=2) + "\n"
     )
     (RESULTS_DIR / "structure.json").write_text(json.dumps(summary, indent=2) + "\n")
+    write_pages()
 
 
 if __name__ == "__main__":
