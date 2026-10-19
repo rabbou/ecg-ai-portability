@@ -3,7 +3,7 @@
 Every repair produces a threshold and an announced PPV; each is judged against
 the PPV observed on target patients it did not see.  The target ``v`` of a
 transfer is the source's own PPV at the source's threshold, and it is computed
-from the source alone (:func:`frozen_target`) before any target record is read.
+from the source arrays alone (:func:`frozen_target`): no target value enters it.
 
 ``prior``         no target label.  The source threshold is kept; the announced
                   PPV is Bayes' rule on the source sensitivity and specificity
@@ -46,7 +46,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import SplineTransformer
 
-from .calibration import recalibrated, sensitivity_specificity
+from .calibration import ppv_at_prevalence, recalibrated, sensitivity_specificity
 from .conformal import conformal_quantile
 from .ppv_gap import label_free
 from .repairs import local_recalibration, net_benefit_of
@@ -151,10 +151,12 @@ def labelled_draw(codes: IntArray, n: int, rng: np.random.Generator) -> tuple[In
     return labelled, evaluation
 
 
-def _halves(codes: IntArray, labelled: IntArray) -> tuple[IntArray, IntArray]:
-    """The labelled records cut in two by patient, alternating in patient code order."""
-    patients = np.unique(codes[labelled])
-    first = np.isin(codes[labelled], patients[::2])
+def _halves(
+    codes: IntArray, labelled: IntArray, rng: np.random.Generator
+) -> tuple[IntArray, IntArray]:
+    """The labelled records cut in two by patient, the patients assigned at random."""
+    patients = rng.permutation(np.unique(codes[labelled]))
+    first = np.isin(codes[labelled], patients[: (len(patients) + 1) // 2])
     return labelled[first], labelled[~first]
 
 
@@ -202,13 +204,19 @@ def prior_repair(
     free = label_free(p_source, y_source, p, flagged, target.sensitivity, target.specificity)
     seen = _observed(y, flagged)
     announced = free["ppv_recipe_estimated_prevalence"]
-    error = (
-        abs(announced - seen["ppv"]) if announced is not None and seen["ppv"] is not None else None
-    )
+    observed = seen["ppv"]
+    defined = announced is not None and observed is not None
+    # The same recipe given the target's true prevalence: the quantity the article's
+    # in-distribution gap is measured on.
+    true_prevalence = ppv_at_prevalence(target.sensitivity, target.specificity, float(y.mean()))
     return {
         "announced": announced,
-        "observed": seen["ppv"],
-        "abs_error": error,
+        "observed": observed,
+        "abs_error": abs(announced - observed) if defined else None,
+        "signed_error": announced - observed if defined else None,
+        "abs_error_true_prevalence": abs(true_prevalence - observed)
+        if observed is not None
+        else None,
         "prevalence_estimated": free["prevalence_estimated"],
         "sensitivity": seen["sensitivity"],
         "net_benefit": seen["net_benefit"],
@@ -326,11 +334,36 @@ def _mean(values: list[float]) -> float | None:
     return float(np.mean(values)) if values else None
 
 
+def _announcements(pairs: list[tuple[float, float]]) -> dict[str, Any]:
+    """Medians over the draws of the announced PPV, the observed PPV and their gaps.
+
+    ``signed_error`` is announced minus observed: positive when the repair
+    over-announces.
+    """
+    if not pairs:
+        return {"announced": None, "observed": None, "abs_error": None, "signed_error": None}
+    announced, observed = np.array(pairs).T
+    return {
+        "announced": float(np.median(announced)),
+        "observed": float(np.median(observed)),
+        "abs_error": float(np.median(np.abs(announced - observed))),
+        "signed_error": float(np.median(announced - observed)),
+    }
+
+
 def _budget(
     p: Array, y: IntArray, codes: IntArray, target: Target, n: int, rng: np.random.Generator
 ) -> dict[str, Any]:
-    """Methods 2 to 4 over DRAWS labelled draws of n target records."""
-    errors: dict[str, list[float]] = {"recalibrated": [], "resampled": []}
+    """Methods 2 to 4 over DRAWS labelled draws of n target records.
+
+    The private ``_pairs`` keep each draw's (announced, observed) PPV, which the
+    hospital summaries pool; a row keeps their medians.
+    """
+    pairs: dict[str, list[tuple[float, float]]] = {
+        "recalibrated": [],
+        "resampled": [],
+        "certified": [],
+    }
     sens: dict[str, list[float]] = {"recalibrated": [], "resampled": [], "certified": []}
     nb: dict[str, list[float]] = {"recalibrated": [], "resampled": [], "certified": []}
     resampled_defined = bound_held = certified_found = violated = clear_violation = 0
@@ -343,10 +376,10 @@ def _budget(
         seen = _observed(y_ev, kept)
         if seen["ppv"] is not None:
             announced = float(recalibrated(p_ev[kept], a, b).mean())
-            errors["recalibrated"].append(abs(announced - seen["ppv"]))
+            pairs["recalibrated"].append((announced, seen["ppv"]))
         _push(sens["recalibrated"], nb["recalibrated"], seen)
         # 3. Threshold refitted on one half, PPV read on the other.
-        first, second = _halves(codes, lab)
+        first, second = _halves(codes, lab, rng)
         cut = sensitivity_cut(p[first], y[first])
         if cut is not None:
             held = flags(p[second], cut)
@@ -355,37 +388,41 @@ def _budget(
             if k and seen["ppv"] is not None:
                 resampled_defined += 1
                 announced = float(y[second][held].mean())
-                errors["resampled"].append(abs(announced - seen["ppv"]))
+                pairs["resampled"].append((announced, seen["ppv"]))
                 bound_held += seen["ppv"] >= clopper_pearson_lower(int(y[second][held].sum()), k)
             _push(sens["resampled"], nb["resampled"], seen)
-        # 4. Certified threshold on all n labels.
+        # 4. Certified threshold on all n labels; it announces v.
         cut = certified_cut(p[lab], y[lab], target)
         if cut is not None:
             certified_found += 1
             seen = _observed(y_ev, flags(p_ev, cut))
             k_ev = int(flags(p_ev, cut).sum())
-            if seen["ppv"] is not None and seen["ppv"] < target.ppv:
-                violated += 1
-                ill = int(round(seen["ppv"] * k_ev))
-                upper = 1.0 - clopper_pearson_lower(k_ev - ill, k_ev, 0.025)
-                clear_violation += upper < target.ppv
+            if seen["ppv"] is not None:
+                pairs["certified"].append((target.ppv, seen["ppv"]))
+                if seen["ppv"] < target.ppv:
+                    violated += 1
+                    ill = int(round(seen["ppv"] * k_ev))
+                    upper = 1.0 - clopper_pearson_lower(k_ev - ill, k_ev, 0.025)
+                    clear_violation += upper < target.ppv
             _push(sens["certified"], nb["certified"], seen)
     return {
         "n": n,
         "recalibrated": {
-            "abs_error": _quartiles(errors["recalibrated"]),
+            **_announcements(pairs["recalibrated"]),
             "sensitivity": _mean(sens["recalibrated"]),
             "net_benefit": _mean(nb["recalibrated"]),
         },
         "resampled": {
             "share_defined": resampled_defined / DRAWS,
-            "abs_error": _quartiles(errors["resampled"]),
+            **_announcements(pairs["resampled"]),
             "share_bound_held": bound_held / resampled_defined if resampled_defined else None,
             "sensitivity": _mean(sens["resampled"]),
             "net_benefit": _mean(nb["resampled"]),
         },
         "certified": {
             "share_threshold_exists": certified_found / DRAWS,
+            "announced": target.ppv,
+            "observed": _announcements(pairs["certified"])["observed"],
             "violation_rate": violated / DRAWS,
             "violation_rate_given_threshold": violated / certified_found
             if certified_found
@@ -394,7 +431,7 @@ def _budget(
             "sensitivity": _mean(sens["certified"]),
             "net_benefit": _mean(nb["certified"]),
         },
-        "_errors": errors,
+        "_pairs": pairs,
         "_violations": violated,
         "_found": certified_found,
     }

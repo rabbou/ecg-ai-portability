@@ -88,9 +88,9 @@ class TestClopperPearson:
 
 
 def labelled(cuts: list[tuple[int, int]]) -> tuple[np.ndarray, np.ndarray]:
-    """Records whose score 1 - p sits in bands below 0.1, 0.3 and 0.5: (ill, healthy) per band."""
+    """Records whose score 1 - p sits in bands below 0.1, 0.3, 0.5 and 0.6: (ill, healthy)."""
     p, y = [], []
-    for score, (ill, healthy) in zip((0.05, 0.2, 0.4), cuts, strict=True):
+    for score, (ill, healthy) in zip((0.05, 0.2, 0.4, 0.55), cuts, strict=False):
         p += [1 - score] * (ill + healthy)
         y += [1] * ill + [0] * healthy
     return np.array(p), np.array(y)
@@ -102,10 +102,12 @@ class TestCertifiedCut:
 
         At v = 0.5: cut 0.1 flags 5 ill, P(X >= 5) = 1/32 = 0.031; cut 0.3 flags
         8 ill of 10, P(X >= 8) = 56/1024 = 0.055; cut 0.5 flags 12 of 20,
-        P(X >= 12) = 0.252 > 0.1.  The certified cut is 0.3.
+        P(X >= 12) = 0.252 > 0.1.  The certified cut is 0.3, although cut 0.6, which
+        adds 20 ill (32 of 40, P(X >= 32) < 0.001), would pass if the walk went on.
         """
-        p, y = labelled([(5, 0), (3, 2), (4, 6)])
-        assert certified_cut(p, y, target_with((0.1, 0.3, 0.5), 0.5)) == pytest.approx(0.3)
+        p, y = labelled([(5, 0), (3, 2), (4, 6), (20, 0)])
+        got = certified_cut(p, y, target_with((0.1, 0.3, 0.5, 0.6), 0.5))
+        assert got == pytest.approx(0.3)
 
     def test_an_empty_top_threshold_certifies_nothing(self) -> None:
         """The twin: a top cut flagging no one stops the walk, whatever lies below."""

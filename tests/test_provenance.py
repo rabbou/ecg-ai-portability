@@ -58,6 +58,7 @@ DIGEST_CHECKED = (
     "ppv_repairs.json",
     "ppv_repairs_controls.json",
     "ppv_repairs_reserve.json",
+    "ppv_repairs_reserve_code_zzu.json",
 )
 
 # Not regenerable in a session, and why. The reason is the point: it is what a
@@ -152,6 +153,7 @@ NOT_REGENERABLE = {
     ),
     "ppv_repairs_controls.json": "the in-distribution controls' rows, written by the same run",
     "ppv_repairs_reserve.json": "the secondary targets' rows, written by the same run",
+    "ppv_repairs_reserve_code_zzu.json": "the CODE and ZZU targets' rows, written by the same run",
     "echonext_clinical.json": (
         "needs EchoNext's metadata and the four arms' stored per-record scores, neither of "
         "which may be committed; tests/test_echonext_data.py rebuilds it where they are"

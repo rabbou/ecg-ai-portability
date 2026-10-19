@@ -8,8 +8,9 @@ sets and ZZU are a secondary reserve; the pairs whose target is the source's
 own population are the in-distribution controls.
 
 The run has two passes.  The first fixes every transfer's target v, the source's
-PPV at the source's threshold, from the source scores alone, and records the
-digest of that table.  The second reads the target records and applies the five
+PPV at the source's threshold, from the source arrays alone, and records the
+digest of that table; the loaders hold the target arrays already, and no target
+value enters the table.  The second applies the five
 repairs of ``ecs.ppv_repairs``: methods 1 and 5 on the whole target with no
 label, methods 2 to 4 over 200 draws of n target labels, n = 25 to 400.
 
@@ -57,6 +58,8 @@ OUT = RESULTS_DIR / "ppv_repairs.json"
 # the repository's 512 kB bar.
 CONTROLS = RESULTS_DIR / "ppv_repairs_controls.json"
 RESERVE = RESULTS_DIR / "ppv_repairs_reserve.json"
+RESERVE_CODE = RESULTS_DIR / "ppv_repairs_reserve_code_zzu.json"
+CODE_ZZU = ("code15", "code_test", "zzu")
 MAIN = ("columbia", "beth_israel", "chongqing")
 HOSPITAL_OF_TARGET = {
     "outpatient": "columbia",
@@ -237,6 +240,21 @@ def median_error_upper(rows: list[dict[str, Any]], seed: int) -> float | None:
     return float(np.nanpercentile(medians, 97.5))
 
 
+def pooled(pairs: list[tuple[float, float]]) -> dict[str, Any]:
+    """Announced and observed PPV over pooled draws: the gap in size and in direction."""
+    if not pairs:
+        return {"abs_error": {"n": 0}}
+    announced, observed = np.array(pairs).T
+    gap = announced - observed
+    return {
+        "abs_error": _quartiles(list(np.abs(gap))),
+        "signed_error": _quartiles(list(gap)),
+        "share_over_announced": float((gap > 0).mean()),
+        "announced": float(np.median(announced)),
+        "observed": float(np.median(observed)),
+    }
+
+
 def budget_summary(rows: list[dict[str, Any]], n: int) -> dict[str, Any]:
     """Methods 2 to 4 at budget n, every draw of every transfer pooled."""
     rungs = [b for r in rows for b in r["budgets"] if b["n"] == n]
@@ -248,10 +266,14 @@ def budget_summary(rows: list[dict[str, Any]], n: int) -> dict[str, Any]:
     return {
         "n": n,
         "transfers": len(rungs),
-        "recalibrated_abs_error": _quartiles(
-            [e for b in rungs for e in b["_errors"]["recalibrated"]]
-        ),
-        "resampled_abs_error": _quartiles([e for b in rungs for e in b["_errors"]["resampled"]]),
+        **{
+            f"{m}_{k}": v
+            for m in ("recalibrated", "resampled")
+            for k, v in pooled([pair for b in rungs for pair in b["_pairs"][m]]).items()
+        },
+        "certified_observed": pooled([pair for b in rungs for pair in b["_pairs"]["certified"]])[
+            "observed"
+        ],
         "resampled_share_defined": _mean(b["resampled"]["share_defined"] for b in rungs),
         "resampled_share_bound_held": _mean(b["resampled"]["share_bound_held"] for b in rungs),
         "certified_share_threshold_exists": found / draws,
@@ -274,11 +296,20 @@ def budget_summary(rows: list[dict[str, Any]], n: int) -> dict[str, Any]:
 def hospital_summary(rows: list[dict[str, Any]], seed: int) -> dict[str, Any]:
     kept = [r for r in rows if r["summarised"]]
     prior = [r["prior"]["abs_error"] for r in kept if r["prior"]["abs_error"] is not None]
+    signed = [r["prior"]["signed_error"] for r in kept if r["prior"]["signed_error"] is not None]
+    true_prevalence = [
+        r["prior"]["abs_error_true_prevalence"]
+        for r in kept
+        if r["prior"]["abs_error_true_prevalence"] is not None
+    ]
     out: dict[str, Any] = {
         "transfers": len(kept),
         "transfers_not_summarised": len(rows) - len(kept),
         "prior": {
             "abs_error": _quartiles(prior),
+            "signed_error": _quartiles(signed),
+            "share_over_announced": _mean(float(s > 0) for s in signed),
+            "abs_error_true_prevalence": _quartiles(true_prevalence),
             "sensitivity": _mean(r["prior"]["sensitivity"] for r in kept),
             "net_benefit": _mean(r["prior"]["net_benefit"] for r in kept),
         },
@@ -333,16 +364,9 @@ def falsifiers(summary: dict[str, Any]) -> dict[str, Any]:
 
 
 def public_row(row: dict[str, Any]) -> dict[str, Any]:
-    """The row without the per-draw lists the summaries pool, each error as its median."""
+    """The row without the per-draw lists the summaries pool."""
     out = {k: v for k, v in row.items() if not k.startswith("_")}
-    out["budgets"] = []
-    for rung in row["budgets"]:
-        kept = {k: v for k, v in rung.items() if not k.startswith("_")}
-        for method in ("recalibrated", "resampled"):
-            block = dict(kept[method])
-            block["abs_error"] = block["abs_error"].get("median")
-            kept[method] = block
-        out["budgets"].append(kept)
+    out["budgets"] = [{k: v for k, v in b.items() if not k.startswith("_")} for b in row["budgets"]]
     return out
 
 
@@ -403,9 +427,18 @@ def main() -> None:
     main_rows = [public_row(r) for r in rows if r["hospital"] in MAIN]
     controls = [public_row(r) for r in rows if r["hospital"] == "control"]
     reserve = [public_row(r) for r in rows if r["hospital"] not in (*MAIN, "control")]
-    write(OUT, result | {"control_rows": CONTROLS.name, "reserve_rows": RESERVE.name}, main_rows)
+    write(
+        OUT,
+        result
+        | {
+            "control_rows": CONTROLS.name,
+            "reserve_rows": [RESERVE.name, RESERVE_CODE.name],
+        },
+        main_rows,
+    )
     write(CONTROLS, side, controls)
-    write(RESERVE, side, reserve)
+    write(RESERVE, side, [r for r in reserve if r["hospital"] not in CODE_ZZU])
+    write(RESERVE_CODE, side, [r for r in reserve if r["hospital"] in CODE_ZZU])
     print(f"{len(rows)} transfers in {time.time() - started:.1f} s")
 
 

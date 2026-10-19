@@ -23,6 +23,7 @@ ALPHA = 0.10
 FILE = RESULTS_DIR / "ppv_repairs.json"
 CONTROLS = RESULTS_DIR / "ppv_repairs_controls.json"
 RESERVE = RESULTS_DIR / "ppv_repairs_reserve.json"
+RESERVE_CODE = RESULTS_DIR / "ppv_repairs_reserve_code_zzu.json"
 # Rows are written to three significant digits.
 ROUNDING = 5e-3
 MAIN = ("columbia", "beth_israel", "chongqing")
@@ -56,7 +57,7 @@ def source_scores(row: dict[str, Any]) -> tuple[np.ndarray, np.ndarray]:
 @pytest.fixture(scope="module")
 def every_row(result: dict[str, Any]) -> list[dict[str, Any]]:
     """The main hospitals' rows, then the controls' and the reserve's from their files."""
-    side = [json.loads(path.read_text()) for path in (CONTROLS, RESERVE)]
+    side = [json.loads(path.read_text()) for path in (CONTROLS, RESERVE, RESERVE_CODE)]
     for block in side:
         assert block["targets_digest"] == result["targets_digest"]
         assert block["provenance"] == result["provenance"]
@@ -139,6 +140,20 @@ def test_the_falsifiers_follow_from_their_numbers(result: dict[str, Any]) -> Non
     assert second["fired_existence"] == any(
         s < 0.5 for s in second["share_threshold_exists"].values()
     )
+
+
+def test_each_label_budget_reports_what_was_announced_and_observed(
+    every_row: list[dict[str, Any]],
+) -> None:
+    """Section 7 asks for the announced and the observed PPV per budget, not their gap alone:
+    the gap's size cannot say whether a repair over- or under-announces."""
+    blocks = [b[m] for r in every_row for b in r["budgets"] for m in ("recalibrated", "resampled")]
+    defined = [b for b in blocks if b["abs_error"] is not None]
+    assert len(defined) > 3000
+    for b in defined:
+        assert 0.0 <= b["announced"] <= 1.0 and 0.0 <= b["observed"] <= 1.0, b
+        # |median(x)| <= median(|x|) for any sample.
+        assert abs(b["signed_error"]) <= b["abs_error"] + 1e-3, b
 
 
 def lists_in(value: Any) -> list[int]:
