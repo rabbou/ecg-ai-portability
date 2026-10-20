@@ -156,6 +156,30 @@ def test_each_label_budget_reports_what_was_announced_and_observed(
         assert abs(b["signed_error"]) <= b["abs_error"] + 1e-3, b
 
 
+def shares_over(result: dict[str, Any], small: bool) -> list[float]:
+    """Share of draws over-announcing, per hospital, budget and labelled repair."""
+    return [
+        b[f"{m}_share_over_announced"]
+        for h in MAIN
+        for b in result["summary"][h]["budgets"]
+        for m in ("recalibrated", "resampled")
+        if (b["n"] < 100) == small and (m == "recalibrated" or not small)
+    ]
+
+
+def test_the_direction_ppv_md_states_is_the_file_s(result: dict[str, Any]) -> None:
+    """PPV.md: label-free, less than observed in every Columbia transfer, more at Chongqing;
+    from 100 labels on, misses on both sides in about equal shares."""
+    s = result["summary"]
+    assert s["columbia"]["prior"]["share_over_announced"] == 0.0
+    assert s["chongqing"]["prior"]["share_over_announced"] == 1.0
+    assert all(0.4 <= x <= 0.6 for x in shares_over(result, small=False))
+    section = ppv_md_section()
+    large = shares_over(result, small=False)
+    assert f"{min(large):.2f} to {max(large):.2f} of the draws" in section
+    assert f"up to {max(shares_over(result, small=True)):.2f} of the draws" in section
+
+
 def lists_in(value: Any) -> list[int]:
     if isinstance(value, dict):
         return [n for v in value.values() for n in lists_in(v)]
@@ -203,6 +227,8 @@ def ppv_md_figures(result: dict[str, Any]) -> list[str]:
         upper = result["falsifiers"]["label_free_outside_columbia"]["upper_bounds"][h]
         out.append(f"{pts(upper)} points")
     out.append(f"{pts(s['control']['prior']['abs_error']['median'])} points")
+    control = s["control"]["prior"]["abs_error_true_prevalence"]["median"]
+    out.append(f"{pts(control)} points")
     out.append(f"{pts(result['published_control_median_gap'])} points")
     published = json.loads((RESULTS_DIR / "echonext_ppv_gap.json").read_text())
     free = published["summary"]["echonext"]["transfer"]["label_free_predictors"]

@@ -12,7 +12,7 @@ At a fixed threshold, a model's PPV depends on prevalence through Bayes' theorem
 
 Three receiving hospitals carry the comparison. At Columbia, the four EchoNext models are calibrated on inpatients and applied to emergency and outpatient ECGs (76 transfers). At Beth Israel Deaconess, MIMIC-IV-ECG is the target of the seven-source rotation, with machine-read labels, so its observed PPV is agreement with the cart's statement (28 transfers). At Chongqing, the PTB-XL infarction model is applied to the hospital's ECGs (1 transfer). Transfers within a hospital are not independent, and the conclusion rests on three sites. Shandong, the other rotation corpora, CODE-15%, the CODE test set and ZZU are a secondary reserve in [`results/ppv_repairs_reserve.json`](results/ppv_repairs_reserve.json); pairs whose target is the source population are in-distribution controls.
 
-For each transfer, the target v is the PPV observed at the source at the source's threshold of 90% sensitivity. It is fixed from the source scores in a first pass, before any target record is read, and the file records the digest of that table. The five repairs:
+For each transfer, the target v is the PPV observed at the source at the source's threshold of 90% sensitivity. It is computed from the source arrays alone, in a first pass before any repair runs, and the file records the digest of that table. The five repairs:
 
 1. prevalence estimated without labels by EM (Saerens et al., 2002), then Bayes' theorem at the source threshold;
 2. logistic recalibration on n labels, announcing the mean recalibrated probability of the flagged patients;
@@ -24,17 +24,17 @@ Labels are drawn by patient, n = 25, 50, 100, 200 and 400, 200 draws per budget,
 
 ### Results
 
-Without local labels, the prevalence correction announced the PPV with a median absolute error of 13.1 points at Columbia, 11.4 points at Beth Israel and 51.7 points at Chongqing. The published label-free figure for Columbia, over that study's selection of cells, was 12.6 points. In the in-distribution controls the same correction erred by 2.4 points, against 0.2 points in the published study for Bayes' theorem given the true prevalence.
+Without local labels, the prevalence correction announced the PPV with a median absolute error of 13.1 points at Columbia, 11.4 points at Beth Israel and 51.7 points at Chongqing. It announced less than was observed in every Columbia transfer and more than was observed at Chongqing. The published label-free figure for Columbia, over that study's selection of cells, was 12.6 points. In the in-distribution controls the correction erred by 2.4 points; given the true prevalence instead of the estimated one, Bayes' theorem erred there by 0.5 points, against 0.2 points over the published study's EchoNext controls.
 
-Local labels reduced the error. With 25 labels, the recalibrated PPV erred by 5.7 points at Columbia, 8.2 points at Beth Israel and 9.4 points at Chongqing, and the PPV read on a half-sample at a refitted threshold by 6.0, 5.7 and 6.6 points. With 100 labels the two errors were 3.1 and 2.6 points at Columbia, 5.4 and 2.2 points at Beth Israel, and 3.5 and 3.7 points at Chongqing. With 400 labels they were 1.9 and 1.6 points, 3.4 and 1.7 points, and 1.7 and 2.6 points.
+Local labels reduced the error. With 25 labels, the recalibrated PPV erred by 5.8 points at Columbia, 8.5 points at Beth Israel and 9.3 points at Chongqing, and the PPV read on a half-sample at a refitted threshold by 6.0, 5.7 and 6.6 points. With 100 labels the two errors were 3.1 and 2.6 points at Columbia, 5.7 and 2.2 points at Beth Israel, and 3.8 and 3.5 points at Chongqing. With 400 labels they were 1.9 and 1.6 points, 3.5 and 1.7 points, and 1.8 and 2.6 points. From 100 labels on, the errors fell on both sides of the observed PPV in about equal shares, with 0.44 to 0.55 of the draws over-announcing; with fewer labels, recalibration over-announced in up to 0.72 of the draws.
 
-The certified threshold kept its guarantee but was seldom found. At n = 100, the share of draws whose observed PPV fell below v was 0.024 at Columbia, 0.015 at Beth Israel and 0.025 at Chongqing, all under δ. A threshold was certified in 0.168, 0.249 and 0.025 of the draws: at most targets, no threshold of the grid reaches the source's PPV.
+The certified threshold kept its guarantee but was seldom found. At n = 100, the share of draws whose observed PPV fell below v was 0.022 at Columbia, 0.014 at Beth Israel and 0.010 at Chongqing, all under δ. A threshold was certified in 0.168, 0.251 and 0.010 of the draws: at most targets, no threshold of the grid reaches the source's PPV.
 
 Weighted conformal selection did not control the false discovery proportion at Chongqing, where its mean was 0.75 for a level of 0.39. At Columbia it was 0.64 for a level of 0.77, and at Beth Israel 0.46 for 0.60.
 
 ### Falsifiers
 
-The label-free correction would have sufficed outside Columbia if the upper bound of the bootstrap interval of its median absolute error had stayed under two points at both Beth Israel and Chongqing. The bounds were 30.3 points and 52.8 points, so the need for local labels is not restricted to Columbia.
+The label-free correction would have sufficed outside Columbia if the upper bound of the bootstrap interval of its median absolute error had stayed under two points at both Beth Israel and Chongqing. The bounds were 30.3 points and 52.8 points, so the need for local labels is not restricted to Columbia. Chongqing contributes a single transfer, so its bound reflects the resampling of its patients only.
 
 Certification would have failed under real draws if its violation rate at n = 100 had exceeded 0.15 in a hospital; it did not. The budget would not suffice to certify v if a threshold existed in fewer than half of the draws, and that holds at all three hospitals: 100 labels do not certify the source's PPV at these targets.
 
