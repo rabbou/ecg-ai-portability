@@ -79,6 +79,13 @@ class TestDomainWeights:
         assert w.domain_auroc < 0.58
         assert 0.9 < w.calibration.mean() < 1.1
 
+    def test_weights_are_cross_fitted_on_noise_of_many_dimensions(self) -> None:
+        """Weights predicted in sample would separate pure noise in 200 dimensions (AUROC
+        near 1) and give every record an odds it was fitted on, the leak cross-fitting stops."""
+        rng = np.random.default_rng(6)
+        w = domain_weights(rng.normal(size=(300, 200)), rng.normal(size=(200, 200)))
+        assert w.domain_auroc < 0.62
+
     def test_a_shifted_population_recovers_the_true_density_ratio(self) -> None:
         """The fitted w(x) must track p_t(x)/p_s(x), the quantity the guarantee needs."""
         rng = np.random.default_rng(3)

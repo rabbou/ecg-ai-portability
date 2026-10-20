@@ -77,6 +77,10 @@ def test_the_verdicts_follow_from_the_csv(
                 by_label[COMPOSITE], {k: by_label[k] for k in summary["judged_labels"]}
             )
             assert summary["a2"][arm][name]["repair_holds"] == expected["repair_holds"]
+            assert summary["a2"][arm][name]["composite_pass"] == expected["composite_pass"]
+            assert summary["a2"][arm][name]["composite_interval"] == pytest.approx(
+                expected["composite_interval"]
+            )
             assert summary["a2"][arm][name]["anomaly_pass"] == expected["anomaly_pass"]
 
 

@@ -240,6 +240,7 @@ def verdicts(table: pd.DataFrame, arms: list[str], judged: list[str]) -> dict[st
 
 # The script, and every module whose behaviour the numbers depend on.
 PRODUCERS = [
+    "scripts/echonext_finetune.py",
     "scripts/echonext_scores.py",
     "scripts/echonext_transfer.py",
     "scripts/structure.py",
@@ -247,6 +248,7 @@ PRODUCERS = [
     "src/ecs/conformal.py",
     "src/ecs/echonext.py",
     "src/ecs/embedding_store.py",
+    "src/ecs/encoders.py",
     "src/ecs/metrics.py",
     "src/ecs/splits.py",
     "src/ecs/structure.py",

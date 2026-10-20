@@ -28,6 +28,7 @@ import argparse
 import hashlib
 import json
 import math
+import os
 import time
 from collections.abc import Callable, Iterator
 from concurrent.futures import ThreadPoolExecutor
@@ -161,7 +162,7 @@ def train(
         optimiser.load_state_dict(saved["optimiser"])
         scheduler.load_state_dict(saved["scheduler"])
         best_state = saved["best"]
-        history = json.loads(plan.checkpoint.with_suffix(".json").read_text())
+        history = saved["history"]
     for epoch in range(len(history), plan.epochs):
         started = time.time()
         net.train()
@@ -187,18 +188,25 @@ def train(
             }
         )
         log(json.dumps(history[-1]))
-        if score >= max(h["holdout_mean_auroc"] for h in history):
+        # Strictly better than every earlier epoch: on a tie the first epoch is kept,
+        # the one np.argmax names as chosen_epoch.
+        if score > max((h["holdout_mean_auroc"] for h in history[:-1]), default=-math.inf):
             best_state = {k: v.detach().cpu().clone() for k, v in net.state_dict().items()}
+        # One file, replaced atomically: a kill can never leave weights from one epoch
+        # beside a history from another.  The .json beside it is a readable copy.
         plan.checkpoint.parent.mkdir(parents=True, exist_ok=True)
+        partial = plan.checkpoint.with_suffix(".partial")
         torch.save(
             {
                 "model": net.state_dict(),
                 "optimiser": optimiser.state_dict(),
                 "scheduler": scheduler.state_dict(),
                 "best": best_state,
+                "history": history,
             },
-            plan.checkpoint,
+            partial,
         )
+        os.replace(partial, plan.checkpoint)
         plan.checkpoint.with_suffix(".json").write_text(json.dumps(history, indent=2) + "\n")
     if best_state is None:
         raise RuntimeError(f"seed {plan.seed}: no epoch was trained")
