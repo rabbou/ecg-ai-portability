@@ -74,6 +74,7 @@ Timings are wall clock on a six-core i7-8700, CPU only; the full suite on a cold
 | `scripts/ppv_intervals.py` | the 95% intervals across transfers, resampling groups that share a model and a pair of populations, and the Wilson intervals of the Columbia shares |
 | `src/ecs/ppv_gap.py` | the PPV recomputed by Bayes' rule against the PPV observed, with Wilson and bootstrap intervals and a likelihood-ratio check of label shift |
 | `src/ecs/repairs.py` | label-free prevalence correction, logistic recalibration on local labels and per-label abstention, judged on net benefit |
+| `src/ecs/ppv_repairs.py` | five repairs of the announced PPV, from the label-free prevalence correction to a threshold certified on local labels and weighted conformal selection, judged against the PPV observed |
 | `src/ecs/transfer_report.py` | the one-page transfer report, rendered from `results/echonext_transfer.json`, with `results/echonext_ppv_gap.json` and `results/repairs.json` when present |
 | `src/ecs/embedding_store.py` | encoder vectors filed by encoder, version and tracing digest, outside the repository |
 | `src/ecs/echonext_mini.py` | the published EchoNext mini-model, rebuilt to run its own checkpoint |
