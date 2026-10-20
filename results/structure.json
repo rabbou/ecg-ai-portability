@@ -599,17 +599,19 @@
     }
   },
   "a1_finetuned_halves_the_loss": false,
-  "seconds": 761.0,
+  "seconds": 698.8,
   "provenance": {
-    "commit": "ba07185549ee0c89d8b0555d04726f01c2a45fae",
+    "commit": "2bdf0b3103ef8468a9ae9899fd619ebb3e49a397",
     "producers": {
+      "scripts/echonext_finetune.py": "6dbb2c30d387901d3f85cbaebd3fdb355abed81cee40dd7b0f7faf9f6e30c421",
       "scripts/echonext_scores.py": "7be4e1ca5838280748790f52dc4549e957c326c520f39c485c393337bda90853",
       "scripts/echonext_transfer.py": "eb5d0b8e9445bca39e945def7d6fb52130d068ce0bf5f079f49a5a046ababa60",
-      "scripts/structure.py": "df713b870820ca3de1860c59709063d53041a4366c89e6131284f1fe9fc6fce2",
+      "scripts/structure.py": "cd113cd4774f11b2d09dae4fac3553a34d17151c17df12fa830bd6357e758a94",
       "src/ecs/calibration.py": "d3154324fa595b4065982eef882658f5e9d24a96d2561fb934f5abd78bb54e4a",
       "src/ecs/conformal.py": "c434998b704a551d55bc2206a1a3ada6d42309947b0b92db11607746dcd068dc",
       "src/ecs/echonext.py": "f9dfdee094c555e16b1cf8300fb330b437eeead6b4d667a774fb16ff0b591c41",
       "src/ecs/embedding_store.py": "20590809fd14e2b1f6c14088c0e13ad6b4ec5f27813eef3705823fff497bf200",
+      "src/ecs/encoders.py": "7f66e9763ae7ea7f64fe7c4ddb3850c8aa0dd3e7123e88f8a3f9bc2ac85fa6c5",
       "src/ecs/metrics.py": "e04509abce93b400ac90cbd102a63a747f0559de4d2c9d20cdc2ee4ce1cf90e6",
       "src/ecs/splits.py": "17f1d2fea5970c37b989ad0df925b3d19f355012bfca02aed6983ce142b5a946",
       "src/ecs/structure.py": "b7d581f0321e1f538e1ec9626575dd768f75cf4821655d4ad25b567d6d9c3aec",
