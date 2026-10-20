@@ -5,13 +5,12 @@
     "resnet",
     "random_init",
     "ecgfounder",
-    "echonext_mini"
-  ],
-  "arms_absent": [
+    "echonext_mini",
     "ecgfounder_ft_s0",
     "ecgfounder_ft_s1",
     "ecgfounder_ft_s2"
   ],
+  "arms_absent": [],
   "calibration_n": 1903,
   "targets_n": {
     "inpatient": 2203,
@@ -342,6 +341,210 @@
         "anomalies_judged": 4,
         "repair_holds": false
       }
+    },
+    "ecgfounder_ft_s0": {
+      "age_sex": {
+        "composite_interval": [
+          0.6825889667961461,
+          0.7867725354805511
+        ],
+        "composite_pass": false,
+        "anomaly_p_values": {
+          "lvef_lte_45_flag": 0.06758313620799399,
+          "lvwt_gte_13_flag": 0.32448870896020376,
+          "aortic_stenosis_moderate_or_greater_flag": 0.00017800458160777363,
+          "pasp_gte_45_flag": 0.9171066580094711
+        },
+        "anomaly_pass": {
+          "lvef_lte_45_flag": false,
+          "lvwt_gte_13_flag": false,
+          "aortic_stenosis_moderate_or_greater_flag": true,
+          "pasp_gte_45_flag": false
+        },
+        "anomalies_passed": 1,
+        "anomalies_judged": 4,
+        "repair_holds": false
+      },
+      "tabular": {
+        "composite_interval": [
+          0.7491237091567745,
+          0.843945475890525
+        ],
+        "composite_pass": false,
+        "anomaly_p_values": {
+          "lvef_lte_45_flag": 0.008413704741378453,
+          "lvwt_gte_13_flag": 0.044886904890662174,
+          "aortic_stenosis_moderate_or_greater_flag": 0.00017800458160777363,
+          "pasp_gte_45_flag": 0.8578926537068464
+        },
+        "anomaly_pass": {
+          "lvef_lte_45_flag": false,
+          "lvwt_gte_13_flag": false,
+          "aortic_stenosis_moderate_or_greater_flag": true,
+          "pasp_gte_45_flag": false
+        },
+        "anomalies_passed": 1,
+        "anomalies_judged": 4,
+        "repair_holds": false
+      },
+      "embedding": {
+        "composite_interval": [
+          0.8165701318917294,
+          0.9074611527798199
+        ],
+        "composite_pass": false,
+        "anomaly_p_values": {
+          "lvef_lte_45_flag": 0.0014037192310010133,
+          "lvwt_gte_13_flag": 0.0015387201733685987,
+          "aortic_stenosis_moderate_or_greater_flag": 0.0035450506119077663,
+          "pasp_gte_45_flag": 0.4250533695692632
+        },
+        "anomaly_pass": {
+          "lvef_lte_45_flag": true,
+          "lvwt_gte_13_flag": true,
+          "aortic_stenosis_moderate_or_greater_flag": true,
+          "pasp_gte_45_flag": false
+        },
+        "anomalies_passed": 3,
+        "anomalies_judged": 4,
+        "repair_holds": false
+      }
+    },
+    "ecgfounder_ft_s1": {
+      "age_sex": {
+        "composite_interval": [
+          0.6787204592455557,
+          0.7833641205152239
+        ],
+        "composite_pass": false,
+        "anomaly_p_values": {
+          "lvef_lte_45_flag": 0.5,
+          "lvwt_gte_13_flag": 0.5657331088401253,
+          "aortic_stenosis_moderate_or_greater_flag": 0.0006395141638417879,
+          "pasp_gte_45_flag": 0.9959245142032487
+        },
+        "anomaly_pass": {
+          "lvef_lte_45_flag": false,
+          "lvwt_gte_13_flag": false,
+          "aortic_stenosis_moderate_or_greater_flag": true,
+          "pasp_gte_45_flag": false
+        },
+        "anomalies_passed": 1,
+        "anomalies_judged": 4,
+        "repair_holds": false
+      },
+      "tabular": {
+        "composite_interval": [
+          0.765018516032333,
+          0.8571583590786377
+        ],
+        "composite_pass": false,
+        "anomaly_p_values": {
+          "lvef_lte_45_flag": 0.03649902271505787,
+          "lvwt_gte_13_flag": 0.044886904890662174,
+          "aortic_stenosis_moderate_or_greater_flag": 0.0006395141638417879,
+          "pasp_gte_45_flag": 0.8578926537068464
+        },
+        "anomaly_pass": {
+          "lvef_lte_45_flag": false,
+          "lvwt_gte_13_flag": false,
+          "aortic_stenosis_moderate_or_greater_flag": true,
+          "pasp_gte_45_flag": false
+        },
+        "anomalies_passed": 1,
+        "anomalies_judged": 4,
+        "repair_holds": false
+      },
+      "embedding": {
+        "composite_interval": [
+          0.8324779915709626,
+          0.9192232785020471
+        ],
+        "composite_pass": false,
+        "anomaly_p_values": {
+          "lvef_lte_45_flag": 0.008413704741378453,
+          "lvwt_gte_13_flag": 0.011556935636473156,
+          "aortic_stenosis_moderate_or_greater_flag": 0.0035450506119077663,
+          "pasp_gte_45_flag": 0.30714733233174185
+        },
+        "anomaly_pass": {
+          "lvef_lte_45_flag": false,
+          "lvwt_gte_13_flag": false,
+          "aortic_stenosis_moderate_or_greater_flag": true,
+          "pasp_gte_45_flag": false
+        },
+        "anomalies_passed": 1,
+        "anomalies_judged": 4,
+        "repair_holds": false
+      }
+    },
+    "ecgfounder_ft_s2": {
+      "age_sex": {
+        "composite_interval": [
+          0.7254639651899598,
+          0.823943684761833
+        ],
+        "composite_pass": false,
+        "anomaly_p_values": {
+          "lvef_lte_45_flag": 0.27504865861519834,
+          "lvwt_gte_13_flag": 0.19242734410105916,
+          "aortic_stenosis_moderate_or_greater_flag": 0.00017800458160777363,
+          "pasp_gte_45_flag": 0.9901175425642127
+        },
+        "anomaly_pass": {
+          "lvef_lte_45_flag": false,
+          "lvwt_gte_13_flag": false,
+          "aortic_stenosis_moderate_or_greater_flag": true,
+          "pasp_gte_45_flag": false
+        },
+        "anomalies_passed": 1,
+        "anomalies_judged": 4,
+        "repair_holds": false
+      },
+      "tabular": {
+        "composite_interval": [
+          0.7610351167674232,
+          0.8538648358276297
+        ],
+        "composite_pass": false,
+        "anomaly_p_values": {
+          "lvef_lte_45_flag": 0.03649902271505787,
+          "lvwt_gte_13_flag": 0.005798130353480101,
+          "aortic_stenosis_moderate_or_greater_flag": 0.0006395141638417879,
+          "pasp_gte_45_flag": 0.9901175425642127
+        },
+        "anomaly_pass": {
+          "lvef_lte_45_flag": false,
+          "lvwt_gte_13_flag": true,
+          "aortic_stenosis_moderate_or_greater_flag": true,
+          "pasp_gte_45_flag": false
+        },
+        "anomalies_passed": 2,
+        "anomalies_judged": 4,
+        "repair_holds": false
+      },
+      "embedding": {
+        "composite_interval": [
+          0.8431858768788597,
+          0.9269620501284569
+        ],
+        "composite_pass": false,
+        "anomaly_p_values": {
+          "lvef_lte_45_flag": 0.003580484096903958,
+          "lvwt_gte_13_flag": 0.007270081585806133,
+          "aortic_stenosis_moderate_or_greater_flag": 0.0035450506119077663,
+          "pasp_gte_45_flag": 0.1284196289789286
+        },
+        "anomaly_pass": {
+          "lvef_lte_45_flag": true,
+          "lvwt_gte_13_flag": true,
+          "aortic_stenosis_moderate_or_greater_flag": true,
+          "pasp_gte_45_flag": false
+        },
+        "anomalies_passed": 3,
+        "anomalies_judged": 4,
+        "repair_holds": false
+      }
     }
   },
   "a1": {
@@ -372,9 +575,45 @@
       "loss": 0.17306273062730626,
       "loss_high": 0.2290028802392826,
       "halved": false
+    },
+    "ecgfounder_ft_s0": {
+      "sensitivity": 0.7269372693726938,
+      "sensitivity_low": 0.6709971197607174,
+      "loss": 0.17306273062730626,
+      "loss_high": 0.2290028802392826,
+      "halved": false
+    },
+    "ecgfounder_ft_s1": {
+      "sensitivity": 0.7195571955719557,
+      "sensitivity_low": 0.66329163383936,
+      "loss": 0.18044280442804428,
+      "loss_high": 0.23670836616064006,
+      "halved": false
+    },
+    "ecgfounder_ft_s2": {
+      "sensitivity": 0.7564575645756457,
+      "sensitivity_low": 0.7020023930770363,
+      "loss": 0.1435424354243543,
+      "loss_high": 0.19799760692296375,
+      "halved": false
     }
   },
-  "a1_finetuned_halves_the_loss": null,
-  "seconds": 7885.4,
-  "commit": "0a8162ca502e3969beca34c60f49f28f40ff71af"
+  "a1_finetuned_halves_the_loss": false,
+  "seconds": 761.0,
+  "provenance": {
+    "commit": "ba07185549ee0c89d8b0555d04726f01c2a45fae",
+    "producers": {
+      "scripts/echonext_scores.py": "7be4e1ca5838280748790f52dc4549e957c326c520f39c485c393337bda90853",
+      "scripts/echonext_transfer.py": "eb5d0b8e9445bca39e945def7d6fb52130d068ce0bf5f079f49a5a046ababa60",
+      "scripts/structure.py": "df713b870820ca3de1860c59709063d53041a4366c89e6131284f1fe9fc6fce2",
+      "src/ecs/calibration.py": "d3154324fa595b4065982eef882658f5e9d24a96d2561fb934f5abd78bb54e4a",
+      "src/ecs/conformal.py": "c434998b704a551d55bc2206a1a3ada6d42309947b0b92db11607746dcd068dc",
+      "src/ecs/echonext.py": "f9dfdee094c555e16b1cf8300fb330b437eeead6b4d667a774fb16ff0b591c41",
+      "src/ecs/embedding_store.py": "20590809fd14e2b1f6c14088c0e13ad6b4ec5f27813eef3705823fff497bf200",
+      "src/ecs/metrics.py": "e04509abce93b400ac90cbd102a63a747f0559de4d2c9d20cdc2ee4ce1cf90e6",
+      "src/ecs/splits.py": "17f1d2fea5970c37b989ad0df925b3d19f355012bfca02aed6983ce142b5a946",
+      "src/ecs/structure.py": "b7d581f0321e1f538e1ec9626575dd768f75cf4821655d4ad25b567d6d9c3aec",
+      "src/ecs/transfer.py": "e690339b52941e150a61527ac5e0e56a3cc5dbcd5772f7ba06ec8296b112d624"
+    }
+  }
 }
