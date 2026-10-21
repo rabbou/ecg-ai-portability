@@ -95,7 +95,7 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "--compare",
-        default="/home/ruben/Developer/ecg-data-chain/results/cache/signal_digests.json",
+        default="/home/ruben/Developer/ecg/ecg-data-chain/results/cache/signal_digests.json",
         help="a published digest cache to check this one against, when present",
     )
     parser.add_argument("--out", default=str(RESULTS_DIR / "duplicate_groups.json"))
