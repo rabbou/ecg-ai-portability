@@ -52,7 +52,7 @@ REGENERABLE = (
 # Not regenerable here, yet carrying a provenance block whose digests are checked: the
 # code that wrote them cannot drift unnoticed even where the data are absent, and
 # tests/test_echonext_data.py rebuilds the numbers where the data are present.
-DIGEST_CHECKED = ("code_zzu_label_map.json", "echonext_clinical.json")
+DIGEST_CHECKED = ("code_zzu_label_map.json", "echonext_clinical.json", "structure.json")
 
 # Not regenerable in a session, and why. The reason is the point: it is what a
 # reader needs in order to judge how much the recorded commit is worth.
@@ -153,6 +153,12 @@ NOT_REGENERABLE = {
         "zipped HDF5, the CODE test set and ZZU pECG's attribute table"
     ),
     "code_zzu_rotation.csv": "every row code_zzu_rotation.json summarises, written by the same run",
+    "structure.json": (
+        "needs EchoNext, the seven arms' per-record scores and the frozen ECGFounder "
+        "embeddings, none of which may be committed"
+    ),
+    "structure_coverage.csv": "every row structure.json judges, written by the same run",
+    "structure_calibration.json": "the calibration cells of structure.json's run",
     **{
         f"rotation_seven/{source}/{name}": reason
         for source in ("chapman_ningbo", "code15", "cpsc", "georgia", "mimic", "ptbxl", "sph")
