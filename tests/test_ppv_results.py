@@ -129,9 +129,14 @@ def test_the_cluster_intervals_hold_the_summary_they_bracket(private: dict[str, 
 
 
 def test_ppv_md_points_to_the_article() -> None:
-    """One text says each thing: PPV.md and its French page point to REPORT.md."""
+    """One text says each thing: PPV.md and its French page point to REPORT.md.
+
+    Only the opening paragraph is the pointer.  The section after it reports the
+    repairs study of part two, which the article does not hold, and
+    tests/test_ppv_repairs_results.py holds its figures to their file.
+    """
     for name in ("PPV.md", "PPV.fr.md"):
-        text = (REPO_ROOT / name).read_text()
+        text = (REPO_ROOT / name).read_text().split("\n## ")[0]
         assert "](REPORT.md)" in text and "](SUPPLEMENT.md)" in text
         assert not re.search(r"\d%|\d points", text), f"{name} prints a result of its own"
         assert len(text.split()) < 120, name
