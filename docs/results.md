@@ -25,7 +25,7 @@ Every number and figure the article prints is redrawn from the files in `results
 | `outcomes.json` | `scripts/outcomes.py` | What a patient of each label gets under three ways of thresholding |
 | `perturbations.json`, `perturbations.npz` | `scripts/perturbations.py` | What four acquisition faults do to coverage |
 | `ppv_intervals.json` | `scripts/ppv_intervals.py` | 95% intervals for the shares the article quotes that no other file carries |
-| `ppv_repairs.json`, `ppv_repairs_reserve.json` | `scripts/ppv_repairs.py` | Five repairs of the announced PPV against the PPV observed, by number of local labels, at three hospitals and a secondary reserve |
+| `ppv_repairs.json`, `ppv_repairs_reserve.json` | `scripts/ppv_repairs.py` | Five methods for updating the stated PPV at an external site, compared against the observed PPV by number of local labels, with the cases in each labelled sample, the draws whose refitted threshold flags every patient, its error on the draws where it is finite, the labels a half needs to hold nine cases and two net-benefit references, at three sites and a secondary reserve |
 | `repairs.json` | `scripts/repairs.py` | Three repairs on the same scores, judged on net benefit |
 | `rotation.json`, `rotation.csv` | `scripts/rotation_table.py` | The source rotation: five hospitals, each calibrating once and spending everywhere |
 | `rotation_uncertainty.json`, `rotation_uncertainty.csv` | `scripts/rotation_uncertainty.py` | Three things the rotation table cannot say on its own |

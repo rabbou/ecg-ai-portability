@@ -226,8 +226,9 @@ def _mean(values: Iterable[float | None]) -> float | None:
     return float(np.mean(kept)) if kept else None
 
 
-def median_error_upper(rows: list[dict[str, Any]], seed: int) -> float | None:
-    """97.5th centile of the median of method 1's absolute error, transfers and patients redrawn."""
+def median_error_bounds(rows: list[dict[str, Any]], seed: int) -> tuple[float, float] | None:
+    """2.5th and 97.5th centiles of method 1's median absolute error, transfers and patients
+    redrawn."""
     table = np.array(
         [[np.nan if e is None else e for e in r["_prior_bootstrap"]] for r in rows], dtype=float
     )
@@ -237,7 +238,36 @@ def median_error_upper(rows: list[dict[str, Any]], seed: int) -> float | None:
     medians = [
         np.nanmedian(table[rng.integers(len(rows), size=len(rows)), b]) for b in range(BOOTSTRAP)
     ]
-    return float(np.nanpercentile(medians, 97.5))
+    low, high = np.nanpercentile(medians, [2.5, 97.5])
+    return float(low), float(high)
+
+
+def pooled_error_bounds(
+    rungs: list[dict[str, Any]], method: str, seed: int
+) -> tuple[float, float] | None:
+    """2.5th and 97.5th centiles of a pooled median absolute error, redrawing transfers and
+    then each redrawn transfer's draws.
+
+    A hospital with one transfer is redrawn on its draws alone.
+    """
+    errors = [
+        np.abs(np.subtract(*np.array(b["_pairs"][method]).T)) for b in rungs if b["_pairs"][method]
+    ]
+    if not errors:
+        return None
+    rng = np.random.default_rng(seed)
+    medians = []
+    for _ in range(BOOTSTRAP):
+        picked = rng.integers(len(errors), size=len(errors))
+        medians.append(
+            np.median(
+                np.concatenate(
+                    [errors[i][rng.integers(len(errors[i]), size=len(errors[i]))] for i in picked]
+                )
+            )
+        )
+    low, high = np.percentile(medians, [2.5, 97.5])
+    return float(low), float(high)
 
 
 def pooled(pairs: list[tuple[float, float]]) -> dict[str, Any]:
@@ -255,7 +285,7 @@ def pooled(pairs: list[tuple[float, float]]) -> dict[str, Any]:
     }
 
 
-def budget_summary(rows: list[dict[str, Any]], n: int) -> dict[str, Any]:
+def budget_summary(rows: list[dict[str, Any]], n: int, seed: int) -> dict[str, Any]:
     """Methods 2 to 4 at budget n, every draw of every transfer pooled."""
     rungs = [b for r in rows for b in r["budgets"] if b["n"] == n]
     if not rungs:
@@ -268,13 +298,21 @@ def budget_summary(rows: list[dict[str, Any]], n: int) -> dict[str, Any]:
         "transfers": len(rungs),
         **{
             f"{m}_{k}": v
-            for m in ("recalibrated", "resampled")
+            for m in ("recalibrated", "resampled", "resampled_finite")
             for k, v in pooled([pair for b in rungs for pair in b["_pairs"][m]]).items()
         },
         "certified_observed": pooled([pair for b in rungs for pair in b["_pairs"]["certified"]])[
             "observed"
         ],
+        "mean_cases_labelled": _mean(b["mean_cases_labelled"] for b in rungs),
+        **{
+            f"{m}_abs_error_median_bounds": pooled_error_bounds(rungs, m, seed + n)
+            for m in ("recalibrated", "resampled", "resampled_finite")
+        },
+        "resampled_share_finite": _mean(b["resampled"]["share_finite"] for b in rungs),
+        "resampled_finite_sensitivity": _mean(b["resampled"]["finite_sensitivity"] for b in rungs),
         "resampled_share_defined": _mean(b["resampled"]["share_defined"] for b in rungs),
+        "resampled_share_flags_all": _mean(b["resampled"]["share_flags_all"] for b in rungs),
         "resampled_share_bound_held": _mean(b["resampled"]["share_bound_held"] for b in rungs),
         "certified_share_threshold_exists": found / draws,
         "certified_violation_rate": violations / draws,
@@ -323,10 +361,28 @@ def hospital_summary(rows: list[dict[str, Any]], seed: int) -> dict[str, Any]:
             "sensitivity": _mean(r["selection"]["sensitivity"] for r in kept),
             "net_benefit": _mean(r["selection"]["net_benefit"] for r in kept),
         },
-        "budgets": [budget_summary(kept, n) for n in BUDGETS],
+        "budgets": [budget_summary(kept, n, seed) for n in BUDGETS],
+        "labels_for_nine_cases_per_half": _quartiles(
+            [
+                r["labels_for_nine_cases_per_half"]
+                for r in kept
+                if r["labels_for_nine_cases_per_half"] is not None
+            ]
+        ),
+        "references": {
+            k: _mean(r["references"][k] for r in kept)
+            for k in (
+                "treat_all_net_benefit",
+                "own_cut_net_benefit",
+                "own_cut_sensitivity",
+                "own_cut_ppv",
+            )
+        },
     }
     if kept and "_prior_bootstrap" in kept[0]:
-        out["prior"]["median_abs_error_upper_97_5"] = median_error_upper(kept, seed)
+        bounds = median_error_bounds(kept, seed)
+        out["prior"]["median_abs_error_lower_2_5"] = bounds[0] if bounds else None
+        out["prior"]["median_abs_error_upper_97_5"] = bounds[1] if bounds else None
     return out
 
 

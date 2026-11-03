@@ -3,11 +3,12 @@
 from __future__ import annotations
 
 import math
+from typing import Any
 
 import numpy as np
 import pandas as pd
 import pytest
-from ppv_repairs import freeze_targets, key_of
+from ppv_repairs import freeze_targets, key_of, pooled_error_bounds
 from score_pairs import Pair
 
 from ecs.ppv_repairs import (
@@ -17,6 +18,8 @@ from ecs.ppv_repairs import (
     frozen_target,
     labelled_draw,
     prior_repair,
+    references,
+    sensitivity_cut,
     transfer_cell,
     weighted_conformal_selection,
 )
@@ -298,3 +301,118 @@ class TestTransferCell:
         )
         assert [b["n"] for b in cell["budgets"]] == [100]
         assert math.isfinite(cell["prior"]["announced"])
+
+    def test_nine_cases_is_the_least_that_places_a_threshold(self) -> None:
+        """ceil((m + 1) * 0.9) exceeds m below nine cases: the cut is +inf."""
+        for m, bounded in ((8, False), (9, True)):
+            p = np.linspace(0.5, 0.99, m)
+            cut = sensitivity_cut(p, np.ones(m, dtype=int))
+            assert cut is not None and math.isfinite(cut) is bounded
+
+    def test_a_half_under_nine_cases_flags_every_patient(self) -> None:
+        """At 3% prevalence 100 labels hold about three cases, too few for the conformal rank."""
+        rng = np.random.default_rng(5)
+        p_s, y_s = gaussian(3000, 0.3, 0.0, rng)
+        p_t, y_t = gaussian(4000, 0.03, 0.0, rng)
+        cell = transfer_cell(
+            p_s, y_s, p_t, y_t, pd.Series(range(4000)), frozen_target(p_s, y_s), 0, (100,)
+        )
+        rung = cell["budgets"][0]
+        assert rung["mean_cases_labelled"] < 9
+        # The other draws hold no case at all in the first half and return no cut.
+        assert rung["resampled"]["share_flags_all"] > 0.75
+        # Every draw that placed a threshold flagged everyone; a draw with no case has none.
+        assert rung["resampled"]["share_flags_all"] == pytest.approx(
+            rung["resampled"]["share_defined"]
+        )
+        assert rung["resampled"]["sensitivity"] == pytest.approx(1.0)
+        assert rung["resampled"]["share_finite"] == 0.0
+        assert rung["resampled"]["finite_abs_error"] is None
+        assert rung["resampled"]["finite_sensitivity"] is None
+        assert cell["labels_for_nine_cases_per_half"] == pytest.approx(18 / y_t.mean())
+
+    def test_enough_cases_place_a_finite_threshold(self) -> None:
+        """The twin: at 30% prevalence 400 labels hold about 60 cases per half."""
+        rng = np.random.default_rng(6)
+        p_s, y_s = gaussian(3000, 0.3, 0.0, rng)
+        p_t, y_t = gaussian(4000, 0.3, 0.0, rng)
+        cell = transfer_cell(
+            p_s, y_s, p_t, y_t, pd.Series(range(4000)), frozen_target(p_s, y_s), 0, (400,)
+        )
+        rung = cell["budgets"][0]
+        assert rung["mean_cases_labelled"] == pytest.approx(120, rel=0.15)
+        assert rung["resampled"]["share_flags_all"] == 0.0
+        assert rung["resampled"]["share_finite"] == pytest.approx(1.0)
+        assert rung["resampled"]["finite_abs_error"] == rung["resampled"]["abs_error"]
+        assert rung["resampled"]["finite_sensitivity"] < 0.97
+
+    def test_finite_draws_are_kept_apart_when_both_kinds_occur(self) -> None:
+        """At 10% prevalence 200 labels hold about ten cases per half: some cuts are +inf."""
+        rng = np.random.default_rng(11)
+        p_s, y_s = gaussian(3000, 0.3, 0.0, rng)
+        p_t, y_t = gaussian(4000, 0.1, 0.0, rng)
+        cell = transfer_cell(
+            p_s, y_s, p_t, y_t, pd.Series(range(4000)), frozen_target(p_s, y_s), 0, (200,)
+        )
+        out = cell["budgets"][0]["resampled"]
+        assert 0.2 < out["share_finite"] < 0.8
+        assert out["finite_sensitivity"] < out["sensitivity"]
+        assert out["finite_abs_error"] != out["abs_error"]
+
+
+class TestReferences:
+    def test_treat_all_is_prevalence_minus_weighted_non_cases(self) -> None:
+        y = np.array([1] * 20 + [0] * 80)
+        p = np.linspace(0.01, 0.99, 100)
+        out = references(p, y)
+        assert out["treat_all_net_benefit"] == pytest.approx(0.2 - 0.8 * 0.1 / 0.9)
+
+    def test_the_target_own_cut_beats_treat_all_on_a_separating_score(self) -> None:
+        rng = np.random.default_rng(7)
+        p, y = gaussian(4000, 0.1, 0.0, rng)
+        out = references(p, y)
+        assert out["own_cut_sensitivity"] >= 0.9
+        assert out["own_cut_net_benefit"] > out["treat_all_net_benefit"]
+
+
+def rung_of(errors: list[list[float]]) -> list[dict[str, Any]]:
+    """Budget rungs whose stated PPV errs by each given amount against an observed 0.5."""
+    return [
+        {"_pairs": {"recalibrated": [(0.5 + e, 0.5) for e in draws], "resampled": []}}
+        for draws in errors
+    ]
+
+
+def bounds_of(rungs: list[dict[str, Any]]) -> tuple[float, float]:
+    out = pooled_error_bounds(rungs, "recalibrated", 0)
+    assert out is not None
+    return out
+
+
+class TestPooledErrorBounds:
+    def test_the_interval_brackets_the_pooled_median(self) -> None:
+        rng = np.random.default_rng(8)
+        rungs = rung_of([list(rng.uniform(0, 0.1, 50)) for _ in range(10)])
+        pooled = np.median(
+            [e for r in rungs for a, o in r["_pairs"]["recalibrated"] for e in [a - o]]
+        )
+        low, high = bounds_of(rungs)
+        assert low <= pooled <= high
+
+    def test_spread_between_transfers_widens_the_interval(self) -> None:
+        """Transfers are redrawn first: medians far apart give a wider interval."""
+        rng = np.random.default_rng(9)
+        alike = rung_of([list(rng.uniform(0.04, 0.06, 50)) for _ in range(10)])
+        apart = rung_of([list(rng.uniform(0.01 * i, 0.01 * i + 0.002, 50)) for i in range(10)])
+        a_low, a_high = bounds_of(alike)
+        b_low, b_high = bounds_of(apart)
+        assert b_high - b_low > 3 * (a_high - a_low)
+
+    def test_one_transfer_is_redrawn_on_its_draws(self) -> None:
+        rng = np.random.default_rng(10)
+        rungs = rung_of([list(rng.uniform(0, 0.1, 200))])
+        low, high = bounds_of(rungs)
+        assert 0 < high - low < 0.03
+
+    def test_a_method_with_no_draw_has_no_interval(self) -> None:
+        assert pooled_error_bounds(rung_of([[0.01]]), "resampled", 0) is None

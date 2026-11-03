@@ -13,7 +13,6 @@ from __future__ import annotations
 
 import json
 import math
-import re
 from typing import Any
 
 import numpy as np
@@ -128,15 +127,14 @@ def test_the_cluster_intervals_hold_the_summary_they_bracket(private: dict[str, 
             assert block[key]["low"] <= block[key]["estimate"] <= block[key]["high"], (name, key)
 
 
-def test_ppv_md_points_to_the_article() -> None:
-    """One text says each thing: PPV.md and its French page point to REPORT.md.
+def test_ppv_md_cites_the_article() -> None:
+    """PPV.md and its French version open on the study and cite REPORT.md as a reference.
 
-    Only the opening paragraph is the pointer.  The section after it reports the
-    repairs study of part two, which the article does not hold, and
-    tests/test_ppv_repairs_results.py holds its figures to their file.
+    The figures of the study are held to their file by tests/test_ppv_repairs_results.py.
     """
     for name in ("PPV.md", "PPV.fr.md"):
-        text = (REPO_ROOT / name).read_text().split("\n## ")[0]
-        assert "](REPORT.md)" in text and "](SUPPLEMENT.md)" in text
-        assert not re.search(r"\d%|\d points", text), f"{name} prints a result of its own"
-        assert len(text.split()) < 120, name
+        text = (REPO_ROOT / name).read_text()
+        title, rest = text.split("\n", 1)
+        rest = rest.lstrip().removeprefix("Traduction française de [PPV.md](PPV.md).").lstrip()
+        assert title.startswith("# ") and rest.startswith("## "), name
+        assert "](REPORT.md)" in text and "](SUPPLEMENT.md)" in text, name

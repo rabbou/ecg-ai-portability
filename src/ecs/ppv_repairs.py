@@ -66,6 +66,7 @@ __all__ = [
     "frozen_target",
     "labelled_draw",
     "prior_repair",
+    "references",
     "selection_repair",
     "sensitivity_cut",
     "transfer_cell",
@@ -363,13 +364,22 @@ def _budget(
         "recalibrated": [],
         "resampled": [],
         "certified": [],
+        "resampled_finite": [],
     }
-    sens: dict[str, list[float]] = {"recalibrated": [], "resampled": [], "certified": []}
+    sens: dict[str, list[float]] = {
+        "recalibrated": [],
+        "resampled": [],
+        "certified": [],
+        "resampled_finite": [],
+    }
     nb: dict[str, list[float]] = {"recalibrated": [], "resampled": [], "certified": []}
     resampled_defined = bound_held = certified_found = violated = clear_violation = 0
+    flags_all = finite = 0
+    cases: list[int] = []
     for _ in range(DRAWS):
         lab, ev = labelled_draw(codes, n, rng)
         p_ev, y_ev = p[ev], y[ev]
+        cases.append(int(y[lab].sum()))
         # 2. Recalibration on the n labels, source threshold kept.
         a, b, _kind = local_recalibration(p[lab], y[lab])
         kept = flags(p_ev, target.cut)
@@ -381,6 +391,11 @@ def _budget(
         # 3. Threshold refitted on one half, PPV read on the other.
         first, second = _halves(codes, lab, rng)
         cut = sensitivity_cut(p[first], y[first])
+        # Under nine cases in the half the conformal rank exceeds them: the cut is
+        # +inf and every patient is flagged.
+        flags_all += cut is not None and math.isinf(cut)
+        bounded = cut is not None and not math.isinf(cut)
+        finite += bounded
         if cut is not None:
             held = flags(p[second], cut)
             k = int(held.sum())
@@ -389,8 +404,12 @@ def _budget(
                 resampled_defined += 1
                 announced = float(y[second][held].mean())
                 pairs["resampled"].append((announced, seen["ppv"]))
+                if bounded:
+                    pairs["resampled_finite"].append((announced, seen["ppv"]))
                 bound_held += seen["ppv"] >= clopper_pearson_lower(int(y[second][held].sum()), k)
             _push(sens["resampled"], nb["resampled"], seen)
+            if bounded and seen["sensitivity"] is not None:
+                sens["resampled_finite"].append(seen["sensitivity"])
         # 4. Certified threshold on all n labels; it announces v.
         cut = certified_cut(p[lab], y[lab], target)
         if cut is not None:
@@ -407,6 +426,7 @@ def _budget(
             _push(sens["certified"], nb["certified"], seen)
     return {
         "n": n,
+        "mean_cases_labelled": float(np.mean(cases)),
         "recalibrated": {
             **_announcements(pairs["recalibrated"]),
             "sensitivity": _mean(sens["recalibrated"]),
@@ -414,7 +434,11 @@ def _budget(
         },
         "resampled": {
             "share_defined": resampled_defined / DRAWS,
+            "share_flags_all": flags_all / DRAWS,
+            "share_finite": finite / DRAWS,
             **_announcements(pairs["resampled"]),
+            "finite_abs_error": _announcements(pairs["resampled_finite"])["abs_error"],
+            "finite_sensitivity": _mean(sens["resampled_finite"]),
             "share_bound_held": bound_held / resampled_defined if resampled_defined else None,
             "sensitivity": _mean(sens["resampled"]),
             "net_benefit": _mean(nb["resampled"]),
@@ -463,4 +487,25 @@ def transfer_cell(
         "prior": prior_repair(p_source, y_source, p, y, target),
         "selection": selection_repair(p_source, y_source, p, y, target),
         "budgets": rungs,
+        "references": references(p, y),
+        # Labels whose expected half holds the nine cases the conformal rank needs.
+        "labels_for_nine_cases_per_half": 2 * 9 / float(y.mean()) if y.any() else None,
+    }
+
+
+def references(p: Array, y: IntArray) -> dict[str, Any]:
+    """Net benefit of flagging every patient, and of the target's own 90%-sensitivity cut.
+
+    The second is fitted on every target label; it is an operating point, not the
+    best net benefit, which a higher threshold can exceed. Both are read on the
+    whole target, the repairs on the evaluation patients of each draw.
+    """
+    everyone = np.ones(len(y), dtype=bool)
+    own = sensitivity_cut(p, y)
+    seen = _observed(y, flags(p, own)) if own is not None else None
+    return {
+        "treat_all_net_benefit": net_benefit_of(y, everyone, NAMED_THRESHOLD),
+        "own_cut_net_benefit": seen["net_benefit"] if seen else None,
+        "own_cut_sensitivity": seen["sensitivity"] if seen else None,
+        "own_cut_ppv": seen["ppv"] if seen else None,
     }
