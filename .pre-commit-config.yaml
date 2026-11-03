@@ -41,3 +41,10 @@ repos:
         entry: .venv/bin/python scripts/check_commit_subject.py
         language: system
         stages: [commit-msg]
+
+  # Secrets in the staged change; CI scans the whole history
+  # (.github/workflows/secret-scan.yml, h_185e64a134ba).
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.30.1
+    hooks:
+      - id: gitleaks
