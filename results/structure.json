@@ -1,0 +1,2500 @@
+{
+  "distribution": "physionet.org/content/echonext/1.1.1",
+  "alpha": 0.1,
+  "arms": [
+    "resnet",
+    "random_init",
+    "ecgfounder",
+    "echonext_mini",
+    "ecgfounder_ft_s0",
+    "ecgfounder_ft_s1",
+    "ecgfounder_ft_s2"
+  ],
+  "arms_absent": [],
+  "calibration_n": 1903,
+  "targets_n": {
+    "inpatient": 2203,
+    "emergency": 1971,
+    "outpatient": 1059
+  },
+  "judged_labels": {
+    "outpatient": [
+      "lvef_lte_45_flag",
+      "lvwt_gte_13_flag",
+      "aortic_stenosis_moderate_or_greater_flag",
+      "pasp_gte_45_flag"
+    ],
+    "emergency": [
+      "lvef_lte_45_flag",
+      "lvwt_gte_13_flag",
+      "aortic_stenosis_moderate_or_greater_flag",
+      "mitral_regurgitation_moderate_or_greater_flag",
+      "tricuspid_regurgitation_moderate_or_greater_flag",
+      "rv_systolic_dysfunction_moderate_or_greater_flag",
+      "pasp_gte_45_flag",
+      "tr_max_gte_32_flag"
+    ]
+  },
+  "verdict_contexts": [
+    "outpatient",
+    "emergency"
+  ],
+  "verdict_covariates": "embedding",
+  "readings": {
+    "min_cases_kish": "n_effective",
+    "target_cases": "n_pos"
+  },
+  "domain": {
+    "inpatient": {
+      "age_sex": {
+        "domain_auroc": 0.499107651654494,
+        "cap": 1.0049453970637767
+      },
+      "tabular": {
+        "domain_auroc": 0.5043945949594841,
+        "cap": 1.0565565255210754
+      },
+      "embedding": {
+        "domain_auroc": 0.48479608731131224,
+        "cap": 1.301778817356898
+      }
+    },
+    "emergency": {
+      "age_sex": {
+        "domain_auroc": 0.5518834183415702,
+        "cap": 1.4198016768486976
+      },
+      "tabular": {
+        "domain_auroc": 0.5895788459728597,
+        "cap": 1.6889985926049587
+      },
+      "embedding": {
+        "domain_auroc": 0.7676093156337039,
+        "cap": 4.283037502178219
+      }
+    },
+    "outpatient": {
+      "age_sex": {
+        "domain_auroc": 0.5763654326427583,
+        "cap": 1.7945479129342772
+      },
+      "tabular": {
+        "domain_auroc": 0.7281847607053521,
+        "cap": 4.662768059336935
+      },
+      "embedding": {
+        "domain_auroc": 0.8364438238515102,
+        "cap": 11.727470542353531
+      }
+    }
+  },
+  "a2": {
+    "outpatient": {
+      "min_cases_kish": {
+        "resnet": {
+          "age_sex": {
+            "n": 271,
+            "composite_interval": [
+              0.6864621133743289,
+              0.7901763114182858
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.06758313620799397,
+              "lvwt_gte_13_flag": 0.6452109036609881,
+              "aortic_stenosis_moderate_or_greater_flag": 0.0020486352977640613,
+              "pasp_gte_45_flag": 0.8578926537068464
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": false,
+              "lvwt_gte_13_flag": false,
+              "aortic_stenosis_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": false
+            },
+            "anomalies_passed": 1,
+            "anomalies_judged": 4,
+            "repair_holds": false
+          },
+          "tabular": {
+            "n": 271,
+            "composite_interval": [
+              0.7412137621093802,
+              0.8373015779060837
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.036499022715057866,
+              "lvwt_gte_13_flag": 0.06815280374357116,
+              "aortic_stenosis_moderate_or_greater_flag": 0.0006395141638417879,
+              "pasp_gte_45_flag": 0.775154101015555
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": false,
+              "lvwt_gte_13_flag": false,
+              "aortic_stenosis_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": false
+            },
+            "anomalies_passed": 1,
+            "anomalies_judged": 4,
+            "repair_holds": false
+          },
+          "embedding": {
+            "n": 213,
+            "composite_interval": [
+              0.8431858768788597,
+              0.9269620501284569
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.036499022715057866,
+              "lvwt_gte_13_flag": 0.007270081585806133,
+              "aortic_stenosis_moderate_or_greater_flag": 0.003545050611907765,
+              "pasp_gte_45_flag": 0.30714733233174185
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": false,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": false
+            },
+            "anomalies_passed": 2,
+            "anomalies_judged": 4,
+            "repair_holds": false
+          }
+        },
+        "random_init": {
+          "age_sex": {
+            "n": 271,
+            "composite_interval": [
+              0.765018516032333,
+              0.8571583590786377
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.11599886181436736,
+              "lvwt_gte_13_flag": 0.0174121727094832,
+              "aortic_stenosis_moderate_or_greater_flag": 0.005859342799884322,
+              "pasp_gte_45_flag": 0.1284196289789286
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": false,
+              "lvwt_gte_13_flag": false,
+              "aortic_stenosis_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": false
+            },
+            "anomalies_passed": 1,
+            "anomalies_judged": 4,
+            "repair_holds": false
+          },
+          "tabular": {
+            "n": 271,
+            "composite_interval": [
+              0.789065504896454,
+              0.8767729053100234
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.11599886181436736,
+              "lvwt_gte_13_flag": 0.0057981303534801005,
+              "aortic_stenosis_moderate_or_greater_flag": 0.005859342799884322,
+              "pasp_gte_45_flag": 0.038879948219664874
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": false,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": false
+            },
+            "anomalies_passed": 2,
+            "anomalies_judged": 4,
+            "repair_holds": false
+          },
+          "embedding": {
+            "n": 213,
+            "composite_interval": [
+              0.8271558365577808,
+              0.9153221050480754
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.06758313620799397,
+              "lvwt_gte_13_flag": 0.002653299496008102,
+              "aortic_stenosis_moderate_or_greater_flag": 0.02867417162622882,
+              "pasp_gte_45_flag": 0.0012484544575707822
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": false,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": false,
+              "pasp_gte_45_flag": true
+            },
+            "anomalies_passed": 2,
+            "anomalies_judged": 4,
+            "repair_holds": false
+          }
+        },
+        "ecgfounder": {
+          "age_sex": {
+            "n": 271,
+            "composite_interval": [
+              0.6709971197607174,
+              0.7765336149682265
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.11599886181436736,
+              "lvwt_gte_13_flag": 0.40195820278725203,
+              "aortic_stenosis_moderate_or_greater_flag": 0.00017800458160777358,
+              "pasp_gte_45_flag": 0.8578926537068464
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": false,
+              "lvwt_gte_13_flag": false,
+              "aortic_stenosis_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": false
+            },
+            "anomalies_passed": 1,
+            "anomalies_judged": 4,
+            "repair_holds": false
+          },
+          "tabular": {
+            "n": 271,
+            "composite_interval": [
+              0.7333274735747483,
+              0.8306340214088802
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.036499022715057866,
+              "lvwt_gte_13_flag": 0.14098875177857534,
+              "aortic_stenosis_moderate_or_greater_flag": 0.00017800458160777358,
+              "pasp_gte_45_flag": 0.4250533695692632
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": false,
+              "lvwt_gte_13_flag": false,
+              "aortic_stenosis_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": false
+            },
+            "anomalies_passed": 1,
+            "anomalies_judged": 4,
+            "repair_holds": false
+          },
+          "embedding": {
+            "n": 213,
+            "composite_interval": [
+              0.8485739028321564,
+              0.9307973526423137
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.003580484096903959,
+              "lvwt_gte_13_flag": 3.270170494915289e-05,
+              "aortic_stenosis_moderate_or_greater_flag": 0.003545050611907765,
+              "pasp_gte_45_flag": 0.018817656893657164
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": true,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": true
+            },
+            "anomalies_passed": 4,
+            "anomalies_judged": 4,
+            "repair_holds": false
+          }
+        },
+        "echonext_mini": {
+          "age_sex": {
+            "n": 271,
+            "composite_interval": [
+              0.6825889667961461,
+              0.7867725354805511
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.38254359667919036,
+              "lvwt_gte_13_flag": 0.044886904890662174,
+              "aortic_stenosis_moderate_or_greater_flag": 0.0020486352977640613,
+              "pasp_gte_45_flag": 0.9555134941490934
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": false,
+              "lvwt_gte_13_flag": false,
+              "aortic_stenosis_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": false
+            },
+            "anomalies_passed": 1,
+            "anomalies_judged": 4,
+            "repair_holds": false
+          },
+          "tabular": {
+            "n": 271,
+            "composite_interval": [
+              0.7730055904380679,
+              0.8637251297047381
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.036499022715057866,
+              "lvwt_gte_13_flag": 0.0031561711886081856,
+              "aortic_stenosis_moderate_or_greater_flag": 0.0006395141638417879,
+              "pasp_gte_45_flag": 0.4250533695692632
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": false,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": false
+            },
+            "anomalies_passed": 2,
+            "anomalies_judged": 4,
+            "repair_holds": false
+          },
+          "embedding": {
+            "n": 213,
+            "composite_interval": [
+              0.8485739028321564,
+              0.9307973526423137
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.18501385583113106,
+              "lvwt_gte_13_flag": 0.0015387201733685987,
+              "aortic_stenosis_moderate_or_greater_flag": 0.007578544169021732,
+              "pasp_gte_45_flag": 0.20641516618907185
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": false,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": false
+            },
+            "anomalies_passed": 2,
+            "anomalies_judged": 4,
+            "repair_holds": false
+          }
+        },
+        "ecgfounder_ft_s0": {
+          "age_sex": {
+            "n": 271,
+            "composite_interval": [
+              0.6825889667961461,
+              0.7867725354805511
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.06758313620799397,
+              "lvwt_gte_13_flag": 0.32448870896020376,
+              "aortic_stenosis_moderate_or_greater_flag": 0.00017800458160777358,
+              "pasp_gte_45_flag": 0.9171066580094711
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": false,
+              "lvwt_gte_13_flag": false,
+              "aortic_stenosis_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": false
+            },
+            "anomalies_passed": 1,
+            "anomalies_judged": 4,
+            "repair_holds": false
+          },
+          "tabular": {
+            "n": 271,
+            "composite_interval": [
+              0.7491237091567745,
+              0.843945475890525
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.00841370474137845,
+              "lvwt_gte_13_flag": 0.044886904890662174,
+              "aortic_stenosis_moderate_or_greater_flag": 0.00017800458160777358,
+              "pasp_gte_45_flag": 0.8578926537068464
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": false,
+              "lvwt_gte_13_flag": false,
+              "aortic_stenosis_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": false
+            },
+            "anomalies_passed": 1,
+            "anomalies_judged": 4,
+            "repair_holds": false
+          },
+          "embedding": {
+            "n": 213,
+            "composite_interval": [
+              0.8165701318917294,
+              0.9074611527798199
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.0014037192310010133,
+              "lvwt_gte_13_flag": 0.0015387201733685987,
+              "aortic_stenosis_moderate_or_greater_flag": 0.003545050611907765,
+              "pasp_gte_45_flag": 0.4250533695692632
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": true,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": false
+            },
+            "anomalies_passed": 3,
+            "anomalies_judged": 4,
+            "repair_holds": false
+          }
+        },
+        "ecgfounder_ft_s1": {
+          "age_sex": {
+            "n": 271,
+            "composite_interval": [
+              0.6787204592455557,
+              0.7833641205152239
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.5,
+              "lvwt_gte_13_flag": 0.5657331088401253,
+              "aortic_stenosis_moderate_or_greater_flag": 0.0006395141638417879,
+              "pasp_gte_45_flag": 0.9959245142032487
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": false,
+              "lvwt_gte_13_flag": false,
+              "aortic_stenosis_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": false
+            },
+            "anomalies_passed": 1,
+            "anomalies_judged": 4,
+            "repair_holds": false
+          },
+          "tabular": {
+            "n": 271,
+            "composite_interval": [
+              0.765018516032333,
+              0.8571583590786377
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.036499022715057866,
+              "lvwt_gte_13_flag": 0.044886904890662174,
+              "aortic_stenosis_moderate_or_greater_flag": 0.0006395141638417879,
+              "pasp_gte_45_flag": 0.8578926537068464
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": false,
+              "lvwt_gte_13_flag": false,
+              "aortic_stenosis_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": false
+            },
+            "anomalies_passed": 1,
+            "anomalies_judged": 4,
+            "repair_holds": false
+          },
+          "embedding": {
+            "n": 213,
+            "composite_interval": [
+              0.8324779915709626,
+              0.9192232785020471
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.00841370474137845,
+              "lvwt_gte_13_flag": 0.011556935636473153,
+              "aortic_stenosis_moderate_or_greater_flag": 0.003545050611907765,
+              "pasp_gte_45_flag": 0.30714733233174185
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": false,
+              "lvwt_gte_13_flag": false,
+              "aortic_stenosis_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": false
+            },
+            "anomalies_passed": 1,
+            "anomalies_judged": 4,
+            "repair_holds": false
+          }
+        },
+        "ecgfounder_ft_s2": {
+          "age_sex": {
+            "n": 271,
+            "composite_interval": [
+              0.7254639651899598,
+              0.823943684761833
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.27504865861519834,
+              "lvwt_gte_13_flag": 0.19242734410105916,
+              "aortic_stenosis_moderate_or_greater_flag": 0.00017800458160777358,
+              "pasp_gte_45_flag": 0.9901175425642127
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": false,
+              "lvwt_gte_13_flag": false,
+              "aortic_stenosis_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": false
+            },
+            "anomalies_passed": 1,
+            "anomalies_judged": 4,
+            "repair_holds": false
+          },
+          "tabular": {
+            "n": 271,
+            "composite_interval": [
+              0.7610351167674232,
+              0.8538648358276297
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.036499022715057866,
+              "lvwt_gte_13_flag": 0.0057981303534801005,
+              "aortic_stenosis_moderate_or_greater_flag": 0.0006395141638417879,
+              "pasp_gte_45_flag": 0.9901175425642127
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": false,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": false
+            },
+            "anomalies_passed": 2,
+            "anomalies_judged": 4,
+            "repair_holds": false
+          },
+          "embedding": {
+            "n": 213,
+            "composite_interval": [
+              0.8431858768788597,
+              0.9269620501284569
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.003580484096903959,
+              "lvwt_gte_13_flag": 0.007270081585806133,
+              "aortic_stenosis_moderate_or_greater_flag": 0.003545050611907765,
+              "pasp_gte_45_flag": 0.1284196289789286
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": true,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": false
+            },
+            "anomalies_passed": 3,
+            "anomalies_judged": 4,
+            "repair_holds": false
+          }
+        }
+      },
+      "target_cases": {
+        "resnet": {
+          "age_sex": {
+            "n": 271,
+            "composite_interval": [
+              0.6864621133743289,
+              0.7901763114182858
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.06758313620799397,
+              "lvwt_gte_13_flag": 0.6452109036609881,
+              "aortic_stenosis_moderate_or_greater_flag": 0.0020486352977640613,
+              "pasp_gte_45_flag": 0.8578926537068464
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": false,
+              "lvwt_gte_13_flag": false,
+              "aortic_stenosis_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": false
+            },
+            "anomalies_passed": 1,
+            "anomalies_judged": 4,
+            "repair_holds": false
+          },
+          "tabular": {
+            "n": 271,
+            "composite_interval": [
+              0.7412137621093802,
+              0.8373015779060837
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.036499022715057866,
+              "lvwt_gte_13_flag": 0.06815280374357116,
+              "aortic_stenosis_moderate_or_greater_flag": 0.0006395141638417879,
+              "pasp_gte_45_flag": 0.775154101015555
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": false,
+              "lvwt_gte_13_flag": false,
+              "aortic_stenosis_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": false
+            },
+            "anomalies_passed": 1,
+            "anomalies_judged": 4,
+            "repair_holds": false
+          },
+          "embedding": {
+            "n": 271,
+            "composite_interval": [
+              0.85053927385199,
+              0.9244529740932542
+            ],
+            "composite_pass": true,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.036499022715057866,
+              "lvwt_gte_13_flag": 0.0016516802994427137,
+              "aortic_stenosis_moderate_or_greater_flag": 0.00017800458160777358,
+              "pasp_gte_45_flag": 0.30714733233174185
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": false,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": false
+            },
+            "anomalies_passed": 2,
+            "anomalies_judged": 4,
+            "repair_holds": false
+          }
+        },
+        "random_init": {
+          "age_sex": {
+            "n": 271,
+            "composite_interval": [
+              0.765018516032333,
+              0.8571583590786377
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.11599886181436736,
+              "lvwt_gte_13_flag": 0.0174121727094832,
+              "aortic_stenosis_moderate_or_greater_flag": 0.005859342799884322,
+              "pasp_gte_45_flag": 0.1284196289789286
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": false,
+              "lvwt_gte_13_flag": false,
+              "aortic_stenosis_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": false
+            },
+            "anomalies_passed": 1,
+            "anomalies_judged": 4,
+            "repair_holds": false
+          },
+          "tabular": {
+            "n": 271,
+            "composite_interval": [
+              0.789065504896454,
+              0.8767729053100234
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.11599886181436736,
+              "lvwt_gte_13_flag": 0.0057981303534801005,
+              "aortic_stenosis_moderate_or_greater_flag": 0.005859342799884322,
+              "pasp_gte_45_flag": 0.038879948219664874
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": false,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": false
+            },
+            "anomalies_passed": 2,
+            "anomalies_judged": 4,
+            "repair_holds": false
+          },
+          "embedding": {
+            "n": 271,
+            "composite_interval": [
+              0.8339206289575634,
+              0.9119639289240096
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.06758313620799397,
+              "lvwt_gte_13_flag": 0.00040143440784817303,
+              "aortic_stenosis_moderate_or_greater_flag": 0.005859342799884322,
+              "pasp_gte_45_flag": 0.0012484544575707822
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": false,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": true
+            },
+            "anomalies_passed": 3,
+            "anomalies_judged": 4,
+            "repair_holds": false
+          }
+        },
+        "ecgfounder": {
+          "age_sex": {
+            "n": 271,
+            "composite_interval": [
+              0.6709971197607174,
+              0.7765336149682265
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.11599886181436736,
+              "lvwt_gte_13_flag": 0.40195820278725203,
+              "aortic_stenosis_moderate_or_greater_flag": 0.00017800458160777358,
+              "pasp_gte_45_flag": 0.8578926537068464
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": false,
+              "lvwt_gte_13_flag": false,
+              "aortic_stenosis_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": false
+            },
+            "anomalies_passed": 1,
+            "anomalies_judged": 4,
+            "repair_holds": false
+          },
+          "tabular": {
+            "n": 271,
+            "composite_interval": [
+              0.7333274735747483,
+              0.8306340214088802
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.036499022715057866,
+              "lvwt_gte_13_flag": 0.14098875177857534,
+              "aortic_stenosis_moderate_or_greater_flag": 0.00017800458160777358,
+              "pasp_gte_45_flag": 0.4250533695692632
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": false,
+              "lvwt_gte_13_flag": false,
+              "aortic_stenosis_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": false
+            },
+            "anomalies_passed": 1,
+            "anomalies_judged": 4,
+            "repair_holds": false
+          },
+          "embedding": {
+            "n": 271,
+            "composite_interval": [
+              0.8547251030616257,
+              0.9275440673995362
+            ],
+            "composite_pass": true,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.003580484096903959,
+              "lvwt_gte_13_flag": 7.928760781267874e-07,
+              "aortic_stenosis_moderate_or_greater_flag": 0.00017800458160777358,
+              "pasp_gte_45_flag": 0.018817656893657164
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": true,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": true
+            },
+            "anomalies_passed": 4,
+            "anomalies_judged": 4,
+            "repair_holds": true
+          }
+        },
+        "echonext_mini": {
+          "age_sex": {
+            "n": 271,
+            "composite_interval": [
+              0.6825889667961461,
+              0.7867725354805511
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.38254359667919036,
+              "lvwt_gte_13_flag": 0.044886904890662174,
+              "aortic_stenosis_moderate_or_greater_flag": 0.0020486352977640613,
+              "pasp_gte_45_flag": 0.9555134941490934
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": false,
+              "lvwt_gte_13_flag": false,
+              "aortic_stenosis_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": false
+            },
+            "anomalies_passed": 1,
+            "anomalies_judged": 4,
+            "repair_holds": false
+          },
+          "tabular": {
+            "n": 271,
+            "composite_interval": [
+              0.7730055904380679,
+              0.8637251297047381
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.036499022715057866,
+              "lvwt_gte_13_flag": 0.0031561711886081856,
+              "aortic_stenosis_moderate_or_greater_flag": 0.0006395141638417879,
+              "pasp_gte_45_flag": 0.4250533695692632
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": false,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": false
+            },
+            "anomalies_passed": 2,
+            "anomalies_judged": 4,
+            "repair_holds": false
+          },
+          "embedding": {
+            "n": 271,
+            "composite_interval": [
+              0.8547251030616257,
+              0.9275440673995362
+            ],
+            "composite_pass": true,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.18501385583113106,
+              "lvwt_gte_13_flag": 0.00018634369338944038,
+              "aortic_stenosis_moderate_or_greater_flag": 0.0006395141638417879,
+              "pasp_gte_45_flag": 0.20641516618907185
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": false,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": false
+            },
+            "anomalies_passed": 2,
+            "anomalies_judged": 4,
+            "repair_holds": false
+          }
+        },
+        "ecgfounder_ft_s0": {
+          "age_sex": {
+            "n": 271,
+            "composite_interval": [
+              0.6825889667961461,
+              0.7867725354805511
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.06758313620799397,
+              "lvwt_gte_13_flag": 0.32448870896020376,
+              "aortic_stenosis_moderate_or_greater_flag": 0.00017800458160777358,
+              "pasp_gte_45_flag": 0.9171066580094711
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": false,
+              "lvwt_gte_13_flag": false,
+              "aortic_stenosis_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": false
+            },
+            "anomalies_passed": 1,
+            "anomalies_judged": 4,
+            "repair_holds": false
+          },
+          "tabular": {
+            "n": 271,
+            "composite_interval": [
+              0.7491237091567745,
+              0.843945475890525
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.00841370474137845,
+              "lvwt_gte_13_flag": 0.044886904890662174,
+              "aortic_stenosis_moderate_or_greater_flag": 0.00017800458160777358,
+              "pasp_gte_45_flag": 0.8578926537068464
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": false,
+              "lvwt_gte_13_flag": false,
+              "aortic_stenosis_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": false
+            },
+            "anomalies_passed": 1,
+            "anomalies_judged": 4,
+            "repair_holds": false
+          },
+          "embedding": {
+            "n": 271,
+            "composite_interval": [
+              0.8256793902119688,
+              0.9056513226377685
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.0014037192310010133,
+              "lvwt_gte_13_flag": 0.00018634369338944038,
+              "aortic_stenosis_moderate_or_greater_flag": 0.00017800458160777358,
+              "pasp_gte_45_flag": 0.4250533695692632
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": true,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": false
+            },
+            "anomalies_passed": 3,
+            "anomalies_judged": 4,
+            "repair_holds": false
+          }
+        },
+        "ecgfounder_ft_s1": {
+          "age_sex": {
+            "n": 271,
+            "composite_interval": [
+              0.6787204592455557,
+              0.7833641205152239
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.5,
+              "lvwt_gte_13_flag": 0.5657331088401253,
+              "aortic_stenosis_moderate_or_greater_flag": 0.0006395141638417879,
+              "pasp_gte_45_flag": 0.9959245142032487
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": false,
+              "lvwt_gte_13_flag": false,
+              "aortic_stenosis_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": false
+            },
+            "anomalies_passed": 1,
+            "anomalies_judged": 4,
+            "repair_holds": false
+          },
+          "tabular": {
+            "n": 271,
+            "composite_interval": [
+              0.765018516032333,
+              0.8571583590786377
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.036499022715057866,
+              "lvwt_gte_13_flag": 0.044886904890662174,
+              "aortic_stenosis_moderate_or_greater_flag": 0.0006395141638417879,
+              "pasp_gte_45_flag": 0.8578926537068464
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": false,
+              "lvwt_gte_13_flag": false,
+              "aortic_stenosis_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": false
+            },
+            "anomalies_passed": 1,
+            "anomalies_judged": 4,
+            "repair_holds": false
+          },
+          "embedding": {
+            "n": 271,
+            "composite_interval": [
+              0.8380576038233166,
+              0.9151038765741742
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.00841370474137845,
+              "lvwt_gte_13_flag": 0.0031561711886081856,
+              "aortic_stenosis_moderate_or_greater_flag": 0.00017800458160777358,
+              "pasp_gte_45_flag": 0.30714733233174185
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": true,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": false
+            },
+            "anomalies_passed": 3,
+            "anomalies_judged": 4,
+            "repair_holds": false
+          }
+        },
+        "ecgfounder_ft_s2": {
+          "age_sex": {
+            "n": 271,
+            "composite_interval": [
+              0.7254639651899598,
+              0.823943684761833
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.27504865861519834,
+              "lvwt_gte_13_flag": 0.19242734410105916,
+              "aortic_stenosis_moderate_or_greater_flag": 0.00017800458160777358,
+              "pasp_gte_45_flag": 0.9901175425642127
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": false,
+              "lvwt_gte_13_flag": false,
+              "aortic_stenosis_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": false
+            },
+            "anomalies_passed": 1,
+            "anomalies_judged": 4,
+            "repair_holds": false
+          },
+          "tabular": {
+            "n": 271,
+            "composite_interval": [
+              0.7610351167674232,
+              0.8538648358276297
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.036499022715057866,
+              "lvwt_gte_13_flag": 0.0057981303534801005,
+              "aortic_stenosis_moderate_or_greater_flag": 0.0006395141638417879,
+              "pasp_gte_45_flag": 0.9901175425642127
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": false,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": false
+            },
+            "anomalies_passed": 2,
+            "anomalies_judged": 4,
+            "repair_holds": false
+          },
+          "embedding": {
+            "n": 271,
+            "composite_interval": [
+              0.85053927385199,
+              0.9244529740932542
+            ],
+            "composite_pass": true,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.003580484096903959,
+              "lvwt_gte_13_flag": 0.0016516802994427137,
+              "aortic_stenosis_moderate_or_greater_flag": 0.00017800458160777358,
+              "pasp_gte_45_flag": 0.1284196289789286
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": true,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": false
+            },
+            "anomalies_passed": 3,
+            "anomalies_judged": 4,
+            "repair_holds": true
+          }
+        }
+      }
+    },
+    "emergency": {
+      "min_cases_kish": {
+        "resnet": {
+          "age_sex": {
+            "n": 788,
+            "composite_interval": [
+              0.8453105816212466,
+              0.8922107914952396
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.0052967695443447834,
+              "lvwt_gte_13_flag": 7.006546203957658e-06,
+              "aortic_stenosis_moderate_or_greater_flag": 0.05477828839134295,
+              "mitral_regurgitation_moderate_or_greater_flag": 0.036923344846829353,
+              "tricuspid_regurgitation_moderate_or_greater_flag": 8.600617133987296e-05,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": 0.00020822565309479676,
+              "pasp_gte_45_flag": 0.0002627787191364215,
+              "tr_max_gte_32_flag": 0.6245036633434315
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": true,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": false,
+              "mitral_regurgitation_moderate_or_greater_flag": false,
+              "tricuspid_regurgitation_moderate_or_greater_flag": true,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": true,
+              "tr_max_gte_32_flag": false
+            },
+            "anomalies_passed": 5,
+            "anomalies_judged": 8,
+            "repair_holds": false
+          },
+          "tabular": {
+            "n": 788,
+            "composite_interval": [
+              0.8548468786325589,
+              0.9003548013737062
+            ],
+            "composite_pass": true,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.00032747917169284856,
+              "lvwt_gte_13_flag": 2.1461193283734483e-07,
+              "aortic_stenosis_moderate_or_greater_flag": 0.05477828839134295,
+              "mitral_regurgitation_moderate_or_greater_flag": 0.012354844404984229,
+              "tricuspid_regurgitation_moderate_or_greater_flag": 8.600617133987296e-05,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": 1.6459389860982903e-05,
+              "pasp_gte_45_flag": 3.1240101741767774e-05,
+              "tr_max_gte_32_flag": 0.6213606256242996
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": true,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": false,
+              "mitral_regurgitation_moderate_or_greater_flag": false,
+              "tricuspid_regurgitation_moderate_or_greater_flag": true,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": true,
+              "tr_max_gte_32_flag": false
+            },
+            "anomalies_passed": 5,
+            "anomalies_judged": 8,
+            "repair_holds": true
+          },
+          "embedding": {
+            "n": 571,
+            "composite_interval": [
+              0.8883544840224283,
+              0.9344810869720069
+            ],
+            "composite_pass": true,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 1.5531072761495724e-06,
+              "lvwt_gte_13_flag": 1.5040507779128824e-07,
+              "aortic_stenosis_moderate_or_greater_flag": 0.05477828839134295,
+              "mitral_regurgitation_moderate_or_greater_flag": 0.002074659482874822,
+              "tricuspid_regurgitation_moderate_or_greater_flag": 0.0005454118605992993,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": 1.9585741504427202e-05,
+              "pasp_gte_45_flag": 2.3702623158977915e-07,
+              "tr_max_gte_32_flag": 0.11756062111072474
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": true,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": false,
+              "mitral_regurgitation_moderate_or_greater_flag": true,
+              "tricuspid_regurgitation_moderate_or_greater_flag": true,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": true,
+              "tr_max_gte_32_flag": false
+            },
+            "anomalies_passed": 6,
+            "anomalies_judged": 8,
+            "repair_holds": true
+          }
+        },
+        "random_init": {
+          "age_sex": {
+            "n": 788,
+            "composite_interval": [
+              0.8317488031765992,
+              0.8805149886687746
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.007892743992362228,
+              "lvwt_gte_13_flag": 2.1464948871105386e-05,
+              "aortic_stenosis_moderate_or_greater_flag": 0.4754622918996787,
+              "mitral_regurgitation_moderate_or_greater_flag": 0.012354844404984229,
+              "tricuspid_regurgitation_moderate_or_greater_flag": 0.0004499656691746006,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": 0.0034776377088626123,
+              "pasp_gte_45_flag": 1.4810834696294748e-06,
+              "tr_max_gte_32_flag": 0.934135788266243
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": false,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": false,
+              "mitral_regurgitation_moderate_or_greater_flag": false,
+              "tricuspid_regurgitation_moderate_or_greater_flag": true,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": true,
+              "tr_max_gte_32_flag": false
+            },
+            "anomalies_passed": 4,
+            "anomalies_judged": 8,
+            "repair_holds": false
+          },
+          "tabular": {
+            "n": 788,
+            "composite_interval": [
+              0.8412347573768676,
+              0.888709341358285
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.0008926888849915474,
+              "lvwt_gte_13_flag": 4.10345862695409e-07,
+              "aortic_stenosis_moderate_or_greater_flag": 0.35596157534609496,
+              "mitral_regurgitation_moderate_or_greater_flag": 0.012354844404984229,
+              "tricuspid_regurgitation_moderate_or_greater_flag": 0.00020120255131445537,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": 0.000447163126732635,
+              "pasp_gte_45_flag": 2.3140735639847894e-07,
+              "tr_max_gte_32_flag": 0.9289502141582412
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": true,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": false,
+              "mitral_regurgitation_moderate_or_greater_flag": false,
+              "tricuspid_regurgitation_moderate_or_greater_flag": true,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": true,
+              "tr_max_gte_32_flag": false
+            },
+            "anomalies_passed": 5,
+            "anomalies_judged": 8,
+            "repair_holds": false
+          },
+          "embedding": {
+            "n": 571,
+            "composite_interval": [
+              0.8689981024461547,
+              0.9190452668149006
+            ],
+            "composite_pass": true,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 1.8084752554660507e-05,
+              "lvwt_gte_13_flag": 1.5040507779128824e-07,
+              "aortic_stenosis_moderate_or_greater_flag": 0.05477828839134295,
+              "mitral_regurgitation_moderate_or_greater_flag": 0.01822688903673018,
+              "tricuspid_regurgitation_moderate_or_greater_flag": 0.00013330368963258583,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": 0.0008645849537348483,
+              "pasp_gte_45_flag": 2.3702623158977915e-07,
+              "tr_max_gte_32_flag": 0.8551810384077524
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": true,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": false,
+              "mitral_regurgitation_moderate_or_greater_flag": false,
+              "tricuspid_regurgitation_moderate_or_greater_flag": true,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": true,
+              "tr_max_gte_32_flag": false
+            },
+            "anomalies_passed": 5,
+            "anomalies_judged": 8,
+            "repair_holds": true
+          }
+        },
+        "ecgfounder": {
+          "age_sex": {
+            "n": 788,
+            "composite_interval": [
+              0.8088398267962904,
+              0.8604860768881921
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.04420123996319711,
+              "lvwt_gte_13_flag": 1.2357487027156795e-05,
+              "aortic_stenosis_moderate_or_greater_flag": 0.16237788270130937,
+              "mitral_regurgitation_moderate_or_greater_flag": 0.2605375833335924,
+              "tricuspid_regurgitation_moderate_or_greater_flag": 0.00020120255131445537,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": 0.0034776377088626123,
+              "pasp_gte_45_flag": 0.0012844157635113723,
+              "tr_max_gte_32_flag": 0.011880206075594082
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": false,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": false,
+              "mitral_regurgitation_moderate_or_greater_flag": false,
+              "tricuspid_regurgitation_moderate_or_greater_flag": true,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": true,
+              "tr_max_gte_32_flag": false
+            },
+            "anomalies_passed": 4,
+            "anomalies_judged": 8,
+            "repair_holds": false
+          },
+          "tabular": {
+            "n": 788,
+            "composite_interval": [
+              0.8236434694620409,
+              0.8734657736206655
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.000545814062471084,
+              "lvwt_gte_13_flag": 4.71525662219617e-06,
+              "aortic_stenosis_moderate_or_greater_flag": 0.16237788270130937,
+              "mitral_regurgitation_moderate_or_greater_flag": 0.2605375833335924,
+              "tricuspid_regurgitation_moderate_or_greater_flag": 0.00020120255131445537,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": 0.000447163126732635,
+              "pasp_gte_45_flag": 0.0009239958517018907,
+              "tr_max_gte_32_flag": 0.008305971744899917
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": true,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": false,
+              "mitral_regurgitation_moderate_or_greater_flag": false,
+              "tricuspid_regurgitation_moderate_or_greater_flag": true,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": true,
+              "tr_max_gte_32_flag": true
+            },
+            "anomalies_passed": 6,
+            "anomalies_judged": 8,
+            "repair_holds": false
+          },
+          "embedding": {
+            "n": 571,
+            "composite_interval": [
+              0.8555814828092063,
+              0.9081073452384831
+            ],
+            "composite_pass": true,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.001089454879039878,
+              "lvwt_gte_13_flag": 7.097900490594323e-06,
+              "aortic_stenosis_moderate_or_greater_flag": 0.16237788270130937,
+              "mitral_regurgitation_moderate_or_greater_flag": 0.23086107268711126,
+              "tricuspid_regurgitation_moderate_or_greater_flag": 0.001048615666077793,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": 0.0008645849537348483,
+              "pasp_gte_45_flag": 2.2791708462399476e-05,
+              "tr_max_gte_32_flag": 0.03369702094575759
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": true,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": false,
+              "mitral_regurgitation_moderate_or_greater_flag": false,
+              "tricuspid_regurgitation_moderate_or_greater_flag": true,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": true,
+              "tr_max_gte_32_flag": false
+            },
+            "anomalies_passed": 5,
+            "anomalies_judged": 8,
+            "repair_holds": true
+          }
+        },
+        "echonext_mini": {
+          "age_sex": {
+            "n": 788,
+            "composite_interval": [
+              0.8358101588488296,
+              0.884030907377878
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.001432797403910909,
+              "lvwt_gte_13_flag": 1.686906120707778e-07,
+              "aortic_stenosis_moderate_or_greater_flag": 0.09809883145633058,
+              "mitral_regurgitation_moderate_or_greater_flag": 0.2605375833335924,
+              "tricuspid_regurgitation_moderate_or_greater_flag": 0.0009622286726692145,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": 0.001826948368977,
+              "pasp_gte_45_flag": 0.017404239405933563,
+              "tr_max_gte_32_flag": 0.31703858778380845
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": true,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": false,
+              "mitral_regurgitation_moderate_or_greater_flag": false,
+              "tricuspid_regurgitation_moderate_or_greater_flag": true,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": false,
+              "tr_max_gte_32_flag": false
+            },
+            "anomalies_passed": 4,
+            "anomalies_judged": 8,
+            "repair_holds": false
+          },
+          "tabular": {
+            "n": 788,
+            "composite_interval": [
+              0.8466706403471064,
+              0.8933764908964913
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.000545814062471084,
+              "lvwt_gte_13_flag": 5.6092628388171184e-08,
+              "aortic_stenosis_moderate_or_greater_flag": 0.013357849223589768,
+              "mitral_regurgitation_moderate_or_greater_flag": 0.059570715509986265,
+              "tricuspid_regurgitation_moderate_or_greater_flag": 3.513740282444079e-05,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": 0.000447163126732635,
+              "pasp_gte_45_flag": 0.0024229976619287424,
+              "tr_max_gte_32_flag": 0.07644679017075581
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": true,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": false,
+              "mitral_regurgitation_moderate_or_greater_flag": false,
+              "tricuspid_regurgitation_moderate_or_greater_flag": true,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": true,
+              "tr_max_gte_32_flag": false
+            },
+            "anomalies_passed": 5,
+            "anomalies_judged": 8,
+            "repair_holds": false
+          },
+          "embedding": {
+            "n": 571,
+            "composite_interval": [
+              0.8689981024461547,
+              0.9190452668149006
+            ],
+            "composite_pass": true,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.0025694048311531393,
+              "lvwt_gte_13_flag": 7.097900490594323e-06,
+              "aortic_stenosis_moderate_or_greater_flag": 0.16237788270130937,
+              "mitral_regurgitation_moderate_or_greater_flag": 0.13063597491776707,
+              "tricuspid_regurgitation_moderate_or_greater_flag": 6.261922907821837e-05,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": 0.0030575774840658474,
+              "pasp_gte_45_flag": 4.4027773660217644e-07,
+              "tr_max_gte_32_flag": 0.047598805258798026
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": true,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": false,
+              "mitral_regurgitation_moderate_or_greater_flag": false,
+              "tricuspid_regurgitation_moderate_or_greater_flag": true,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": true,
+              "tr_max_gte_32_flag": false
+            },
+            "anomalies_passed": 5,
+            "anomalies_judged": 8,
+            "repair_holds": true
+          }
+        },
+        "ecgfounder_ft_s0": {
+          "age_sex": {
+            "n": 788,
+            "composite_interval": [
+              0.8034734913880457,
+              0.8557493797879918
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.0008926888849915474,
+              "lvwt_gte_13_flag": 1.686906120707778e-07,
+              "aortic_stenosis_moderate_or_greater_flag": 0.09809883145633058,
+              "mitral_regurgitation_moderate_or_greater_flag": 0.0066602058911837125,
+              "tricuspid_regurgitation_moderate_or_greater_flag": 0.001968140939523055,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": 0.0009222049161230224,
+              "pasp_gte_45_flag": 0.03522021463604414,
+              "tr_max_gte_32_flag": 0.6245036633434315
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": true,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": false,
+              "mitral_regurgitation_moderate_or_greater_flag": false,
+              "tricuspid_regurgitation_moderate_or_greater_flag": true,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": false,
+              "tr_max_gte_32_flag": false
+            },
+            "anomalies_passed": 4,
+            "anomalies_judged": 8,
+            "repair_holds": false
+          },
+          "tabular": {
+            "n": 788,
+            "composite_interval": [
+              0.8209466413851838,
+              0.8711110854433
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 6.310416019791441e-05,
+              "lvwt_gte_13_flag": 1.5011334253617503e-09,
+              "aortic_stenosis_moderate_or_greater_flag": 0.013357849223589768,
+              "mitral_regurgitation_moderate_or_greater_flag": 0.0034228292498677333,
+              "tricuspid_regurgitation_moderate_or_greater_flag": 0.0009622286726692145,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": 0.000447163126732635,
+              "pasp_gte_45_flag": 0.00883906050290534,
+              "tr_max_gte_32_flag": 0.6213606256242996
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": true,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": false,
+              "mitral_regurgitation_moderate_or_greater_flag": true,
+              "tricuspid_regurgitation_moderate_or_greater_flag": true,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": false,
+              "tr_max_gte_32_flag": false
+            },
+            "anomalies_passed": 5,
+            "anomalies_judged": 8,
+            "repair_holds": false
+          },
+          "embedding": {
+            "n": 571,
+            "composite_interval": [
+              0.8594048261748244,
+              0.9112424422195411
+            ],
+            "composite_pass": true,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.00016052969600562832,
+              "lvwt_gte_13_flag": 1.762519940289672e-09,
+              "aortic_stenosis_moderate_or_greater_flag": 0.005811709466665326,
+              "mitral_regurgitation_moderate_or_greater_flag": 0.006583775827434153,
+              "tricuspid_regurgitation_moderate_or_greater_flag": 0.0019494783302136589,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": 0.0008645849537348483,
+              "pasp_gte_45_flag": 6.21834482220186e-05,
+              "tr_max_gte_32_flag": 0.1931392532766263
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": true,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": true,
+              "mitral_regurgitation_moderate_or_greater_flag": true,
+              "tricuspid_regurgitation_moderate_or_greater_flag": true,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": true,
+              "tr_max_gte_32_flag": false
+            },
+            "anomalies_passed": 7,
+            "anomalies_judged": 8,
+            "repair_holds": true
+          }
+        },
+        "ecgfounder_ft_s1": {
+          "age_sex": {
+            "n": 788,
+            "composite_interval": [
+              0.8303963286689229,
+              0.8793417050493397
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.011547866308733383,
+              "lvwt_gte_13_flag": 1.1650266103971634e-06,
+              "aortic_stenosis_moderate_or_greater_flag": 0.4754622918996787,
+              "mitral_regurgitation_moderate_or_greater_flag": 0.012354844404984229,
+              "tricuspid_regurgitation_moderate_or_greater_flag": 0.0072151141399752,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": 0.011193093389346046,
+              "pasp_gte_45_flag": 0.002089278784083237,
+              "tr_max_gte_32_flag": 0.07109903999854779
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": false,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": false,
+              "mitral_regurgitation_moderate_or_greater_flag": false,
+              "tricuspid_regurgitation_moderate_or_greater_flag": false,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": false,
+              "pasp_gte_45_flag": true,
+              "tr_max_gte_32_flag": false
+            },
+            "anomalies_passed": 2,
+            "anomalies_judged": 8,
+            "repair_holds": false
+          },
+          "tabular": {
+            "n": 788,
+            "composite_interval": [
+              0.8507552968544516,
+              0.8968691087704799
+            ],
+            "composite_pass": true,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.000545814062471084,
+              "lvwt_gte_13_flag": 1.1761544596578277e-11,
+              "aortic_stenosis_moderate_or_greater_flag": 0.09809883145633058,
+              "mitral_regurgitation_moderate_or_greater_flag": 0.012354844404984229,
+              "tricuspid_regurgitation_moderate_or_greater_flag": 0.001968140939523055,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": 0.001826948368977,
+              "pasp_gte_45_flag": 0.0015116209621464213,
+              "tr_max_gte_32_flag": 0.022275697806964645
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": true,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": false,
+              "mitral_regurgitation_moderate_or_greater_flag": false,
+              "tricuspid_regurgitation_moderate_or_greater_flag": true,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": true,
+              "tr_max_gte_32_flag": false
+            },
+            "anomalies_passed": 5,
+            "anomalies_judged": 8,
+            "repair_holds": true
+          },
+          "embedding": {
+            "n": 571,
+            "composite_interval": [
+              0.880582368468285,
+              0.9283363218327982
+            ],
+            "composite_pass": true,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 3.2016927174633103e-05,
+              "lvwt_gte_13_flag": 9.695215990497151e-10,
+              "aortic_stenosis_moderate_or_greater_flag": 0.09809883145633058,
+              "mitral_regurgitation_moderate_or_greater_flag": 0.011141255913508997,
+              "tricuspid_regurgitation_moderate_or_greater_flag": 0.006097396156103171,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": 1.9585741504427202e-05,
+              "pasp_gte_45_flag": 2.2791708462399476e-05,
+              "tr_max_gte_32_flag": 0.006740473180393555
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": true,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": false,
+              "mitral_regurgitation_moderate_or_greater_flag": true,
+              "tricuspid_regurgitation_moderate_or_greater_flag": true,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": true,
+              "tr_max_gte_32_flag": true
+            },
+            "anomalies_passed": 7,
+            "anomalies_judged": 8,
+            "repair_holds": true
+          }
+        },
+        "ecgfounder_ft_s2": {
+          "age_sex": {
+            "n": 788,
+            "composite_interval": [
+              0.8276933027730592,
+              0.876993214690981
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.011547866308733383,
+              "lvwt_gte_13_flag": 2.1256972041245873e-08,
+              "aortic_stenosis_moderate_or_greater_flag": 0.09809883145633058,
+              "mitral_regurgitation_moderate_or_greater_flag": 0.0066602058911837125,
+              "tricuspid_regurgitation_moderate_or_greater_flag": 0.0072151141399752,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": 0.001826948368977,
+              "pasp_gte_45_flag": 0.002089278784083237,
+              "tr_max_gte_32_flag": 0.6245036633434315
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": false,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": false,
+              "mitral_regurgitation_moderate_or_greater_flag": false,
+              "tricuspid_regurgitation_moderate_or_greater_flag": false,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": true,
+              "tr_max_gte_32_flag": false
+            },
+            "anomalies_passed": 3,
+            "anomalies_judged": 8,
+            "repair_holds": false
+          },
+          "tabular": {
+            "n": 788,
+            "composite_interval": [
+              0.8507552968544516,
+              0.8968691087704799
+            ],
+            "composite_pass": true,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.000545814062471084,
+              "lvwt_gte_13_flag": 1.379624963251344e-08,
+              "aortic_stenosis_moderate_or_greater_flag": 0.05477828839134295,
+              "mitral_regurgitation_moderate_or_greater_flag": 0.0034228292498677333,
+              "tricuspid_regurgitation_moderate_or_greater_flag": 0.001968140939523055,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": 0.000447163126732635,
+              "pasp_gte_45_flag": 0.0024229976619287424,
+              "tr_max_gte_32_flag": 0.25567260711190987
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": true,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": false,
+              "mitral_regurgitation_moderate_or_greater_flag": true,
+              "tricuspid_regurgitation_moderate_or_greater_flag": true,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": true,
+              "tr_max_gte_32_flag": false
+            },
+            "anomalies_passed": 6,
+            "anomalies_judged": 8,
+            "repair_holds": true
+          },
+          "embedding": {
+            "n": 571,
+            "composite_interval": [
+              0.8632359854223086,
+              0.9143697233187327
+            ],
+            "composite_pass": true,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.00043237489092498355,
+              "lvwt_gte_13_flag": 7.097900490594323e-06,
+              "aortic_stenosis_moderate_or_greater_flag": 0.05477828839134295,
+              "mitral_regurgitation_moderate_or_greater_flag": 0.01822688903673018,
+              "tricuspid_regurgitation_moderate_or_greater_flag": 0.006097396156103171,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": 9.934979401996179e-05,
+              "pasp_gte_45_flag": 3.7905328665621835e-05,
+              "tr_max_gte_32_flag": 0.2401114299636199
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": true,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": false,
+              "mitral_regurgitation_moderate_or_greater_flag": false,
+              "tricuspid_regurgitation_moderate_or_greater_flag": true,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": true,
+              "tr_max_gte_32_flag": false
+            },
+            "anomalies_passed": 5,
+            "anomalies_judged": 8,
+            "repair_holds": true
+          }
+        }
+      },
+      "target_cases": {
+        "resnet": {
+          "age_sex": {
+            "n": 788,
+            "composite_interval": [
+              0.8453105816212466,
+              0.8922107914952396
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.0052967695443447834,
+              "lvwt_gte_13_flag": 7.006546203957658e-06,
+              "aortic_stenosis_moderate_or_greater_flag": 0.05477828839134295,
+              "mitral_regurgitation_moderate_or_greater_flag": 0.036923344846829353,
+              "tricuspid_regurgitation_moderate_or_greater_flag": 8.600617133987296e-05,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": 0.00020822565309479676,
+              "pasp_gte_45_flag": 0.0002627787191364215,
+              "tr_max_gte_32_flag": 0.6292676936835122
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": true,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": false,
+              "mitral_regurgitation_moderate_or_greater_flag": false,
+              "tricuspid_regurgitation_moderate_or_greater_flag": true,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": true,
+              "tr_max_gte_32_flag": false
+            },
+            "anomalies_passed": 5,
+            "anomalies_judged": 8,
+            "repair_holds": false
+          },
+          "tabular": {
+            "n": 788,
+            "composite_interval": [
+              0.8548468786325589,
+              0.9003548013737062
+            ],
+            "composite_pass": true,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.00032747917169284856,
+              "lvwt_gte_13_flag": 1.686906120707778e-07,
+              "aortic_stenosis_moderate_or_greater_flag": 0.05477828839134295,
+              "mitral_regurgitation_moderate_or_greater_flag": 0.012354844404984229,
+              "tricuspid_regurgitation_moderate_or_greater_flag": 8.600617133987296e-05,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": 1.6459389860982903e-05,
+              "pasp_gte_45_flag": 2.346592452885795e-05,
+              "tr_max_gte_32_flag": 0.6292676936835122
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": true,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": false,
+              "mitral_regurgitation_moderate_or_greater_flag": false,
+              "tricuspid_regurgitation_moderate_or_greater_flag": true,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": true,
+              "tr_max_gte_32_flag": false
+            },
+            "anomalies_passed": 5,
+            "anomalies_judged": 8,
+            "repair_holds": true
+          },
+          "embedding": {
+            "n": 788,
+            "composite_interval": [
+              0.8934303318177317,
+              0.9324925757476485
+            ],
+            "composite_pass": true,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 3.353415671391991e-07,
+              "lvwt_gte_13_flag": 1.8390247328113053e-11,
+              "aortic_stenosis_moderate_or_greater_flag": 0.05477828839134295,
+              "mitral_regurgitation_moderate_or_greater_flag": 0.0003471952344266668,
+              "tricuspid_regurgitation_moderate_or_greater_flag": 8.600617133987296e-05,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": 6.506460641620578e-06,
+              "pasp_gte_45_flag": 1.2120725199995653e-10,
+              "tr_max_gte_32_flag": 0.06352307918840412
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": true,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": false,
+              "mitral_regurgitation_moderate_or_greater_flag": true,
+              "tricuspid_regurgitation_moderate_or_greater_flag": true,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": true,
+              "tr_max_gte_32_flag": false
+            },
+            "anomalies_passed": 6,
+            "anomalies_judged": 8,
+            "repair_holds": true
+          }
+        },
+        "random_init": {
+          "age_sex": {
+            "n": 788,
+            "composite_interval": [
+              0.8317488031765992,
+              0.8805149886687746
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.007892743992362228,
+              "lvwt_gte_13_flag": 2.1464948871105386e-05,
+              "aortic_stenosis_moderate_or_greater_flag": 0.4754622918996787,
+              "mitral_regurgitation_moderate_or_greater_flag": 0.012354844404984229,
+              "tricuspid_regurgitation_moderate_or_greater_flag": 0.0004499656691746006,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": 0.0034776377088626123,
+              "pasp_gte_45_flag": 1.4810834696294748e-06,
+              "tr_max_gte_32_flag": 0.9414535911066866
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": false,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": false,
+              "mitral_regurgitation_moderate_or_greater_flag": false,
+              "tricuspid_regurgitation_moderate_or_greater_flag": true,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": true,
+              "tr_max_gte_32_flag": false
+            },
+            "anomalies_passed": 4,
+            "anomalies_judged": 8,
+            "repair_holds": false
+          },
+          "tabular": {
+            "n": 788,
+            "composite_interval": [
+              0.8412347573768676,
+              0.888709341358285
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.0008926888849915474,
+              "lvwt_gte_13_flag": 3.262360406234787e-07,
+              "aortic_stenosis_moderate_or_greater_flag": 0.35596157534609496,
+              "mitral_regurgitation_moderate_or_greater_flag": 0.012354844404984229,
+              "tricuspid_regurgitation_moderate_or_greater_flag": 0.00020120255131445537,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": 0.000447163126732635,
+              "pasp_gte_45_flag": 1.4822276924058774e-07,
+              "tr_max_gte_32_flag": 0.9414535911066866
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": true,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": false,
+              "mitral_regurgitation_moderate_or_greater_flag": false,
+              "tricuspid_regurgitation_moderate_or_greater_flag": true,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": true,
+              "tr_max_gte_32_flag": false
+            },
+            "anomalies_passed": 5,
+            "anomalies_judged": 8,
+            "repair_holds": false
+          },
+          "embedding": {
+            "n": 788,
+            "composite_interval": [
+              0.8726644177052297,
+              0.9153721179534816
+            ],
+            "composite_pass": true,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 5.370195558179742e-06,
+              "lvwt_gte_13_flag": 1.8390247328113053e-11,
+              "aortic_stenosis_moderate_or_greater_flag": 0.05477828839134295,
+              "mitral_regurgitation_moderate_or_greater_flag": 0.0066602058911837125,
+              "tricuspid_regurgitation_moderate_or_greater_flag": 1.3717235275767238e-05,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": 0.000447163126732635,
+              "pasp_gte_45_flag": 1.2120725199995653e-10,
+              "tr_max_gte_32_flag": 0.9132268891060739
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": true,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": false,
+              "mitral_regurgitation_moderate_or_greater_flag": true,
+              "tricuspid_regurgitation_moderate_or_greater_flag": true,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": true,
+              "tr_max_gte_32_flag": false
+            },
+            "anomalies_passed": 6,
+            "anomalies_judged": 8,
+            "repair_holds": true
+          }
+        },
+        "ecgfounder": {
+          "age_sex": {
+            "n": 788,
+            "composite_interval": [
+              0.8088398267962904,
+              0.8604860768881921
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.04420123996319711,
+              "lvwt_gte_13_flag": 1.2357487027156795e-05,
+              "aortic_stenosis_moderate_or_greater_flag": 0.16237788270130937,
+              "mitral_regurgitation_moderate_or_greater_flag": 0.2605375833335924,
+              "tricuspid_regurgitation_moderate_or_greater_flag": 0.00020120255131445537,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": 0.0034776377088626123,
+              "pasp_gte_45_flag": 0.0012844157635113723,
+              "tr_max_gte_32_flag": 0.009370568394798388
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": false,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": false,
+              "mitral_regurgitation_moderate_or_greater_flag": false,
+              "tricuspid_regurgitation_moderate_or_greater_flag": true,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": true,
+              "tr_max_gte_32_flag": false
+            },
+            "anomalies_passed": 4,
+            "anomalies_judged": 8,
+            "repair_holds": false
+          },
+          "tabular": {
+            "n": 788,
+            "composite_interval": [
+              0.8236434694620409,
+              0.8734657736206655
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.000545814062471084,
+              "lvwt_gte_13_flag": 3.912351344983706e-06,
+              "aortic_stenosis_moderate_or_greater_flag": 0.16237788270130937,
+              "mitral_regurgitation_moderate_or_greater_flag": 0.2605375833335924,
+              "tricuspid_regurgitation_moderate_or_greater_flag": 0.00020120255131445537,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": 0.000447163126732635,
+              "pasp_gte_45_flag": 0.0007731017385403762,
+              "tr_max_gte_32_flag": 0.005281436443694321
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": true,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": false,
+              "mitral_regurgitation_moderate_or_greater_flag": false,
+              "tricuspid_regurgitation_moderate_or_greater_flag": true,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": true,
+              "tr_max_gte_32_flag": true
+            },
+            "anomalies_passed": 6,
+            "anomalies_judged": 8,
+            "repair_holds": false
+          },
+          "embedding": {
+            "n": 788,
+            "composite_interval": [
+              0.860313581542122,
+              0.9049911309725881
+            ],
+            "composite_pass": true,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.000545814062471084,
+              "lvwt_gte_13_flag": 1.033209631417107e-08,
+              "aortic_stenosis_moderate_or_greater_flag": 0.16237788270130937,
+              "mitral_regurgitation_moderate_or_greater_flag": 0.1919143244645023,
+              "tricuspid_regurgitation_moderate_or_greater_flag": 0.00020120255131445537,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": 0.000447163126732635,
+              "pasp_gte_45_flag": 1.4822276924058774e-07,
+              "tr_max_gte_32_flag": 0.009370568394798388
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": true,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": false,
+              "mitral_regurgitation_moderate_or_greater_flag": false,
+              "tricuspid_regurgitation_moderate_or_greater_flag": true,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": true,
+              "tr_max_gte_32_flag": false
+            },
+            "anomalies_passed": 5,
+            "anomalies_judged": 8,
+            "repair_holds": true
+          }
+        },
+        "echonext_mini": {
+          "age_sex": {
+            "n": 788,
+            "composite_interval": [
+              0.8358101588488296,
+              0.884030907377878
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.001432797403910909,
+              "lvwt_gte_13_flag": 1.686906120707778e-07,
+              "aortic_stenosis_moderate_or_greater_flag": 0.09809883145633058,
+              "mitral_regurgitation_moderate_or_greater_flag": 0.2605375833335924,
+              "tricuspid_regurgitation_moderate_or_greater_flag": 0.0009622286726692145,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": 0.001826948368977,
+              "pasp_gte_45_flag": 0.017404239405933563,
+              "tr_max_gte_32_flag": 0.3103453585376776
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": true,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": false,
+              "mitral_regurgitation_moderate_or_greater_flag": false,
+              "tricuspid_regurgitation_moderate_or_greater_flag": true,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": false,
+              "tr_max_gte_32_flag": false
+            },
+            "anomalies_passed": 4,
+            "anomalies_judged": 8,
+            "repair_holds": false
+          },
+          "tabular": {
+            "n": 788,
+            "composite_interval": [
+              0.8466706403471064,
+              0.8933764908964913
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.000545814062471084,
+              "lvwt_gte_13_flag": 4.3061006105245226e-08,
+              "aortic_stenosis_moderate_or_greater_flag": 0.013357849223589768,
+              "mitral_regurgitation_moderate_or_greater_flag": 0.059570715509986265,
+              "tricuspid_regurgitation_moderate_or_greater_flag": 3.513740282444079e-05,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": 0.000447163126732635,
+              "pasp_gte_45_flag": 0.002089278784083237,
+              "tr_max_gte_32_flag": 0.06352307918840412
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": true,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": false,
+              "mitral_regurgitation_moderate_or_greater_flag": false,
+              "tricuspid_regurgitation_moderate_or_greater_flag": true,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": true,
+              "tr_max_gte_32_flag": false
+            },
+            "anomalies_passed": 5,
+            "anomalies_judged": 8,
+            "repair_holds": false
+          },
+          "embedding": {
+            "n": 788,
+            "composite_interval": [
+              0.8726644177052297,
+              0.9153721179534816
+            ],
+            "composite_pass": true,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.001432797403910909,
+              "lvwt_gte_13_flag": 1.033209631417107e-08,
+              "aortic_stenosis_moderate_or_greater_flag": 0.16237788270130937,
+              "mitral_regurgitation_moderate_or_greater_flag": 0.09188888323988215,
+              "tricuspid_regurgitation_moderate_or_greater_flag": 5.116146495457967e-06,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": 0.001826948368977,
+              "pasp_gte_45_flag": 3.1851926549481147e-10,
+              "tr_max_gte_32_flag": 0.015998669688195882
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": true,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": false,
+              "mitral_regurgitation_moderate_or_greater_flag": false,
+              "tricuspid_regurgitation_moderate_or_greater_flag": true,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": true,
+              "tr_max_gte_32_flag": false
+            },
+            "anomalies_passed": 5,
+            "anomalies_judged": 8,
+            "repair_holds": true
+          }
+        },
+        "ecgfounder_ft_s0": {
+          "age_sex": {
+            "n": 788,
+            "composite_interval": [
+              0.8034734913880457,
+              0.8557493797879918
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.0008926888849915474,
+              "lvwt_gte_13_flag": 1.686906120707778e-07,
+              "aortic_stenosis_moderate_or_greater_flag": 0.09809883145633058,
+              "mitral_regurgitation_moderate_or_greater_flag": 0.0066602058911837125,
+              "tricuspid_regurgitation_moderate_or_greater_flag": 0.001968140939523055,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": 0.0009222049161230224,
+              "pasp_gte_45_flag": 0.03522021463604414,
+              "tr_max_gte_32_flag": 0.6292676936835122
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": true,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": false,
+              "mitral_regurgitation_moderate_or_greater_flag": false,
+              "tricuspid_regurgitation_moderate_or_greater_flag": true,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": false,
+              "tr_max_gte_32_flag": false
+            },
+            "anomalies_passed": 4,
+            "anomalies_judged": 8,
+            "repair_holds": false
+          },
+          "tabular": {
+            "n": 788,
+            "composite_interval": [
+              0.8209466413851838,
+              0.8711110854433
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 6.310416019791441e-05,
+              "lvwt_gte_13_flag": 1.0809272431920571e-09,
+              "aortic_stenosis_moderate_or_greater_flag": 0.013357849223589768,
+              "mitral_regurgitation_moderate_or_greater_flag": 0.0034228292498677333,
+              "tricuspid_regurgitation_moderate_or_greater_flag": 0.0009622286726692145,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": 0.000447163126732635,
+              "pasp_gte_45_flag": 0.007930666369886562,
+              "tr_max_gte_32_flag": 0.6292676936835122
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": true,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": false,
+              "mitral_regurgitation_moderate_or_greater_flag": true,
+              "tricuspid_regurgitation_moderate_or_greater_flag": true,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": true,
+              "tr_max_gte_32_flag": false
+            },
+            "anomalies_passed": 6,
+            "anomalies_judged": 8,
+            "repair_holds": false
+          },
+          "embedding": {
+            "n": 788,
+            "composite_interval": [
+              0.8630519622986697,
+              0.9073042664702629
+            ],
+            "composite_pass": true,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 6.310416019791441e-05,
+              "lvwt_gte_13_flag": 1.2046467828906347e-14,
+              "aortic_stenosis_moderate_or_greater_flag": 0.005811709466665326,
+              "mitral_regurgitation_moderate_or_greater_flag": 0.001676168173423954,
+              "tricuspid_regurgitation_moderate_or_greater_flag": 0.0004499656691746006,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": 0.000447163126732635,
+              "pasp_gte_45_flag": 7.028967590489252e-07,
+              "tr_max_gte_32_flag": 0.13275519447693684
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": true,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": true,
+              "mitral_regurgitation_moderate_or_greater_flag": true,
+              "tricuspid_regurgitation_moderate_or_greater_flag": true,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": true,
+              "tr_max_gte_32_flag": false
+            },
+            "anomalies_passed": 7,
+            "anomalies_judged": 8,
+            "repair_holds": true
+          }
+        },
+        "ecgfounder_ft_s1": {
+          "age_sex": {
+            "n": 788,
+            "composite_interval": [
+              0.8303963286689229,
+              0.8793417050493397
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.011547866308733383,
+              "lvwt_gte_13_flag": 1.1650266103971634e-06,
+              "aortic_stenosis_moderate_or_greater_flag": 0.4754622918996787,
+              "mitral_regurgitation_moderate_or_greater_flag": 0.012354844404984229,
+              "tricuspid_regurgitation_moderate_or_greater_flag": 0.0072151141399752,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": 0.011193093389346046,
+              "pasp_gte_45_flag": 0.002089278784083237,
+              "tr_max_gte_32_flag": 0.06352307918840412
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": false,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": false,
+              "mitral_regurgitation_moderate_or_greater_flag": false,
+              "tricuspid_regurgitation_moderate_or_greater_flag": false,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": false,
+              "pasp_gte_45_flag": true,
+              "tr_max_gte_32_flag": false
+            },
+            "anomalies_passed": 2,
+            "anomalies_judged": 8,
+            "repair_holds": false
+          },
+          "tabular": {
+            "n": 788,
+            "composite_interval": [
+              0.8507552968544516,
+              0.8968691087704799
+            ],
+            "composite_pass": true,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.000545814062471084,
+              "lvwt_gte_13_flag": 7.76984945579689e-12,
+              "aortic_stenosis_moderate_or_greater_flag": 0.09809883145633058,
+              "mitral_regurgitation_moderate_or_greater_flag": 0.012354844404984229,
+              "tricuspid_regurgitation_moderate_or_greater_flag": 0.001968140939523055,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": 0.001826948368977,
+              "pasp_gte_45_flag": 0.0012844157635113723,
+              "tr_max_gte_32_flag": 0.015998669688195882
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": true,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": false,
+              "mitral_regurgitation_moderate_or_greater_flag": false,
+              "tricuspid_regurgitation_moderate_or_greater_flag": true,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": true,
+              "tr_max_gte_32_flag": false
+            },
+            "anomalies_passed": 5,
+            "anomalies_judged": 8,
+            "repair_holds": true
+          },
+          "embedding": {
+            "n": 788,
+            "composite_interval": [
+              0.885093949129155,
+              0.9256744096735579
+            ],
+            "composite_pass": true,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 1.0234443296093092e-05,
+              "lvwt_gte_13_flag": 4.490132324460995e-15,
+              "aortic_stenosis_moderate_or_greater_flag": 0.09809883145633058,
+              "mitral_regurgitation_moderate_or_greater_flag": 0.0034228292498677333,
+              "tricuspid_regurgitation_moderate_or_greater_flag": 0.001968140939523055,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": 6.506460641620578e-06,
+              "pasp_gte_45_flag": 1.4822276924058774e-07,
+              "tr_max_gte_32_flag": 0.0007480821448727766
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": true,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": false,
+              "mitral_regurgitation_moderate_or_greater_flag": true,
+              "tricuspid_regurgitation_moderate_or_greater_flag": true,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": true,
+              "tr_max_gte_32_flag": true
+            },
+            "anomalies_passed": 7,
+            "anomalies_judged": 8,
+            "repair_holds": true
+          }
+        },
+        "ecgfounder_ft_s2": {
+          "age_sex": {
+            "n": 788,
+            "composite_interval": [
+              0.8276933027730592,
+              0.876993214690981
+            ],
+            "composite_pass": false,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.011547866308733383,
+              "lvwt_gte_13_flag": 2.1256972041245873e-08,
+              "aortic_stenosis_moderate_or_greater_flag": 0.09809883145633058,
+              "mitral_regurgitation_moderate_or_greater_flag": 0.0066602058911837125,
+              "tricuspid_regurgitation_moderate_or_greater_flag": 0.0072151141399752,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": 0.001826948368977,
+              "pasp_gte_45_flag": 0.002089278784083237,
+              "tr_max_gte_32_flag": 0.6292676936835122
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": false,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": false,
+              "mitral_regurgitation_moderate_or_greater_flag": false,
+              "tricuspid_regurgitation_moderate_or_greater_flag": false,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": true,
+              "tr_max_gte_32_flag": false
+            },
+            "anomalies_passed": 3,
+            "anomalies_judged": 8,
+            "repair_holds": false
+          },
+          "tabular": {
+            "n": 788,
+            "composite_interval": [
+              0.8507552968544516,
+              0.8968691087704799
+            ],
+            "composite_pass": true,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.000545814062471084,
+              "lvwt_gte_13_flag": 1.033209631417107e-08,
+              "aortic_stenosis_moderate_or_greater_flag": 0.05477828839134295,
+              "mitral_regurgitation_moderate_or_greater_flag": 0.0034228292498677333,
+              "tricuspid_regurgitation_moderate_or_greater_flag": 0.001968140939523055,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": 0.000447163126732635,
+              "pasp_gte_45_flag": 0.002089278784083237,
+              "tr_max_gte_32_flag": 0.24163023229532155
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": true,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": false,
+              "mitral_regurgitation_moderate_or_greater_flag": true,
+              "tricuspid_regurgitation_moderate_or_greater_flag": true,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": true,
+              "tr_max_gte_32_flag": false
+            },
+            "anomalies_passed": 6,
+            "anomalies_judged": 8,
+            "repair_holds": true
+          },
+          "embedding": {
+            "n": 788,
+            "composite_interval": [
+              0.8671660954268151,
+              0.9107674077234512
+            ],
+            "composite_pass": true,
+            "anomaly_p_values": {
+              "lvef_lte_45_flag": 0.0001927901778323455,
+              "lvwt_gte_13_flag": 1.033209631417107e-08,
+              "aortic_stenosis_moderate_or_greater_flag": 0.05477828839134295,
+              "mitral_regurgitation_moderate_or_greater_flag": 0.0066602058911837125,
+              "tricuspid_regurgitation_moderate_or_greater_flag": 0.001968140939523055,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": 3.9956592062059334e-05,
+              "pasp_gte_45_flag": 3.2634400491955666e-07,
+              "tr_max_gte_32_flag": 0.18213341599052602
+            },
+            "anomaly_pass": {
+              "lvef_lte_45_flag": true,
+              "lvwt_gte_13_flag": true,
+              "aortic_stenosis_moderate_or_greater_flag": false,
+              "mitral_regurgitation_moderate_or_greater_flag": true,
+              "tricuspid_regurgitation_moderate_or_greater_flag": true,
+              "rv_systolic_dysfunction_moderate_or_greater_flag": true,
+              "pasp_gte_45_flag": true,
+              "tr_max_gte_32_flag": false
+            },
+            "anomalies_passed": 6,
+            "anomalies_judged": 8,
+            "repair_holds": true
+          }
+        }
+      }
+    }
+  },
+  "a1": {
+    "resnet": {
+      "sensitivity": 0.7158671586715867,
+      "sensitivity_low": 0.6594454509477004,
+      "loss": 0.18413284132841334,
+      "loss_high": 0.24055454905229967,
+      "halved": false
+    },
+    "random_init": {
+      "sensitivity": 0.7859778597785978,
+      "sensitivity_low": 0.7333274735747483,
+      "loss": 0.11402214022140222,
+      "loss_high": 0.16667252642525177,
+      "halved": false
+    },
+    "ecgfounder": {
+      "sensitivity": 0.7158671586715867,
+      "sensitivity_low": 0.6594454509477004,
+      "loss": 0.18413284132841334,
+      "loss_high": 0.24055454905229967,
+      "halved": false
+    },
+    "echonext_mini": {
+      "sensitivity": 0.7269372693726938,
+      "sensitivity_low": 0.6709971197607174,
+      "loss": 0.17306273062730626,
+      "loss_high": 0.2290028802392826,
+      "halved": false
+    },
+    "ecgfounder_ft_s0": {
+      "sensitivity": 0.7269372693726938,
+      "sensitivity_low": 0.6709971197607174,
+      "loss": 0.17306273062730626,
+      "loss_high": 0.2290028802392826,
+      "halved": false
+    },
+    "ecgfounder_ft_s1": {
+      "sensitivity": 0.7195571955719557,
+      "sensitivity_low": 0.66329163383936,
+      "loss": 0.18044280442804428,
+      "loss_high": 0.23670836616064006,
+      "halved": false
+    },
+    "ecgfounder_ft_s2": {
+      "sensitivity": 0.7564575645756457,
+      "sensitivity_low": 0.7020023930770363,
+      "loss": 0.1435424354243543,
+      "loss_high": 0.19799760692296375,
+      "halved": false
+    }
+  },
+  "a1_finetuned_halves_the_loss": false,
+  "seconds": 5797.7,
+  "provenance": {
+    "commit": "",
+    "producers": {
+      "scripts/echonext_finetune.py": "6dbb2c30d387901d3f85cbaebd3fdb355abed81cee40dd7b0f7faf9f6e30c421",
+      "scripts/echonext_scores.py": "7be4e1ca5838280748790f52dc4549e957c326c520f39c485c393337bda90853",
+      "scripts/echonext_transfer.py": "eb5d0b8e9445bca39e945def7d6fb52130d068ce0bf5f079f49a5a046ababa60",
+      "scripts/structure.py": "d349bede501a8e2ce0f5d436ac4a5b25fa71e089c29efa2e888ac9d2a0e75dd8",
+      "src/ecs/calibration.py": "d3154324fa595b4065982eef882658f5e9d24a96d2561fb934f5abd78bb54e4a",
+      "src/ecs/conformal.py": "c434998b704a551d55bc2206a1a3ada6d42309947b0b92db11607746dcd068dc",
+      "src/ecs/echonext.py": "f9dfdee094c555e16b1cf8300fb330b437eeead6b4d667a774fb16ff0b591c41",
+      "src/ecs/embedding_store.py": "20590809fd14e2b1f6c14088c0e13ad6b4ec5f27813eef3705823fff497bf200",
+      "src/ecs/encoders.py": "7f66e9763ae7ea7f64fe7c4ddb3850c8aa0dd3e7123e88f8a3f9bc2ac85fa6c5",
+      "src/ecs/metrics.py": "e04509abce93b400ac90cbd102a63a747f0559de4d2c9d20cdc2ee4ce1cf90e6",
+      "src/ecs/splits.py": "17f1d2fea5970c37b989ad0df925b3d19f355012bfca02aed6983ce142b5a946",
+      "src/ecs/structure.py": "c4f0280382a91f171deefdca6f4d64bf68523313e1be95fcc8f87d574dd9b112",
+      "src/ecs/transfer.py": "e690339b52941e150a61527ac5e0e56a3cc5dbcd5772f7ba06ec8296b112d624"
+    }
+  }
+}

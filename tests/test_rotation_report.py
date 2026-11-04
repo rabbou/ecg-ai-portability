@@ -610,7 +610,7 @@ def test_the_figure_reads_the_abstention_field_in_both_role_loops() -> None:
     assert len(reads) >= 2, f"only {len(reads)} role loop(s) consult the field"
 
 
-DRAWING_SCRIPTS = ("figures.py", "ppv_figures.py", "paper_figures.py")
+DRAWING_SCRIPTS = ("figures.py", "ppv_figures.py", "paper_figures.py", "structure_pages.py")
 
 
 def drawn_names() -> set[str]:

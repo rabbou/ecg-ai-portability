@@ -1,0 +1,61 @@
+{
+  "sensitivity": 0.9,
+  "band": [
+    0.85,
+    0.95
+  ],
+  "power": {
+    "outpatient": {
+      "min_cases_kish": {
+        "n": 213,
+        "passing_cases": [
+          192,
+          196
+        ],
+        "passing_low": 0.9014084507042254,
+        "passing_high": 0.92018779342723,
+        "probability": 0.39571779242662203
+      },
+      "target_cases": {
+        "n": 271,
+        "passing_cases": [
+          242,
+          250
+        ],
+        "passing_low": 0.8929889298892989,
+        "passing_high": 0.922509225092251,
+        "probability": 0.6070970054946097
+      }
+    },
+    "emergency": {
+      "min_cases_kish": {
+        "n": 571,
+        "passing_cases": [
+          503,
+          532
+        ],
+        "passing_low": 0.8809106830122592,
+        "passing_high": 0.9316987740805605,
+        "probability": 0.9379332121447456
+      },
+      "target_cases": {
+        "n": 788,
+        "passing_cases": [
+          690,
+          736
+        ],
+        "passing_low": 0.8756345177664975,
+        "passing_high": 0.934010152284264,
+        "probability": 0.9882658356133773
+      }
+    }
+  },
+  "provenance": {
+    "commit": "ac4e89cdbbd5152ceae3f56085d88be5f5950701",
+    "producers": {
+      "scripts/structure_power.py": "b61c6cae54f1cb8d0ac8729d7a97c81189dfe45e91365ea03cca72fd4629fa0c",
+      "src/ecs/metrics.py": "e04509abce93b400ac90cbd102a63a747f0559de4d2c9d20cdc2ee4ce1cf90e6",
+      "src/ecs/structure.py": "c4f0280382a91f171deefdca6f4d64bf68523313e1be95fcc8f87d574dd9b112"
+    }
+  }
+}
